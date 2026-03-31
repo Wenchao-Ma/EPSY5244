@@ -1,0 +1,324 @@
+---
+title: "Psychometric Analysis"
+---
+
+This session focuses on item analysis under Classical Test Theory (CTT) in survey.
+
+## Classical Test Theory (CTT) and Reliability
+
+
+In CTT, each person's observed score is decomposed into a true score and random
+measurement error:
+
+$$
+X = T + E
+$$
+
+where $X$ is the observed score, $T$ is the true score, and $E$ is error.
+
+Standard CTT assumptions are:
+
+$$
+\mathbb{E}(E)=0 \quad \text{and} \quad \operatorname{Cov}(T,E)=0
+$$
+
+So the observed-score variance can be written as:
+
+$$
+\operatorname{Var}(X)=\operatorname{Var}(T)+\operatorname{Var}(E)
+$$
+
+Reliability is the proportion of observed-score variance attributable to true
+score variance:
+
+$$
+\rho_{XX'} = \frac{\operatorname{Var}(T)}{\operatorname{Var}(X)}
+= 1 - \frac{\operatorname{Var}(E)}{\operatorname{Var}(X)}
+$$
+
+Reliability refers to the consistency of scores produced by a test.
+
+-   Inconsistency means different scores may be observed for an individual with an unchanged true score when the test was administered more than once.
+-   Scores could be inconsistent in varied ways:
+    -   consistency of scores over time
+    -   consistency of scores over multiple test forms
+    -   consistency of scores across test items
+    -   consistency of scores across raters
+-   Reliability should be assessed accordingly.
+
+### Split-Half Reliability
+
+An early approach to estimating the reliability of a test was to split the test into two halves and correlate the resulting two scores.
+
+::: {.note-box .note}
+This approach mimics that of correlating scores on two parallel forms of a test, or on two scores from the same test obtained at different times, but it can be used in situations where neither scores from two test forms nor scores from two test administrations are available.
+
+One acceptable way to split a test is to randomly assign items to one or the other half of the test. Another acceptable way to split a test is to assign odd-numbered items to one half of the test and even-numbered items to the other half.
+:::
+
+**How to Calculate Split-Half Reliability**
+
+-   administer the test to a single sample of individuals
+-   The entire set of items is then divided into two equally sized halves, with the intent that the halves are equivalent in terms of item difficulty, item content, and location in the instrument itself (i.e., near the front, in the middle, or near the end)
+-   The two halves are then scored individually
+-   The correlation between the halves is thus an estimate of the reliability of these **shortened** parallel forms of the measure
+-   adjust the correlation between the halves in order to reflect the reliability of the full instrument with the current sample. This can be done via the Spearman-Brown prophecy formula $$\rho_{\text{full test}}=\frac{2\rho_{\text{shortened test}}}{1+\rho_{\text{shortened test}}}$$
+
+### Cronbach’s $\alpha$
+
+Cronbach’s $\alpha$ is probably the most popular internal consistency index, reflecting the degree to which a set of items is interrelated.
+
+The (raw or unstandardized) $\alpha$ coefficient can be calculated by:
+
+$$
+\hat{\alpha}=\frac{J}{J-1}\big[1-\frac{\sum_{j=1}^J\hat{\sigma}_{j}^2}{\hat{\sigma}^2}\big]=J^2\frac{\bar{\sigma}_{jj'}}{\hat{\sigma}^2}
+$$ where $J$ is the test length, $\hat{\sigma}_{k}^2$ the variance of scores on item $j$, and $\hat{\sigma}^2$ the variance of the test scores and $\bar{\sigma}_{jj'}$ the average covariance of all items.
+
+-   Cronbach’s $\alpha$ may be thought of as the mean of all possible split-half correlations, corrected by the Spearman-Brown formula (As a result, split-half should not be used).
+-   unstandardized $\alpha$ should be used when raw item responses are used and standardized $\alpha$ should be used when standardized item scores are used (Falk, 2011)
+
+### McDonald’s $\omega$
+
+McDonald’s $\omega$ is another measure for internal consistency, reflecting the degree to which a set of items is interrelated.
+
+Conceptually, McDonald’s $\omega$ is calculated as
+
+$$
+\omega=\frac{\text{Signal}}{\text{Signal}+\text{Noise}}.
+$$
+
+Computationally, McDonald’s $\omega$ is often calculated based on confirmatory factor analysis.
+
+::: {.note-box .note}
+**Recommended Values for internal consistency**
+
+Raykov (2011) recommend values of at least .80
+
+Nunnally (1978) recommend values of .70 for scales in the initial stages of development; .80 for “basic research scales,” and .90 as minimum for use in clinical settings
+:::
+
+## Data Example: Big Five Agreeableness Items
+
+```{r install-packages}
+# Run this ONCE if needed:
+# install.packages(c("psych", "CTT", "tidyverse", "corrplot", "knitr"))
+```
+
+```{r load-packages, message=FALSE}
+library(psych)
+library(CTT)
+library(tidyverse)
+library(corrplot)
+library(knitr)
+```
+
+
+We will use the `bfi` dataset from the psych package, which contains item
+responses to Big Five personality items on a 1-6 Likert scale.
+
+To keep the example focused, we will analyze the 5 Agreeableness items (`A1` to
+`A5`). In practice, you would replace this with your own survey items.
+
+```{r data-setup}
+# Load built-in dataset
+data("bfi", package = "psych")
+
+# Select Agreeableness items
+A_items <- bfi %>%
+	select(A1:A5)
+
+# Keep complete cases for simpler demonstration
+A_complete <- A_items %>%
+	drop_na()
+
+dim(A_complete)
+head(A_complete)
+```
+
+
+For Likert scale items, make sure item direction is consistent before
+computing discrimination, reliability and total score. In this subscale, `A1` is reverse-keyed.
+
+```{r score-items}
+# Responses are on a 1-6 scale, so reverse-score with 7 - x
+A_keyed <- A_complete %>%
+	mutate(A1 = 7 - A1)
+
+head(A_keyed)
+```
+
+## Internal Consistency Reliability Estimation in R
+
+To calculate reliability, we can use the `psych` package's `alpha()` and `omega()` functions.
+
+```{r reliability-alpha-omega}
+# Alpha
+alpha_fit <- psych::alpha(A_keyed)
+alpha_fit
+
+# Omega (single-factor approximation for this 5-item example)
+omega_fit <- psych::omega(A_keyed, nfactors = 1, plot = FALSE)
+omega_fit$omega.tot
+```
+
+
+## Item Analysis
+
+Reliability analysis allows one to check if the test produces consistent scores but it does not provide any insights into the quality of individual items.
+
+Item analysis lets us investigate the quality of these individual items, including in terms of how well they contribute to the whole and improve the validity of our measurement.
+
+### Item Discrimination
+
+In general, one would expect that respondents with a high level of knowledge or skill would be **more** likely to answer an achievement or aptitude item correctly than those with lower levels of knowledge, and vice versa.
+
+Similarly, in noncognitive tests, respondents with a high level of construct would be more likely to agree or disagree a certain statement.
+
+Item discrimination refers to how well an item differentiates between respondents with different levels of the underlying construct.
+
+
+-   **Item-total correlation**: correlation between an item and the total score
+		including that item.
+-   **Adjusted item-total correlation** (also called corrected item-total or
+		item-remainder): correlation between an item and total score excluding that
+		item.
+
+The adjusted version is preferred because it avoids part-whole inflation. We can use the `CTT` package's `itemAnalysis()` function to compute these statistics.
+
+```{r item-discrimination-manual}
+ctt_item <- CTT::itemAnalysis(A_keyed)
+
+kable(ctt_item$itemReport, digits = 3)
+```
+
+
+In `CTT::itemAnalysis()`, `pBis` is the item-rest (adjusted item-total)
+correlation, computed as the correlation between each item and the total score
+with that item removed.
+
+
+
+#### Practical interpretation guideline
+
+In applied work, adjusted item-total correlations around .30 or higher are often
+considered minimally acceptable for early scale development, with higher values
+indicating stronger discrimination.
+
+### Reliability Change If Item Deleted
+
+This analysis asks whether the scale would become more or less reliable if an
+item were removed. If reliability increases after deleting an item, that item may be weakly aligned with the rest of the scale and could be a candidate for removal.
+
+### Alpha if item deleted
+
+From `psych::alpha()`, `raw_alpha` in `alpha.drop` is alpha-if-item-deleted.
+
+```{r alpha-if-deleted}
+alpha_deleted_tbl <- alpha_fit$alpha.drop %>%
+	as.data.frame() %>%
+	rownames_to_column("item_deleted") %>%
+	select(item_deleted, raw_alpha, std.alpha, average_r)
+
+kable(alpha_deleted_tbl, digits = 3)
+```
+
+
+### Omega if item deleted
+
+`psych` does not provide omega-if-item-deleted in one direct table, so we compute
+it in a loop.
+
+```{r omega-if-deleted}
+omega_full <- psych::omega(A_keyed, nfactors = 1, plot = FALSE)$omega.tot
+
+omega_deleted_tbl <- map_dfr(names(A_keyed), function(it) {
+	dat_drop <- A_keyed %>% select(-all_of(it))
+	om_drop <- psych::omega(dat_drop, nfactors = 1, plot = FALSE)$omega.tot
+	tibble(item_deleted = it, omega_if_deleted = om_drop)
+}) %>%
+	mutate(
+		omega_full = omega_full,
+		change = omega_if_deleted - omega_full
+	)
+
+kable(omega_deleted_tbl, digits = 3)
+```
+
+Interpretation:
+
+-   `change > 0`: omega improved after deleting the item (possible concern).
+-   `change < 0`: omega dropped after deleting the item (item contributes to
+		consistency).
+
+### Inter-item Correlations
+
+Inter-item correlations show how strongly items relate to each other.
+
+-   Very low correlations may suggest an item is off-construct.
+-   Very high correlations may suggest redundancy.
+
+```{r interitem-correlation-table}
+R_items <- cor(A_keyed)
+round(R_items, 2)
+```
+
+```{r interitem-correlation-plot, fig.width=7, fig.height=5}
+corrplot(R_items, method = "number", type = "lower")
+```
+
+Average inter-item correlation is also useful:
+
+```{r average-interitem}
+mean_interitem <- psych::alpha(A_keyed)$total$average_r
+mean_interitem
+```
+
+
+## Factor Analysis
+
+The purpose of factor analytic techniques is to help us understand the **number** and **nature** of the dimensions, or factors, underlying a set of variables. In factor analysis, the word 'factor' is usually used instead of the word 'construct', and we shall follow this convention from now on.
+
+Factor analytic studies address questions such as:
+
+-   How many factors are there?
+-   What do these factors represent?
+
+If researchers do not know the number of factors measured by the test or the structure of the test, they should use **EFA** to explore the underlying structure. On the other hand, if researchers hypothesize a particular number of factors that represent distinct aspects of a construct, based on theory or prior research, and write items to measure each factor, they may consider using **CFA** to confirm whether the data support their hypothesized structure.
+
+::: note-box
+Factor analytic methods answer the question, "Why are these variables correlated in the way we observe?" In factor analysis, the answer to this question is that the variables are correlated through a common cause: the factor(s).
+:::
+
+### Determine the number of factors
+
+Determining the most interpretable number of factors from a factor analysis is perhaps one of the greatest challenges in factor analysis. There are many solutions to this problem, none of which is uniformly the best. Below are some examples:
+
+-   **The eigenvalue-greater-than-one rule**, also often referred to as the Kaiser criterion
+
+
+The Kaiser criterion is one of the oldest and simplest tests for determining the number of factors. One simply performs a factor analysis on the data, extracting as many factors as there are variables but without rotating the factors. The eigenvalues are calculated as usual by summing the squared loadings on each component. One then simply counts how many eigenvalues are greater than 1.0 - this is the number of factors to be used. When used in factor analysis, use of this criterion will typically result in overestimation of the number of factors. Although many statistical software programs report this information, it should never be used.
+
+
+::: note-box
+A problem with the scree test is that it does rely on subjective judgement and may sometimes have several possible interpretations, particularly when the sample size or the 'salient' factor loadings are small.
+:::
+
+-   **Parallel Analysis**
+    -   Based on the eigenvalues
+    -   Instead of comparing eigenvalues to one, PA compares eigenvalues to the average eigenvalue obtained from sets of randomly generated data
+    -   The largest number of factors with actual data eigenvalue greater than simulated data eigenvalue is the number of factors
+
+![](pic/PA.JPG)
+
+::: note-box
+Simulation studies show that parallel analysis is the most accurate way of determining the correct number of factors to extract. The PA involves checking whether each of the eigenvalues that emerges from a factor analysis is larger than you would expect by chance. Suppose that you gather data on 10 variables and 100 people and factor analyze the results (but without rotating the factors). The factor analysis program will produce a list of eigenvalues, as many eigenvalues as there are variables. Now perform another factor analysis, but, rather than using the data that you have collected, just analyze random data (again using 10 variables, 100 people). You could literally just type in numbers at random into the computer program that you use for factor analysis. Then run the factor analysis again, based on this random data. You would expect the correlations between these random variables to be roughly zero – though some will be a little larger than zero, and some smaller than zero by chance. (The size of your sample will affect how close to zero they are; with a small sample, you might find that some correlations are as large as 0.3 or as small as -0.3; with a large sample, few if any will be above 0.1 or less than -0.1.) This approach, generating lots of sets of data and seeing what happens when you analyze them in a particular way, is known as a Monte Carlo analysis. If all the correlations are zero, no factors are present in the data. But some of the correlations will be greater or less than zero just because of chance sampling variations. The question is whether the eigenvalues from the data are larger than would be expected by chance - that is, from factor analyzing correlations between random numbers.
+:::
+
+To assess the number of factors for the data, we used parallel analysis with the `psych` R package:
+
+```{r}
+library(psych)
+# parallel analysis
+psych::fa.parallel(A_keyed, fa = "fa")
+```
+

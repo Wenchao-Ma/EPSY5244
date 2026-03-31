@@ -1,0 +1,5 @@
+# Welcome
+
+This Quarto book contains course materials for EPSY 5244. The materials are organized into chapters. The chapters cover various topics related to survey data analysis, including data preparation, psychometric analysis, statistical analysis, and open-ended question analysis.
+
+

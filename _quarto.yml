@@ -1,0 +1,36 @@
+project:
+  type: book
+  output-dir: docs
+  resources:
+    - "Begin-semester survey EPSY 5244_Qualtrics data.xlsx"
+    - "EPSY5244_survey_codebook.xlsx"
+
+book:
+  title: "Survey Data Analysis"
+  author: "Wenchao Ma"
+  date: today
+  chapters:
+    - index.qmd
+    - 01-intro-to-r.qmd
+    - 02-post-survey-data-preparation.qmd
+    - 03-psychometric-analysis.qmd
+    - 01-data.qmd
+
+csl: csl/apa.csl  
+format:
+  html:
+    mainfont: Roboto
+    monofont: Fira Code
+    highlight-style: tango
+    monobackgroundcolor: "#F7F7F7"
+    code-tools: true         # enables copy and fold buttons
+    code-fold: false          # all code blocks are foldable
+    code-summary: "Show the code"  # text for folded blocks
+    theme: 
+      - theme.css
+      - theme.scss
+      - lumen
+
+execute:
+  warning: false
+  message: false

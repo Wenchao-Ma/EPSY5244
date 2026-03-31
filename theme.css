@@ -1,0 +1,158 @@
+/*-- scss:defaults --*/
+
+/* This must remain at the top of this file.                 */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bs-nav-pills-link-active-bg: #efc078;
+}
+
+.clipped {
+  clip-path: circle();
+}
+
+@media screen and (max-width: 952px){
+  .centre-it {
+    margin-left: auto!important;
+    margin-right: auto!important;
+  }
+}
+
+img.rounded {
+  object-fit: cover;
+  border-radius: 10% !important;
+  height: 240px;
+  width: 250px;
+  margin-top: 18px
+}
+
+@media screen and (max-width: 952px){
+  img.rounded {
+    height: 100%;
+    width: 80%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.figure-caption {
+  text-align: center;
+  font-size: .8em!important;
+}
+
+/*
+a {
+  text-decoration: none!important;
+}
+*/
+
+/*
+.cell-output {
+  background-color: lightgreen;
+  border-radius: 4px;
+}
+*/
+
+.circle-button {
+  border-radius: 40%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1A2533;
+  padding: 40px;
+  width: 110px;
+  height: 110px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.circle-button:hover {
+  opacity: 0.8;
+}
+
+.fa-solid {
+  color: #E54D23;
+}
+
+.output-scroll {
+  max-height: 500px;
+  overflow-y: scroll;
+  margin-bottom: 20px;
+}
+
+.sidebar-logo{
+  max-width: 100% !important;
+}
+
+
+/*-----boxes-------*/
+/* Base style for all note boxes */
+.note-box {
+  padding: 1em 1.2em;
+  margin: 1.5em auto;
+  width: 90%;
+  border-left: 6px solid;
+  border-radius: 12px;
+  box-shadow: 2px 3px 10px rgba(0,0,0,0.08);
+  font-size: 0.95rem;
+}
+
+/* Specific note types with UMN color palette */
+.note {
+  background-color: #FFF7D1; /* soft UMN gold */
+  border-color: #7A0019;     /* UMN maroon */
+  color: #000;
+}
+
+.warning {
+  background-color: #FBEAEA; /* very light red */
+  border-color: #7A0019;
+  color: #000;
+}
+
+.example {
+  background-color: #E0FBF4; /* soft green */
+  border-color: #7A0019;
+  color: #000;
+}
+
+.activities {
+  background-color: #F3EAFF; /* soft violet */
+  border-color: #7A0019;
+  color: #000;
+}
+.standards {
+  background-color: #F3EAFF; /* soft violet */
+  border-color: #7A0019;
+  color: #000;
+}
+.question {
+  background-color: #FFF3E6; /* soft orange */
+  border-color: #7A0019;
+  color: #000;
+}
+
+.exercise {
+  background-color: #FFEBCC; /* muted UMN gold */
+  border-color: #7A0019;
+  color: #000;
+}
+
+/* Emoji + label before content */
+.note-box::before {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.3em;
+}
+
+.note::before     { content: "📝 Note:"; }
+.standards::before     { content: "📘 Testing Standards:"; }
+.warning::before  { content: "❗ Warning:"; }
+.example::before  { content: "📘 Example:"; }
+.activities::before { content: "🧮 Class Activities/Assignments:"; }
+.question::before { content: "❓ Question:";}
+.exercise::before { content: "️ Exercise:"; }

@@ -1,0 +1,169 @@
+---
+title: "Intro to R"
+---
+
+## A Quick Introduction to R
+
+If you have never used R before, this section will give you the foundation you need to follow the rest of this handout. R is a free, open-source programming language widely used for statistical computing and data analysis. Unlike point-and-click software like SPSS, R requires you to type commands—but this makes your work **reproducible**, **transparent**, and **flexible**.
+
+### Installing R and RStudio
+
+You need two things:
+
+1.  **R** — the language itself. Download it from <https://cran.r-project.org/>.
+2.  **RStudio** — a user-friendly editor that makes working with R much easier. Download the free version from <https://posit.co/download/rstudio-desktop/>.
+
+Always open **RStudio** (not R directly). RStudio provides a nicer interface with four panels: a script editor, console, environment viewer, and file/plot viewer.
+
+### The RStudio Interface
+
+When you open RStudio, you will see four panes:
+
+-   **Source (top-left):** Where you write and edit your code files.
+-   **Console (bottom-left):** Where R actually runs commands. You can type here directly, but it is better to write in the Source pane and run from there.
+-   **Environment (top-right):** Shows the data and objects currently in memory.
+-   **Files/Plots/Help (bottom-right):** Browse files, view plots, and read help documentation.
+
+### R Basics: Objects and Assignment
+
+In R, you store values in **objects** using the assignment operator `<-`. Think of it as giving a name to a value so you can use it later.
+
+```{r r-basics-objects}
+# Store a number
+x <- 5
+x          # prints 5
+
+# Store text (called a "character string")
+greeting <- "Hello, World!"
+greeting
+
+# Store a collection of numbers (called a "vector")
+scores <- c(1, 2, 3, 4, 3)
+scores
+
+# Calculate the mean
+mean(scores)
+
+# Store the result in a new object
+avg_score <- mean(scores)
+avg_score
+```
+
+A few things to notice:
+
+-   The `#` symbol starts a **comment**—R ignores everything after `#` on that line.
+-   `c()` stands for "combine"—it creates a vector (a list of values).
+-   R is **case-sensitive**: `Score`, `score`, and `SCORE` are three different things.
+
+### R Basics: Functions
+
+A **function** takes input, does something with it, and returns output. Functions are called by name followed by parentheses containing the inputs (called **arguments**).
+
+```{r r-basics-functions}
+# Some basic functions
+mean(scores)      # Average
+sd(scores)        # Standard deviation
+length(scores)    # How many values?
+sum(scores)       # Sum of all values
+min(scores)       # Minimum
+max(scores)       # Maximum
+table(scores)     # Frequency count of each value
+
+# Getting help on any function
+?mean           # Opens the help page for mean()
+```
+
+### R Basics: Data Frames
+
+Survey data in R is stored in a **data frame**—essentially a table where each column is a variable and each row is an observation. Think of it as a spreadsheet.
+
+```{r r-basics-dataframes}
+# Create a small data frame by hand
+survey <- data.frame(
+  id      = c("A1", "A2", "A3", "A4", "A5"),
+  program = c(1, 2, 1, 1, 2),
+  score   = c(3, 4, 2, 3, 4)
+)
+
+# Print the data frame
+survey
+
+# Access a single column with $
+survey$program
+
+# Check the dimensions: rows x columns
+dim(survey)
+
+# See the structure
+str(survey)
+```
+
+### R Basics: Installing and Loading Packages
+
+R comes with many built-in functions, but **packages** extend what R can do. A package is a collection of functions that someone else wrote and shared. You need to:
+
+1.  **Install** a package once (downloads it to your computer).
+2.  **Load** it every time you start a new R session.
+
+```{r r-basics-packages}
+# Install a package (only need to do this ONCE)
+# install.packages("tidyverse")
+
+# Load a package (do this EVERY session)
+library(tidyverse)
+```
+
+Think of installing like buying a book and putting it on your shelf. Loading is like taking it off the shelf and opening it so you can use it.
+
+### R Basics: The Pipe Operator (`%>%`)
+
+One thing you will see throughout this handout is the **pipe operator** `%>%`. It takes the output from one step and passes it as input to the next step. It reads as **"and then."**
+
+```{r r-basics-pipe}
+# Without the pipe (nested functions — hard to read):
+round(mean(c(3, 4, 2, 3, 4)), 1)
+
+# With the pipe (reads left to right — much clearer):
+c(3, 4, 2, 3, 4) %>%
+  mean() %>%
+  round(1)
+
+# A data example: take the survey data, THEN filter, THEN select columns
+survey %>%
+  dplyr::filter(program == 2) %>%
+  dplyr::select(id, program, score)
+```
+
+Reading the piped code out loud: "Start with `survey`, **then** keep only rows where program is 2, **then** select the id, program, and score columns."
+
+### R Basics: Common Pitfalls for Beginners
+
+Here are a few things that trip up new R users:
+
+-   **Forgetting to load a package.** If you get an error like `could not find function "read_excel"`, you probably forgot to run `library(readxl)`.
+-   **Typos in variable names.** R is case-sensitive. `Gender` and `gender` are different. Use Tab-completion in RStudio to avoid typos.
+-   **Using `=` vs. `<-`.** Both work for assignment, but the convention in R is to use `<-` for assigning values to objects and `=` for setting arguments inside functions.
+-   **Not quoting text.** File paths and character values need quotes: `"data.xlsx"`, not `data.xlsx`.
+
+### Setting Your Working Directory
+
+R needs to know where your files are. The **working directory** is the folder R looks in by default.
+
+```{r working-directory}
+# Check your current working directory
+getwd()
+
+# Set your working directory to where your data file is
+# Replace the path below with YOUR actual folder path
+# setwd("C:/Users/YourName/Documents/SurveyClass")  # Windows
+# setwd("/Users/YourName/Documents/SurveyClass")   # Mac
+
+# Tip: In RStudio, you can also use the menu:
+# Session > Set Working Directory > Choose Directory
+```
+
+Alternatively, if you use **RStudio Projects** (recommended), your working directory is automatically set to the project folder. To create a project: File \> New Project.
+
+------------------------------------------------------------------------
+
+Now that you have the basics, let's dive into data cleaning!
