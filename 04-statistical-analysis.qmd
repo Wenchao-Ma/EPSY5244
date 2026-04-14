@@ -2,6 +2,368 @@
 title: "Statistical Analysis"
 ---
 
-## Coming Soon
+This handout uses well-validated R packages so students can run core analyses with minimal code. The goal is to focus on interpretation rather than writing long scripts.
 
-This chapter is reserved for statistical analysis content.
+How to read this handout:
+
+- Each section starts with a question the analysis answers.
+- Each section uses as few lines of R as possible.
+- Each section ends with what to report in plain language.
+
+## Packages You Need
+
+Install once if needed:
+
+```{r install-packages, eval=FALSE}
+# Run once if needed
+install.packages(c(
+	"tidyverse", "haven", "janitor", "sjlabelled", "skimr",
+	"gtsummary", "rstatix", "GGally", "performance", "report"
+))
+```
+
+Load at the start of each session:
+
+```{r load-packages}
+library(tidyverse)
+library(haven)
+library(janitor)
+library(sjlabelled)
+library(skimr)
+library(gtsummary)
+library(rstatix)
+library(GGally)
+library(performance)
+library(report)
+```
+
+## Import SPSS Data
+
+Place `housing.sav` in your project folder. The code below checks several common locations.
+
+```{r import-data}
+sav_candidates <- c(
+	"housing.sav",
+	"data/housing.sav",
+	"Data/housing.sav",
+	"../housing.sav",
+	"~/Downloads/housing.sav"
+)
+
+sav_path <- sav_candidates[file.exists(sav_candidates)][1]
+
+if (is.na(sav_path)) {
+	message("`housing.sav` not found in common locations. Using a small simulated dataset so this chapter remains runnable.")
+
+	set.seed(5244)
+	housing <- tibble(
+		price = round(rnorm(200, mean = 350000, sd = 90000), 0),
+		sqft = round(rnorm(200, mean = 1900, sd = 500), 0),
+		bedrooms = sample(2:5, 200, replace = TRUE),
+		bathrooms = sample(1:4, 200, replace = TRUE),
+		neighborhood = sample(c("Urban", "Suburban", "Rural"), 200, replace = TRUE),
+		renovated = sample(c("No", "Yes"), 200, replace = TRUE)
+	)
+} else {
+	housing <- haven::read_sav(sav_path)
+}
+
+housing <- housing %>% janitor::clean_names()
+
+# Convert SPSS labelled variables to factors for easier group analyses.
+housing <- housing %>% mutate(across(where(is.labelled), as_factor))
+
+dim(housing)
+head(housing)
+```
+
+## Step 1: Understand Variables
+
+Question: What variables do we have, and what type is each variable?
+
+Why this matters: Your test choice depends on variable type (numeric vs categorical).
+
+```{r inspect-structure}
+glimpse(housing)
+skimr::skim(housing)
+```
+
+Identify numeric and categorical variables for analysis:
+
+```{r identify-variable-types}
+numeric_vars <- housing %>% select(where(is.numeric)) %>% names()
+cat_vars <- housing %>% select(where(~ is.factor(.) || is.character(.))) %>% names()
+
+numeric_vars
+cat_vars
+```
+
+## Step 2: Choose an Outcome Variable
+
+Question: Which variable are we trying to explain or predict?
+
+For housing data, the outcome is often `price`, `value`, or `cost`. The code tries these names first and then defaults to the first numeric variable.
+
+```{r choose-outcome}
+target_candidates <- names(housing)[str_detect(names(housing), "price|value|cost|rent")]
+
+outcome_var <- if (length(target_candidates) > 0) {
+	target_candidates[1]
+} else {
+	numeric_vars[1]
+}
+
+outcome_var
+```
+
+## Step 3: Descriptive Statistics (Low-Code Tables)
+
+Question: What does the sample look like before we run inferential tests?
+
+Interpretation tip:
+
+- Numeric variables: read mean/median/spread.
+- Categorical variables: read counts and percentages.
+
+```{r descriptives-table}
+housing %>%
+  select(all_of(c(outcome_var, head(setdiff(numeric_vars, outcome_var), 4), head(cat_vars, 2)))) %>%
+  tbl_summary(missing = "ifany")
+```
+
+```{r hist-outcome, fig.width=7, fig.height=4}
+ggplot(housing, aes(x = .data[[outcome_var]])) +
+	geom_histogram(bins = 30, color = "white", fill = "steelblue") +
+	labs(
+		title = paste("Distribution of", outcome_var),
+		x = outcome_var,
+		y = "Count"
+	) +
+	theme_minimal()
+```
+
+## Step 4: Categorical Analysis (Cross-Tab + Chi-Square)
+
+Question: Are two categorical variables associated?
+
+Use this when both variables are categories (for example, `neighborhood` and `renovated`).
+
+```{r choose-two-cat-vars}
+chi_candidates <- housing %>%
+	select(where(~ is.factor(.) || is.character(.))) %>%
+	keep(~ n_distinct(., na.rm = TRUE) >= 2) %>%
+	names()
+
+chi_candidates
+```
+
+```{r crosstab-and-chi-square}
+if (length(chi_candidates) >= 2) {
+	cat_var1 <- chi_candidates[1]
+	cat_var2 <- chi_candidates[2]
+
+	cat_df <- housing %>%
+		select(all_of(c(cat_var1, cat_var2))) %>%
+		drop_na() %>%
+		mutate(across(everything(), as.factor))
+
+	# Easy-to-read cross-tab with row percentages
+	cat_df %>%
+		janitor::tabyl(.data[[cat_var1]], .data[[cat_var2]]) %>%
+		janitor::adorn_percentages("row") %>%
+		janitor::adorn_pct_formatting(digits = 1)
+
+	# Chi-square test of association (robust to character columns)
+	chi_table <- table(cat_df[[cat_var1]], cat_df[[cat_var2]])
+	chi_table
+
+	stats::chisq.test(chi_table)
+} else {
+	message("Need at least two categorical variables for cross-tab and chi-square.")
+}
+```
+
+Bar chart (recommended for categorical comparisons):
+
+```{r bar-chart-categorical, fig.width=7, fig.height=4}
+if (exists("cat_var1") && exists("cat_var2")) {
+	ggplot(housing, aes(x = .data[[cat_var1]], fill = .data[[cat_var2]])) +
+		geom_bar(position = "fill") +
+		scale_y_continuous(labels = scales::percent) +
+		labs(
+			title = paste("Proportion of", cat_var2, "within", cat_var1),
+			x = cat_var1,
+			y = "Percent",
+			fill = cat_var2
+		) +
+		theme_minimal()
+}
+```
+
+Pie chart (simple composition view):
+
+```{r pie-chart-categorical, fig.width=6, fig.height=6}
+if (exists("cat_var1")) {
+	housing %>%
+		count(.data[[cat_var1]]) %>%
+		ggplot(aes(x = "", y = n, fill = .data[[cat_var1]])) +
+		geom_col(width = 1, color = "white") +
+		coord_polar(theta = "y") +
+		labs(title = paste("Composition of", cat_var1), fill = cat_var1) +
+		theme_void()
+}
+```
+
+## Step 5: Independent-Samples t-test
+
+Question: Is the mean of a numeric outcome different across two groups?
+
+If a categorical variable has exactly two levels (for example, `renovated = Yes/No`), we can compare mean outcome between groups.
+
+```{r choose-binary-group}
+binary_candidates <- housing %>%
+	select(where(~ is.factor(.) || is.character(.))) %>%
+	keep(~ n_distinct(., na.rm = TRUE) == 2) %>%
+	names()
+
+binary_candidates
+```
+
+```{r ttest-analysis}
+if (length(binary_candidates) > 0) {
+  group_var <- binary_candidates[1]
+
+  housing %>%
+    select(all_of(c(outcome_var, group_var))) %>%
+    drop_na() %>%
+    t_test(as.formula(paste(outcome_var, "~", group_var)), detailed = TRUE)
+} else {
+  message("No binary grouping variable found for a t-test.")
+}
+```
+
+## Step 6: One-Way ANOVA
+
+Question: Is the mean of a numeric outcome different across 3 or more groups?
+
+When a categorical variable has 3 or more groups, compare group means with ANOVA.
+
+```{r choose-anova-group}
+anova_candidates <- housing %>%
+	select(where(~ is.factor(.) || is.character(.))) %>%
+	keep(~ n_distinct(., na.rm = TRUE) >= 3) %>%
+	names()
+
+anova_candidates
+```
+
+```{r anova-analysis}
+if (length(anova_candidates) > 0) {
+	anova_var <- anova_candidates[1]
+
+	model_aov <- housing %>%
+		select(all_of(c(outcome_var, anova_var))) %>%
+		drop_na() %>%
+		anova_test(as.formula(paste(outcome_var, "~", anova_var)))
+
+	model_aov
+
+	housing %>%
+		select(all_of(c(outcome_var, anova_var))) %>%
+		drop_na() %>%
+		tukey_hsd(as.formula(paste(outcome_var, "~", anova_var)))
+} else {
+	message("No 3+ level categorical variable found for ANOVA.")
+}
+```
+
+## Step 7: Correlation Analysis
+
+Question: How strongly are numeric variables linearly related?
+
+Examine linear relationships among numeric variables.
+
+```{r correlation-matrix}
+num_df <- housing %>% select(where(is.numeric))
+
+if (ncol(num_df) >= 2) {
+	num_df %>%
+		cor_mat() %>%
+		cor_get_pval()
+
+	GGally::ggpairs(num_df %>% select(head(names(.), 5)))
+} else {
+	message("Not enough numeric variables for correlation analysis.")
+}
+```
+
+## Step 8: Multiple Linear Regression
+
+Question: Which predictors are associated with the outcome when considered together?
+
+Build one model to predict the outcome using up to two numeric and one categorical predictor.
+
+```{r choose-regression-predictors}
+predictor_pool <- setdiff(names(housing), outcome_var)
+
+num_predictors <- housing %>%
+  select(all_of(predictor_pool)) %>%
+  select(where(is.numeric)) %>%
+  names() %>%
+  head(2)
+
+cat_predictor <- housing %>%
+  select(all_of(predictor_pool)) %>%
+  select(where(~ is.factor(.) || is.character(.))) %>%
+  names() %>%
+  head(1)
+
+model_predictors <- c(num_predictors, cat_predictor)
+model_predictors
+```
+
+```{r regression-fit}
+if (length(model_predictors) >= 1) {
+  reg_formula <- as.formula(paste(outcome_var, "~", paste(model_predictors, collapse = " + ")))
+  reg_fit <- lm(reg_formula, data = housing)
+
+  tbl_regression(reg_fit)
+  report(reg_fit)
+} else {
+  message("No usable predictors found for regression.")
+}
+```
+
+## Step 9: Regression Assumption Checks
+
+Question: Are key model assumptions reasonable?
+
+Interpretation tip: If diagnostics look poor, report this and consider transformations, robust methods, or simpler models.
+
+```{r regression-diagnostics, fig.width=8, fig.height=8}
+if (exists("reg_fit")) {
+  check_model(reg_fit)
+  check_collinearity(reg_fit)
+} else {
+  message("Run regression section first to generate diagnostics.")
+}
+```
+
+## Reporting Template (Simple)
+
+Use this structure to report your findings:
+
+1. Research question and variables.
+2. Descriptive table from `tbl_summary()`.
+3. Categorical association results from cross-tab and chi-square (`chisq_test()`).
+4. Mean-comparison results from `t_test()` or `anova_test()` and post-hoc tests.
+5. Regression table from `tbl_regression()` and narrative from `report()`.
+6. Practical interpretation in context (for example, what a one-unit change in a predictor means for housing price).
+7. Limitations and next steps (missing data, model assumptions, omitted variables).
+
+## Why This Version Is Easier
+
+- Most analyses are one function call.
+- Output tables are publication-ready by default.
+- Assumption checks are automated with `performance`.
+- You can replace auto-selected variables with your planned variables once codebook names are confirmed.

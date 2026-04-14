@@ -56,6 +56,8 @@ This approach mimics that of correlating scores on two parallel forms of a test,
 One acceptable way to split a test is to randomly assign items to one or the other half of the test. Another acceptable way to split a test is to assign odd-numbered items to one half of the test and even-numbered items to the other half.
 :::
 
+
+
 **How to Calculate Split-Half Reliability**
 
 -   administer the test to a single sample of individuals
@@ -72,10 +74,14 @@ The (raw or unstandardized) $\alpha$ coefficient can be calculated by:
 
 $$
 \hat{\alpha}=\frac{J}{J-1}\big[1-\frac{\sum_{j=1}^J\hat{\sigma}_{j}^2}{\hat{\sigma}^2}\big]=J^2\frac{\bar{\sigma}_{jj'}}{\hat{\sigma}^2}
-$$ where $J$ is the test length, $\hat{\sigma}_{k}^2$ the variance of scores on item $j$, and $\hat{\sigma}^2$ the variance of the test scores and $\bar{\sigma}_{jj'}$ the average covariance of all items.
+$$ 
+
+where $J$ is the test length, $\hat{\sigma}_{k}^2$ the variance of scores on item $j$, and $\hat{\sigma}^2$ the variance of the test scores and $\bar{\sigma}_{jj'}$ the average covariance of all items.
 
 -   Cronbach’s $\alpha$ may be thought of as the mean of all possible split-half correlations, corrected by the Spearman-Brown formula (As a result, split-half should not be used).
 -   unstandardized $\alpha$ should be used when raw item responses are used and standardized $\alpha$ should be used when standardized item scores are used (Falk, 2011)
+
+
 
 ### McDonald’s $\omega$
 
@@ -97,29 +103,23 @@ Raykov (2011) recommend values of at least .80
 Nunnally (1978) recommend values of .70 for scales in the initial stages of development; .80 for “basic research scales,” and .90 as minimum for use in clinical settings
 :::
 
-## Data Example: Big Five Agreeableness Items
+### Reliability in R
+We will use the `bfi` dataset from the psych package, which contains item
+responses to Big Five personality items on a 1-6 Likert scale to show how to compute reliability in R. The dataset has 25 items, with 5 items for each of the Big Five traits: Extraversion (E), Agreeableness (A), Conscientiousness (C), Neuroticism (N), and Openness (O). To keep the example focused, we will analyze the 5 Agreeableness items (`A1` to
+`A5`). In practice, you would replace this with your own survey items.
 
-```{r install-packages}
-# Run this ONCE if needed:
-# install.packages(c("psych", "CTT", "tidyverse", "corrplot", "knitr"))
-```
+
 
 ```{r load-packages, message=FALSE}
+# Run this ONCE if needed:
+# install.packages(c("psych", "CTT", "tidyverse", "corrplot", "knitr"))
+
 library(psych)
 library(CTT)
 library(tidyverse)
 library(corrplot)
 library(knitr)
-```
 
-
-We will use the `bfi` dataset from the psych package, which contains item
-responses to Big Five personality items on a 1-6 Likert scale.
-
-To keep the example focused, we will analyze the 5 Agreeableness items (`A1` to
-`A5`). In practice, you would replace this with your own survey items.
-
-```{r data-setup}
 # Load built-in dataset
 data("bfi", package = "psych")
 
@@ -147,17 +147,16 @@ A_keyed <- A_complete %>%
 head(A_keyed)
 ```
 
-## Internal Consistency Reliability Estimation in R
 
 To calculate reliability, we can use the `psych` package's `alpha()` and `omega()` functions.
 
 ```{r reliability-alpha-omega}
 # Alpha
 alpha_fit <- psych::alpha(A_keyed)
-alpha_fit
+alpha_fit$total$raw_alpha
 
 # Omega (single-factor approximation for this 5-item example)
-omega_fit <- psych::omega(A_keyed, nfactors = 1, plot = FALSE)
+omega_fit <- psych::omega(A_keyed, nfactors = 1)
 omega_fit$omega.tot
 ```
 
@@ -183,22 +182,23 @@ Item discrimination refers to how well an item differentiates between respondent
 		item-remainder): correlation between an item and total score excluding that
 		item.
 
-The adjusted version is preferred because it avoids part-whole inflation. We can use the `CTT` package's `itemAnalysis()` function to compute these statistics.
+The adjusted version is preferred because it avoids part-whole inflation. We can use the `psych` package's `alpha()` function to compute these statistics.
 
 ```{r item-discrimination-manual}
-ctt_item <- CTT::itemAnalysis(A_keyed)
-
-kable(ctt_item$itemReport, digits = 3)
+alpha_fit <- psych::alpha(A_keyed)
+alpha_fit$item.stats
 ```
 
+Below are the interpretation of each column:
 
-In `CTT::itemAnalysis()`, `pBis` is the item-rest (adjusted item-total)
-correlation, computed as the correlation between each item and the total score
-with that item removed.
+- raw.r: The correlation of each item with the total score, not corrected for item overlap.
+- std.r: The correlation of each item with the total score (not corrected for item overlap) if the items were all standardized
+- r.cor: Item whole correlation corrected for item overlap and scale reliability
+- r.drop: Item whole correlation for this item against the scale without this item
+- mean: for data matrices, the mean of each item
+- sd: For data matrices, the standard deviation of each item
 
 
-
-#### Practical interpretation guideline
 
 In applied work, adjusted item-total correlations around .30 or higher are often
 considered minimally acceptable for early scale development, with higher values
@@ -209,46 +209,12 @@ indicating stronger discrimination.
 This analysis asks whether the scale would become more or less reliable if an
 item were removed. If reliability increases after deleting an item, that item may be weakly aligned with the rest of the scale and could be a candidate for removal.
 
-### Alpha if item deleted
 
-From `psych::alpha()`, `raw_alpha` in `alpha.drop` is alpha-if-item-deleted.
 
 ```{r alpha-if-deleted}
-alpha_deleted_tbl <- alpha_fit$alpha.drop %>%
-	as.data.frame() %>%
-	rownames_to_column("item_deleted") %>%
-	select(item_deleted, raw_alpha, std.alpha, average_r)
-
-kable(alpha_deleted_tbl, digits = 3)
+psych::alpha(A_keyed)
 ```
 
-
-### Omega if item deleted
-
-`psych` does not provide omega-if-item-deleted in one direct table, so we compute
-it in a loop.
-
-```{r omega-if-deleted}
-omega_full <- psych::omega(A_keyed, nfactors = 1, plot = FALSE)$omega.tot
-
-omega_deleted_tbl <- map_dfr(names(A_keyed), function(it) {
-	dat_drop <- A_keyed %>% select(-all_of(it))
-	om_drop <- psych::omega(dat_drop, nfactors = 1, plot = FALSE)$omega.tot
-	tibble(item_deleted = it, omega_if_deleted = om_drop)
-}) %>%
-	mutate(
-		omega_full = omega_full,
-		change = omega_if_deleted - omega_full
-	)
-
-kable(omega_deleted_tbl, digits = 3)
-```
-
-Interpretation:
-
--   `change > 0`: omega improved after deleting the item (possible concern).
--   `change < 0`: omega dropped after deleting the item (item contributes to
-		consistency).
 
 ### Inter-item Correlations
 
@@ -272,6 +238,7 @@ Average inter-item correlation is also useful:
 mean_interitem <- psych::alpha(A_keyed)$total$average_r
 mean_interitem
 ```
+
 
 
 ## Factor Analysis
@@ -308,7 +275,6 @@ A problem with the scree test is that it does rely on subjective judgement and m
     -   Instead of comparing eigenvalues to one, PA compares eigenvalues to the average eigenvalue obtained from sets of randomly generated data
     -   The largest number of factors with actual data eigenvalue greater than simulated data eigenvalue is the number of factors
 
-![](pic/PA.JPG)
 
 ::: note-box
 Simulation studies show that parallel analysis is the most accurate way of determining the correct number of factors to extract. The PA involves checking whether each of the eigenvalues that emerges from a factor analysis is larger than you would expect by chance. Suppose that you gather data on 10 variables and 100 people and factor analyze the results (but without rotating the factors). The factor analysis program will produce a list of eigenvalues, as many eigenvalues as there are variables. Now perform another factor analysis, but, rather than using the data that you have collected, just analyze random data (again using 10 variables, 100 people). You could literally just type in numbers at random into the computer program that you use for factor analysis. Then run the factor analysis again, based on this random data. You would expect the correlations between these random variables to be roughly zero – though some will be a little larger than zero, and some smaller than zero by chance. (The size of your sample will affect how close to zero they are; with a small sample, you might find that some correlations are as large as 0.3 or as small as -0.3; with a large sample, few if any will be above 0.1 or less than -0.1.) This approach, generating lots of sets of data and seeing what happens when you analyze them in a particular way, is known as a Monte Carlo analysis. If all the correlations are zero, no factors are present in the data. But some of the correlations will be greater or less than zero just because of chance sampling variations. The question is whether the eigenvalues from the data are larger than would be expected by chance - that is, from factor analyzing correlations between random numbers.
@@ -322,3 +288,19 @@ library(psych)
 psych::fa.parallel(A_keyed, fa = "fa")
 ```
 
+## Exercise
+
+::: callout-tip
+## 
+
+Please download the [course survey data](https://wenchao-ma.github.io/Data/) for the following anlaysis.
+
+
+-   calculate coefficient alpha and omega.
+
+-   calculate item discrimination and alpha-if-item-deleted. Interpret the results.
+
+-   calculate inter-item correlation and draw the correlation plot. Interpret the results.
+
+
+:::

@@ -64,7 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-data.html" rel="next">
+<link href="./04-statistical-analysis.html" rel="next">
 <link href="./02-post-survey-data-preparation.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -195,8 +195,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./04-statistical-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Statistical Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-open-ended-question-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Open-Ended Question Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./01-data.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data</span></span></a>
   </div>
 </li>
     </ul>
@@ -214,21 +226,19 @@ window.Quarto = {
   <li><a href="#split-half-reliability" id="toc-split-half-reliability" class="nav-link" data-scroll-target="#split-half-reliability"><span class="header-section-number">4.1.1</span> Split-Half Reliability</a></li>
   <li><a href="#cronbachs-alpha" id="toc-cronbachs-alpha" class="nav-link" data-scroll-target="#cronbachs-alpha"><span class="header-section-number">4.1.2</span> Cronbach’s <span class="math inline">\(\alpha\)</span></a></li>
   <li><a href="#mcdonalds-omega" id="toc-mcdonalds-omega" class="nav-link" data-scroll-target="#mcdonalds-omega"><span class="header-section-number">4.1.3</span> McDonald’s <span class="math inline">\(\omega\)</span></a></li>
+  <li><a href="#reliability-in-r" id="toc-reliability-in-r" class="nav-link" data-scroll-target="#reliability-in-r"><span class="header-section-number">4.1.4</span> Reliability in R</a></li>
   </ul></li>
-  <li><a href="#data-example-big-five-agreeableness-items" id="toc-data-example-big-five-agreeableness-items" class="nav-link" data-scroll-target="#data-example-big-five-agreeableness-items"><span class="header-section-number">4.2</span> Data Example: Big Five Agreeableness Items</a></li>
-  <li><a href="#internal-consistency-reliability-estimation-in-r" id="toc-internal-consistency-reliability-estimation-in-r" class="nav-link" data-scroll-target="#internal-consistency-reliability-estimation-in-r"><span class="header-section-number">4.3</span> Internal Consistency Reliability Estimation in R</a></li>
-  <li><a href="#item-analysis" id="toc-item-analysis" class="nav-link" data-scroll-target="#item-analysis"><span class="header-section-number">4.4</span> Item Analysis</a>
+  <li><a href="#item-analysis" id="toc-item-analysis" class="nav-link" data-scroll-target="#item-analysis"><span class="header-section-number">4.2</span> Item Analysis</a>
   <ul class="collapse">
-  <li><a href="#item-discrimination" id="toc-item-discrimination" class="nav-link" data-scroll-target="#item-discrimination"><span class="header-section-number">4.4.1</span> Item Discrimination</a></li>
-  <li><a href="#reliability-change-if-item-deleted" id="toc-reliability-change-if-item-deleted" class="nav-link" data-scroll-target="#reliability-change-if-item-deleted"><span class="header-section-number">4.4.2</span> Reliability Change If Item Deleted</a></li>
-  <li><a href="#alpha-if-item-deleted" id="toc-alpha-if-item-deleted" class="nav-link" data-scroll-target="#alpha-if-item-deleted"><span class="header-section-number">4.4.3</span> Alpha if item deleted</a></li>
-  <li><a href="#omega-if-item-deleted" id="toc-omega-if-item-deleted" class="nav-link" data-scroll-target="#omega-if-item-deleted"><span class="header-section-number">4.4.4</span> Omega if item deleted</a></li>
-  <li><a href="#inter-item-correlations" id="toc-inter-item-correlations" class="nav-link" data-scroll-target="#inter-item-correlations"><span class="header-section-number">4.4.5</span> Inter-item Correlations</a></li>
+  <li><a href="#item-discrimination" id="toc-item-discrimination" class="nav-link" data-scroll-target="#item-discrimination"><span class="header-section-number">4.2.1</span> Item Discrimination</a></li>
+  <li><a href="#reliability-change-if-item-deleted" id="toc-reliability-change-if-item-deleted" class="nav-link" data-scroll-target="#reliability-change-if-item-deleted"><span class="header-section-number">4.2.2</span> Reliability Change If Item Deleted</a></li>
+  <li><a href="#inter-item-correlations" id="toc-inter-item-correlations" class="nav-link" data-scroll-target="#inter-item-correlations"><span class="header-section-number">4.2.3</span> Inter-item Correlations</a></li>
   </ul></li>
-  <li><a href="#factor-analysis" id="toc-factor-analysis" class="nav-link" data-scroll-target="#factor-analysis"><span class="header-section-number">4.5</span> Factor Analysis</a>
+  <li><a href="#factor-analysis" id="toc-factor-analysis" class="nav-link" data-scroll-target="#factor-analysis"><span class="header-section-number">4.3</span> Factor Analysis</a>
   <ul class="collapse">
-  <li><a href="#determine-the-number-of-factors" id="toc-determine-the-number-of-factors" class="nav-link" data-scroll-target="#determine-the-number-of-factors"><span class="header-section-number">4.5.1</span> Determine the number of factors</a></li>
+  <li><a href="#determine-the-number-of-factors" id="toc-determine-the-number-of-factors" class="nav-link" data-scroll-target="#determine-the-number-of-factors"><span class="header-section-number">4.3.1</span> Determine the number of factors</a></li>
   </ul></li>
+  <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise"><span class="header-section-number">4.4</span> Exercise</a></li>
   </ul>
 </nav>
     </div>
@@ -309,7 +319,8 @@ X = T + E
 <p>The (raw or unstandardized) <span class="math inline">\(\alpha\)</span> coefficient can be calculated by:</p>
 <p><span class="math display">\[
 \hat{\alpha}=\frac{J}{J-1}\big[1-\frac{\sum_{j=1}^J\hat{\sigma}_{j}^2}{\hat{\sigma}^2}\big]=J^2\frac{\bar{\sigma}_{jj'}}{\hat{\sigma}^2}
-\]</span> where <span class="math inline">\(J\)</span> is the test length, <span class="math inline">\(\hat{\sigma}_{k}^2\)</span> the variance of scores on item <span class="math inline">\(j\)</span>, and <span class="math inline">\(\hat{\sigma}^2\)</span> the variance of the test scores and <span class="math inline">\(\bar{\sigma}_{jj'}\)</span> the average covariance of all items.</p>
+\]</span></p>
+<p>where <span class="math inline">\(J\)</span> is the test length, <span class="math inline">\(\hat{\sigma}_{k}^2\)</span> the variance of scores on item <span class="math inline">\(j\)</span>, and <span class="math inline">\(\hat{\sigma}^2\)</span> the variance of the test scores and <span class="math inline">\(\bar{\sigma}_{jj'}\)</span> the average covariance of all items.</p>
 <ul>
 <li>Cronbach’s <span class="math inline">\(\alpha\)</span> may be thought of as the mean of all possible split-half correlations, corrected by the Spearman-Brown formula (As a result, split-half should not be used).</li>
 <li>unstandardized <span class="math inline">\(\alpha\)</span> should be used when raw item responses are used and standardized <span class="math inline">\(\alpha\)</span> should be used when standardized item scores are used (Falk, 2011)</li>
@@ -329,39 +340,35 @@ X = T + E
 <p>Nunnally (1978) recommend values of .70 for scales in the initial stages of development; .80 for “basic research scales,” and .90 as minimum for use in clinical settings</p>
 </div>
 </section>
-</section>
-<section id="data-example-big-five-agreeableness-items" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="data-example-big-five-agreeableness-items"><span class="header-section-number">4.2</span> Data Example: Big Five Agreeableness Items</h2>
+<section id="reliability-in-r" class="level3" data-number="4.1.4">
+<h3 data-number="4.1.4" class="anchored" data-anchor-id="reliability-in-r"><span class="header-section-number">4.1.4</span> Reliability in R</h3>
+<p>We will use the <code>bfi</code> dataset from the psych package, which contains item responses to Big Five personality items on a 1-6 Likert scale to show how to compute reliability in R. The dataset has 25 items, with 5 items for each of the Big Five traits: Extraversion (E), Agreeableness (A), Conscientiousness (C), Neuroticism (N), and Openness (O). To keep the example focused, we will analyze the 5 Agreeableness items (<code>A1</code> to <code>A5</code>). In practice, you would replace this with your own survey items.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run this ONCE if needed:</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(c("psych", "CTT", "tidyverse", "corrplot", "knitr"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CTT)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We will use the <code>bfi</code> dataset from the psych package, which contains item responses to Big Five personality items on a 1-6 Likert scale.</p>
-<p>To keep the example focused, we will analyze the 5 Agreeableness items (<code>A1</code> to <code>A5</code>). In practice, you would replace this with your own survey items.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load built-in dataset</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"bfi"</span>, <span class="at">package =</span> <span class="st">"psych"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Select Agreeableness items</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>A_items <span class="ot">&lt;-</span> bfi <span class="sc">%&gt;%</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(A1<span class="sc">:</span>A5)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep complete cases for simpler demonstration</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>A_complete <span class="ot">&lt;-</span> A_items <span class="sc">%&gt;%</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>()</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A_complete)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(c("psych", "CTT", "tidyverse", "corrplot", "knitr"))</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(CTT)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Load built-in dataset</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"bfi"</span>, <span class="at">package =</span> <span class="st">"psych"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Select Agreeableness items</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>A_items <span class="ot">&lt;-</span> bfi <span class="sc">%&gt;%</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(A1<span class="sc">:</span>A5)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep complete cases for simpler demonstration</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>A_complete <span class="ot">&lt;-</span> A_items <span class="sc">%&gt;%</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">drop_na</span>()</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(A_complete)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2709    5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(A_complete)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(A_complete)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A1 A2 A3 A4 A5
 1  2  4  3  4  4
@@ -374,11 +381,11 @@ X = T + E
 </div>
 <p>For Likert scale items, make sure item direction is consistent before computing discrimination, reliability and total score. In this subscale, <code>A1</code> is reverse-keyed.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Responses are on a 1-6 scale, so reverse-score with 7 - x</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>A_keyed <span class="ot">&lt;-</span> A_complete <span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">A1 =</span> <span class="dv">7</span> <span class="sc">-</span> A1)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(A_keyed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Responses are on a 1-6 scale, so reverse-score with 7 - x</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>A_keyed <span class="ot">&lt;-</span> A_complete <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">A1 =</span> <span class="dv">7</span> <span class="sc">-</span> A1)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(A_keyed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  A1 A2 A3 A4 A5
 1  5  4  3  4  4
@@ -389,14 +396,65 @@ X = T + E
 6  1  6  5  6  5</code></pre>
 </div>
 </div>
-</section>
-<section id="internal-consistency-reliability-estimation-in-r" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="internal-consistency-reliability-estimation-in-r"><span class="header-section-number">4.3</span> Internal Consistency Reliability Estimation in R</h2>
 <p>To calculate reliability, we can use the <code>psych</code> package’s <code>alpha()</code> and <code>omega()</code> functions.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alpha</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>alpha_fit <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">alpha</span>(A_keyed)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>alpha_fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alpha</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>alpha_fit <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">alpha</span>(A_keyed)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>alpha_fit<span class="sc">$</span>total<span class="sc">$</span>raw_alpha</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7037559</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Omega (single-factor approximation for this 5-item example)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>omega_fit <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">omega</span>(A_keyed, <span class="at">nfactors =</span> <span class="dv">1</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>omega_fit<span class="sc">$</span>omega.tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7237244</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="item-analysis" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="item-analysis"><span class="header-section-number">4.2</span> Item Analysis</h2>
+<p>Reliability analysis allows one to check if the test produces consistent scores but it does not provide any insights into the quality of individual items.</p>
+<p>Item analysis lets us investigate the quality of these individual items, including in terms of how well they contribute to the whole and improve the validity of our measurement.</p>
+<section id="item-discrimination" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="item-discrimination"><span class="header-section-number">4.2.1</span> Item Discrimination</h3>
+<p>In general, one would expect that respondents with a high level of knowledge or skill would be <strong>more</strong> likely to answer an achievement or aptitude item correctly than those with lower levels of knowledge, and vice versa.</p>
+<p>Similarly, in noncognitive tests, respondents with a high level of construct would be more likely to agree or disagree a certain statement.</p>
+<p>Item discrimination refers to how well an item differentiates between respondents with different levels of the underlying construct.</p>
+<ul>
+<li><strong>Item-total correlation</strong>: correlation between an item and the total score including that item.</li>
+<li><strong>Adjusted item-total correlation</strong> (also called corrected item-total or item-remainder): correlation between an item and total score excluding that item.</li>
+</ul>
+<p>The adjusted version is preferred because it avoids part-whole inflation. We can use the <code>psych</code> package’s <code>alpha()</code> function to compute these statistics.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>alpha_fit <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">alpha</span>(A_keyed)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>alpha_fit<span class="sc">$</span>item.stats</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      n     raw.r     std.r     r.cor    r.drop     mean       sd
+A1 2709 0.5790965 0.5686758 0.3797978 0.3114013 4.587671 1.404575
+A2 2709 0.7281839 0.7475215 0.6657766 0.5630155 4.797342 1.176415
+A3 2709 0.7616923 0.7683160 0.7107856 0.5887731 4.599114 1.304554
+A4 2709 0.6548647 0.6306509 0.4711548 0.3947937 4.682171 1.486442
+A5 2709 0.6861010 0.6979889 0.5935967 0.4872409 4.551126 1.261603</code></pre>
+</div>
+</div>
+<p>Below are the interpretation of each column:</p>
+<ul>
+<li>raw.r: The correlation of each item with the total score, not corrected for item overlap.</li>
+<li>std.r: The correlation of each item with the total score (not corrected for item overlap) if the items were all standardized</li>
+<li>r.cor: Item whole correlation corrected for item overlap and scale reliability</li>
+<li>r.drop: Item whole correlation for this item against the scale without this item</li>
+<li>mean: for data matrices, the mean of each item</li>
+<li>sd: For data matrices, the standard deviation of each item</li>
+</ul>
+<p>In applied work, adjusted item-total correlations around .30 or higher are often considered minimally acceptable for early scale development, with higher values indicating stronger discrimination.</p>
+</section>
+<section id="reliability-change-if-item-deleted" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="reliability-change-if-item-deleted"><span class="header-section-number">4.2.2</span> Reliability Change If Item Deleted</h3>
+<p>This analysis asks whether the scale would become more or less reliable if an item were removed. If reliability increases after deleting an item, that item may be weakly aligned with the rest of the scale and could be a candidate for removal.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">alpha</span>(A_keyed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Reliability analysis   
@@ -434,227 +492,18 @@ A3 0.03 0.06 0.08 0.20 0.36 0.27    0
 A4 0.05 0.08 0.07 0.16 0.24 0.41    0
 A5 0.02 0.07 0.09 0.22 0.35 0.25    0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Omega (single-factor approximation for this 5-item example)</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>omega_fit <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">omega</span>(A_keyed, <span class="at">nfactors =</span> <span class="dv">1</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>omega_fit<span class="sc">$</span>omega.tot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.7237244</code></pre>
-</div>
 </div>
 </section>
-<section id="item-analysis" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="item-analysis"><span class="header-section-number">4.4</span> Item Analysis</h2>
-<p>Reliability analysis allows one to check if the test produces consistent scores but it does not provide any insights into the quality of individual items.</p>
-<p>Item analysis lets us investigate the quality of these individual items, including in terms of how well they contribute to the whole and improve the validity of our measurement.</p>
-<section id="item-discrimination" class="level3" data-number="4.4.1">
-<h3 data-number="4.4.1" class="anchored" data-anchor-id="item-discrimination"><span class="header-section-number">4.4.1</span> Item Discrimination</h3>
-<p>In general, one would expect that respondents with a high level of knowledge or skill would be <strong>more</strong> likely to answer an achievement or aptitude item correctly than those with lower levels of knowledge, and vice versa.</p>
-<p>Similarly, in noncognitive tests, respondents with a high level of construct would be more likely to agree or disagree a certain statement.</p>
-<p>Item discrimination refers to how well an item differentiates between respondents with different levels of the underlying construct.</p>
-<ul>
-<li><strong>Item-total correlation</strong>: correlation between an item and the total score including that item.</li>
-<li><strong>Adjusted item-total correlation</strong> (also called corrected item-total or item-remainder): correlation between an item and total score excluding that item.</li>
-</ul>
-<p>The adjusted version is preferred because it avoids part-whole inflation. We can use the <code>CTT</code> package’s <code>itemAnalysis()</code> function to compute these statistics.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ctt_item <span class="ot">&lt;-</span> CTT<span class="sc">::</span><span class="fu">itemAnalysis</span>(A_keyed)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(ctt_item<span class="sc">$</span>itemReport, <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: left;">itemName</th>
-<th style="text-align: right;">itemMean</th>
-<th style="text-align: right;">pBis</th>
-<th style="text-align: right;">bis</th>
-<th style="text-align: right;">alphaIfDeleted</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">A1</td>
-<td style="text-align: right;">4.588</td>
-<td style="text-align: right;">0.311</td>
-<td style="text-align: right;">0.337</td>
-<td style="text-align: right;">0.718</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">A2</td>
-<td style="text-align: right;">4.797</td>
-<td style="text-align: right;">0.563</td>
-<td style="text-align: right;">0.615</td>
-<td style="text-align: right;">0.618</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">A3</td>
-<td style="text-align: right;">4.599</td>
-<td style="text-align: right;">0.589</td>
-<td style="text-align: right;">0.637</td>
-<td style="text-align: right;">0.601</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">A4</td>
-<td style="text-align: right;">4.682</td>
-<td style="text-align: right;">0.395</td>
-<td style="text-align: right;">0.437</td>
-<td style="text-align: right;">0.687</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">A5</td>
-<td style="text-align: right;">4.551</td>
-<td style="text-align: right;">0.487</td>
-<td style="text-align: right;">0.521</td>
-<td style="text-align: right;">0.645</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>In <code>CTT::itemAnalysis()</code>, <code>pBis</code> is the item-rest (adjusted item-total) correlation, computed as the correlation between each item and the total score with that item removed.</p>
-<section id="practical-interpretation-guideline" class="level4" data-number="4.4.1.1">
-<h4 data-number="4.4.1.1" class="anchored" data-anchor-id="practical-interpretation-guideline"><span class="header-section-number">4.4.1.1</span> Practical interpretation guideline</h4>
-<p>In applied work, adjusted item-total correlations around .30 or higher are often considered minimally acceptable for early scale development, with higher values indicating stronger discrimination.</p>
-</section>
-</section>
-<section id="reliability-change-if-item-deleted" class="level3" data-number="4.4.2">
-<h3 data-number="4.4.2" class="anchored" data-anchor-id="reliability-change-if-item-deleted"><span class="header-section-number">4.4.2</span> Reliability Change If Item Deleted</h3>
-<p>This analysis asks whether the scale would become more or less reliable if an item were removed. If reliability increases after deleting an item, that item may be weakly aligned with the rest of the scale and could be a candidate for removal.</p>
-</section>
-<section id="alpha-if-item-deleted" class="level3" data-number="4.4.3">
-<h3 data-number="4.4.3" class="anchored" data-anchor-id="alpha-if-item-deleted"><span class="header-section-number">4.4.3</span> Alpha if item deleted</h3>
-<p>From <code>psych::alpha()</code>, <code>raw_alpha</code> in <code>alpha.drop</code> is alpha-if-item-deleted.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>alpha_deleted_tbl <span class="ot">&lt;-</span> alpha_fit<span class="sc">$</span>alpha.drop <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rownames_to_column</span>(<span class="st">"item_deleted"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(item_deleted, raw_alpha, std.alpha, average_r)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(alpha_deleted_tbl, <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: left;">item_deleted</th>
-<th style="text-align: right;">raw_alpha</th>
-<th style="text-align: right;">std.alpha</th>
-<th style="text-align: right;">average_r</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">A1</td>
-<td style="text-align: right;">0.718</td>
-<td style="text-align: right;">0.725</td>
-<td style="text-align: right;">0.397</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">A2</td>
-<td style="text-align: right;">0.618</td>
-<td style="text-align: right;">0.627</td>
-<td style="text-align: right;">0.296</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">A3</td>
-<td style="text-align: right;">0.601</td>
-<td style="text-align: right;">0.613</td>
-<td style="text-align: right;">0.284</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">A4</td>
-<td style="text-align: right;">0.687</td>
-<td style="text-align: right;">0.694</td>
-<td style="text-align: right;">0.362</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">A5</td>
-<td style="text-align: right;">0.645</td>
-<td style="text-align: right;">0.657</td>
-<td style="text-align: right;">0.324</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</section>
-<section id="omega-if-item-deleted" class="level3" data-number="4.4.4">
-<h3 data-number="4.4.4" class="anchored" data-anchor-id="omega-if-item-deleted"><span class="header-section-number">4.4.4</span> Omega if item deleted</h3>
-<p><code>psych</code> does not provide omega-if-item-deleted in one direct table, so we compute it in a loop.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>omega_full <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">omega</span>(A_keyed, <span class="at">nfactors =</span> <span class="dv">1</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>omega.tot</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>omega_deleted_tbl <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(<span class="fu">names</span>(A_keyed), <span class="cf">function</span>(it) {</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    dat_drop <span class="ot">&lt;-</span> A_keyed <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="sc">-</span><span class="fu">all_of</span>(it))</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    om_drop <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">omega</span>(dat_drop, <span class="at">nfactors =</span> <span class="dv">1</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>omega.tot</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tibble</span>(<span class="at">item_deleted =</span> it, <span class="at">omega_if_deleted =</span> om_drop)</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>}) <span class="sc">%&gt;%</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">omega_full =</span> omega_full,</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">change =</span> omega_if_deleted <span class="sc">-</span> omega_full</span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(omega_deleted_tbl, <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: left;">item_deleted</th>
-<th style="text-align: right;">omega_if_deleted</th>
-<th style="text-align: right;">omega_full</th>
-<th style="text-align: right;">change</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">A1</td>
-<td style="text-align: right;">0.731</td>
-<td style="text-align: right;">0.724</td>
-<td style="text-align: right;">0.007</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">A2</td>
-<td style="text-align: right;">0.650</td>
-<td style="text-align: right;">0.724</td>
-<td style="text-align: right;">-0.074</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">A3</td>
-<td style="text-align: right;">0.626</td>
-<td style="text-align: right;">0.724</td>
-<td style="text-align: right;">-0.098</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">A4</td>
-<td style="text-align: right;">0.706</td>
-<td style="text-align: right;">0.724</td>
-<td style="text-align: right;">-0.017</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">A5</td>
-<td style="text-align: right;">0.670</td>
-<td style="text-align: right;">0.724</td>
-<td style="text-align: right;">-0.053</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Interpretation:</p>
-<ul>
-<li><code>change &gt; 0</code>: omega improved after deleting the item (possible concern).</li>
-<li><code>change &lt; 0</code>: omega dropped after deleting the item (item contributes to consistency).</li>
-</ul>
-</section>
-<section id="inter-item-correlations" class="level3" data-number="4.4.5">
-<h3 data-number="4.4.5" class="anchored" data-anchor-id="inter-item-correlations"><span class="header-section-number">4.4.5</span> Inter-item Correlations</h3>
+<section id="inter-item-correlations" class="level3" data-number="4.2.3">
+<h3 data-number="4.2.3" class="anchored" data-anchor-id="inter-item-correlations"><span class="header-section-number">4.2.3</span> Inter-item Correlations</h3>
 <p>Inter-item correlations show how strongly items relate to each other.</p>
 <ul>
 <li>Very low correlations may suggest an item is off-construct.</li>
 <li>Very high correlations may suggest redundancy.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>R_items <span class="ot">&lt;-</span> <span class="fu">cor</span>(A_keyed)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(R_items, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>R_items <span class="ot">&lt;-</span> <span class="fu">cor</span>(A_keyed)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(R_items, <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     A1   A2   A3   A4   A5
 A1 1.00 0.34 0.27 0.15 0.18
@@ -665,7 +514,7 @@ A5 0.18 0.39 0.51 0.31 1.00</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(R_items, <span class="at">method =</span> <span class="st">"number"</span>, <span class="at">type =</span> <span class="st">"lower"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(R_items, <span class="at">method =</span> <span class="st">"number"</span>, <span class="at">type =</span> <span class="st">"lower"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -676,16 +525,16 @@ A5 0.18 0.39 0.51 0.31 1.00</code></pre>
 </div>
 <p>Average inter-item correlation is also useful:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mean_interitem <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">alpha</span>(A_keyed)<span class="sc">$</span>total<span class="sc">$</span>average_r</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>mean_interitem</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mean_interitem <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">alpha</span>(A_keyed)<span class="sc">$</span>total<span class="sc">$</span>average_r</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>mean_interitem</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.3324807</code></pre>
 </div>
 </div>
 </section>
 </section>
-<section id="factor-analysis" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="factor-analysis"><span class="header-section-number">4.5</span> Factor Analysis</h2>
+<section id="factor-analysis" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="factor-analysis"><span class="header-section-number">4.3</span> Factor Analysis</h2>
 <p>The purpose of factor analytic techniques is to help us understand the <strong>number</strong> and <strong>nature</strong> of the dimensions, or factors, underlying a set of variables. In factor analysis, the word ‘factor’ is usually used instead of the word ‘construct’, and we shall follow this convention from now on.</p>
 <p>Factor analytic studies address questions such as:</p>
 <ul>
@@ -696,8 +545,8 @@ A5 0.18 0.39 0.51 0.31 1.00</code></pre>
 <div class="note-box">
 <p>Factor analytic methods answer the question, “Why are these variables correlated in the way we observe?” In factor analysis, the answer to this question is that the variables are correlated through a common cause: the factor(s).</p>
 </div>
-<section id="determine-the-number-of-factors" class="level3" data-number="4.5.1">
-<h3 data-number="4.5.1" class="anchored" data-anchor-id="determine-the-number-of-factors"><span class="header-section-number">4.5.1</span> Determine the number of factors</h3>
+<section id="determine-the-number-of-factors" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="determine-the-number-of-factors"><span class="header-section-number">4.3.1</span> Determine the number of factors</h3>
 <p>Determining the most interpretable number of factors from a factor analysis is perhaps one of the greatest challenges in factor analysis. There are many solutions to this problem, none of which is uniformly the best. Below are some examples:</p>
 <ul>
 <li><strong>The eigenvalue-greater-than-one rule</strong>, also often referred to as the Kaiser criterion</li>
@@ -714,15 +563,14 @@ A5 0.18 0.39 0.51 0.31 1.00</code></pre>
 <li>The largest number of factors with actual data eigenvalue greater than simulated data eigenvalue is the number of factors</li>
 </ul></li>
 </ul>
-<p><img src="pic/PA.JPG" class="img-fluid"></p>
 <div class="note-box">
 <p>Simulation studies show that parallel analysis is the most accurate way of determining the correct number of factors to extract. The PA involves checking whether each of the eigenvalues that emerges from a factor analysis is larger than you would expect by chance. Suppose that you gather data on 10 variables and 100 people and factor analyze the results (but without rotating the factors). The factor analysis program will produce a list of eigenvalues, as many eigenvalues as there are variables. Now perform another factor analysis, but, rather than using the data that you have collected, just analyze random data (again using 10 variables, 100 people). You could literally just type in numbers at random into the computer program that you use for factor analysis. Then run the factor analysis again, based on this random data. You would expect the correlations between these random variables to be roughly zero – though some will be a little larger than zero, and some smaller than zero by chance. (The size of your sample will affect how close to zero they are; with a small sample, you might find that some correlations are as large as 0.3 or as small as -0.3; with a large sample, few if any will be above 0.1 or less than -0.1.) This approach, generating lots of sets of data and seeing what happens when you analyze them in a particular way, is known as a Monte Carlo analysis. If all the correlations are zero, no factors are present in the data. But some of the correlations will be greater or less than zero just because of chance sampling variations. The question is whether the eigenvalues from the data are larger than would be expected by chance - that is, from factor analyzing correlations between random numbers.</p>
 </div>
 <p>To assess the number of factors for the data, we used parallel analysis with the <code>psych</code> R package:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># parallel analysis</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">fa.parallel</span>(A_keyed, <span class="at">fa =</span> <span class="st">"fa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># parallel analysis</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">fa.parallel</span>(A_keyed, <span class="at">fa =</span> <span class="st">"fa"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -734,11 +582,32 @@ A5 0.18 0.39 0.51 0.31 1.00</code></pre>
 <pre><code>Parallel analysis suggests that the number of factors =  2  and the number of components =  NA </code></pre>
 </div>
 </div>
+</section>
+</section>
+<section id="exercise" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="exercise"><span class="header-section-number">4.4</span> Exercise</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Please download the <a href="https://wenchao-ma.github.io/Data/">course survey data</a> for the following anlaysis.</p>
+<ul>
+<li><p>calculate coefficient alpha and omega.</p></li>
+<li><p>calculate item discrimination and alpha-if-item-deleted. Interpret the results.</p></li>
+<li><p>calculate inter-item correlation and draw the correlation plot. Interpret the results.</p></li>
+</ul>
+</div>
+</div>
 
 
 <!-- -->
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1217,334 +1086,317 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./01-data.html" class="pagination-link" aria-label="Data">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./04-statistical-analysis.html" class="pagination-link" aria-label="Statistical Analysis">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Statistical Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb23" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Psychometric Analysis"</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>This session focuses on item analysis under Classical Test Theory (CTT) in survey.</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Classical Test Theory (CTT) and Reliability</span></span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>In CTT, each person's observed score is decomposed into a true score and random</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>measurement error:</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>X = T + E</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>where $X$ is the observed score, $T$ is the true score, and $E$ is error.</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>Standard CTT assumptions are:</span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>\mathbb{E}(E)=0 \quad \text{and} \quad \operatorname{Cov}(T,E)=0</span>
-<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>So the observed-score variance can be written as:</span>
-<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>\operatorname{Var}(X)=\operatorname{Var}(T)+\operatorname{Var}(E)</span>
-<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>Reliability is the proportion of observed-score variance attributable to true</span>
-<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>score variance:</span>
-<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>\rho_{XX'} = \frac{\operatorname{Var}(T)}{\operatorname{Var}(X)}</span>
-<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>= 1 - \frac{\operatorname{Var}(E)}{\operatorname{Var}(X)}</span>
-<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>Reliability refers to the consistency of scores produced by a test.</span>
-<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Inconsistency means different scores may be observed for an individual with an unchanged true score when the test was administered more than once.</span>
-<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Scores could be inconsistent in varied ways:</span>
-<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>consistency of scores over time</span>
-<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>consistency of scores over multiple test forms</span>
-<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>consistency of scores across test items</span>
-<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>consistency of scores across raters</span>
-<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Reliability should be assessed accordingly.</span>
-<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Split-Half Reliability</span></span>
-<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a>An early approach to estimating the reliability of a test was to split the test into two halves and correlate the resulting two scores.</span>
-<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a>::: {.note-box .note}</span>
-<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>This approach mimics that of correlating scores on two parallel forms of a test, or on two scores from the same test obtained at different times, but it can be used in situations where neither scores from two test forms nor scores from two test administrations are available.</span>
-<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>One acceptable way to split a test is to randomly assign items to one or the other half of the test. Another acceptable way to split a test is to assign odd-numbered items to one half of the test and even-numbered items to the other half.</span>
-<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a>**How to Calculate Split-Half Reliability**</span>
-<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>administer the test to a single sample of individuals</span>
-<span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The entire set of items is then divided into two equally sized halves, with the intent that the halves are equivalent in terms of item difficulty, item content, and location in the instrument itself (i.e., near the front, in the middle, or near the end)</span>
-<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The two halves are then scored individually</span>
-<span id="cb23-64"><a href="#cb23-64" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The correlation between the halves is thus an estimate of the reliability of these **shortened** parallel forms of the measure</span>
-<span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>adjust the correlation between the halves in order to reflect the reliability of the full instrument with the current sample. This can be done via the Spearman-Brown prophecy formula $$\rho_{\text{full test}}=\frac{2\rho_{\text{shortened test}}}{1+\rho_{\text{shortened test}}}$$</span>
-<span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-67"><a href="#cb23-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cronbach’s $\alpha$</span></span>
-<span id="cb23-68"><a href="#cb23-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-69"><a href="#cb23-69" aria-hidden="true" tabindex="-1"></a>Cronbach’s $\alpha$ is probably the most popular internal consistency index, reflecting the degree to which a set of items is interrelated.</span>
-<span id="cb23-70"><a href="#cb23-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-71"><a href="#cb23-71" aria-hidden="true" tabindex="-1"></a>The (raw or unstandardized) $\alpha$ coefficient can be calculated by:</span>
-<span id="cb23-72"><a href="#cb23-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-73"><a href="#cb23-73" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb23-74"><a href="#cb23-74" aria-hidden="true" tabindex="-1"></a>\hat{\alpha}=\frac{J}{J-1}\big<span class="co">[</span><span class="ot">1-\frac{\sum_{j=1}^J\hat{\sigma}_{j}^2}{\hat{\sigma}^2}\big</span><span class="co">]</span>=J^2\frac{\bar{\sigma}_{jj'}}{\hat{\sigma}^2}</span>
-<span id="cb23-75"><a href="#cb23-75" aria-hidden="true" tabindex="-1"></a>$$ where $J$ is the test length, $\hat{\sigma}_{k}^2$ the variance of scores on item $j$, and $\hat{\sigma}^2$ the variance of the test scores and $\bar{\sigma}_{jj'}$ the average covariance of all items.</span>
-<span id="cb23-76"><a href="#cb23-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-77"><a href="#cb23-77" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Cronbach’s $\alpha$ may be thought of as the mean of all possible split-half correlations, corrected by the Spearman-Brown formula (As a result, split-half should not be used).</span>
-<span id="cb23-78"><a href="#cb23-78" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>unstandardized $\alpha$ should be used when raw item responses are used and standardized $\alpha$ should be used when standardized item scores are used (Falk, 2011)</span>
-<span id="cb23-79"><a href="#cb23-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-80"><a href="#cb23-80" aria-hidden="true" tabindex="-1"></a><span class="fu">### McDonald’s $\omega$</span></span>
-<span id="cb23-81"><a href="#cb23-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-82"><a href="#cb23-82" aria-hidden="true" tabindex="-1"></a>McDonald’s $\omega$ is another measure for internal consistency, reflecting the degree to which a set of items is interrelated.</span>
-<span id="cb23-83"><a href="#cb23-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-84"><a href="#cb23-84" aria-hidden="true" tabindex="-1"></a>Conceptually, McDonald’s $\omega$ is calculated as</span>
-<span id="cb23-85"><a href="#cb23-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-86"><a href="#cb23-86" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb23-87"><a href="#cb23-87" aria-hidden="true" tabindex="-1"></a>\omega=\frac{\text{Signal}}{\text{Signal}+\text{Noise}}.</span>
-<span id="cb23-88"><a href="#cb23-88" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb23-89"><a href="#cb23-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-90"><a href="#cb23-90" aria-hidden="true" tabindex="-1"></a>Computationally, McDonald’s $\omega$ is often calculated based on confirmatory factor analysis.</span>
-<span id="cb23-91"><a href="#cb23-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-92"><a href="#cb23-92" aria-hidden="true" tabindex="-1"></a>::: {.note-box .note}</span>
-<span id="cb23-93"><a href="#cb23-93" aria-hidden="true" tabindex="-1"></a>**Recommended Values for internal consistency**</span>
-<span id="cb23-94"><a href="#cb23-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-95"><a href="#cb23-95" aria-hidden="true" tabindex="-1"></a>Raykov (2011) recommend values of at least .80</span>
-<span id="cb23-96"><a href="#cb23-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-97"><a href="#cb23-97" aria-hidden="true" tabindex="-1"></a>Nunnally (1978) recommend values of .70 for scales in the initial stages of development; .80 for “basic research scales,” and .90 as minimum for use in clinical settings</span>
-<span id="cb23-98"><a href="#cb23-98" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb23-99"><a href="#cb23-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-100"><a href="#cb23-100" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data Example: Big Five Agreeableness Items</span></span>
-<span id="cb23-101"><a href="#cb23-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-102"><a href="#cb23-102" aria-hidden="true" tabindex="-1"></a><span class="in">```{r install-packages}</span></span>
-<span id="cb23-103"><a href="#cb23-103" aria-hidden="true" tabindex="-1"></a><span class="in"># Run this ONCE if needed:</span></span>
-<span id="cb23-104"><a href="#cb23-104" aria-hidden="true" tabindex="-1"></a><span class="in"># install.packages(c("psych", "CTT", "tidyverse", "corrplot", "knitr"))</span></span>
-<span id="cb23-105"><a href="#cb23-105" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-106"><a href="#cb23-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-107"><a href="#cb23-107" aria-hidden="true" tabindex="-1"></a><span class="in">```{r load-packages, message=FALSE}</span></span>
-<span id="cb23-108"><a href="#cb23-108" aria-hidden="true" tabindex="-1"></a><span class="in">library(psych)</span></span>
-<span id="cb23-109"><a href="#cb23-109" aria-hidden="true" tabindex="-1"></a><span class="in">library(CTT)</span></span>
-<span id="cb23-110"><a href="#cb23-110" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyverse)</span></span>
-<span id="cb23-111"><a href="#cb23-111" aria-hidden="true" tabindex="-1"></a><span class="in">library(corrplot)</span></span>
-<span id="cb23-112"><a href="#cb23-112" aria-hidden="true" tabindex="-1"></a><span class="in">library(knitr)</span></span>
-<span id="cb23-113"><a href="#cb23-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-114"><a href="#cb23-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-115"><a href="#cb23-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-116"><a href="#cb23-116" aria-hidden="true" tabindex="-1"></a>We will use the <span class="in">`bfi`</span> dataset from the psych package, which contains item</span>
-<span id="cb23-117"><a href="#cb23-117" aria-hidden="true" tabindex="-1"></a>responses to Big Five personality items on a 1-6 Likert scale.</span>
-<span id="cb23-118"><a href="#cb23-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-119"><a href="#cb23-119" aria-hidden="true" tabindex="-1"></a>To keep the example focused, we will analyze the 5 Agreeableness items (<span class="in">`A1`</span> to</span>
-<span id="cb23-120"><a href="#cb23-120" aria-hidden="true" tabindex="-1"></a><span class="in">`A5`</span>). In practice, you would replace this with your own survey items.</span>
-<span id="cb23-121"><a href="#cb23-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-122"><a href="#cb23-122" aria-hidden="true" tabindex="-1"></a><span class="in">```{r data-setup}</span></span>
-<span id="cb23-123"><a href="#cb23-123" aria-hidden="true" tabindex="-1"></a><span class="in"># Load built-in dataset</span></span>
-<span id="cb23-124"><a href="#cb23-124" aria-hidden="true" tabindex="-1"></a><span class="in">data("bfi", package = "psych")</span></span>
-<span id="cb23-125"><a href="#cb23-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-126"><a href="#cb23-126" aria-hidden="true" tabindex="-1"></a><span class="in"># Select Agreeableness items</span></span>
-<span id="cb23-127"><a href="#cb23-127" aria-hidden="true" tabindex="-1"></a><span class="in">A_items &lt;- bfi %&gt;%</span></span>
-<span id="cb23-128"><a href="#cb23-128" aria-hidden="true" tabindex="-1"></a><span class="in">    select(A1:A5)</span></span>
-<span id="cb23-129"><a href="#cb23-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-130"><a href="#cb23-130" aria-hidden="true" tabindex="-1"></a><span class="in"># Keep complete cases for simpler demonstration</span></span>
-<span id="cb23-131"><a href="#cb23-131" aria-hidden="true" tabindex="-1"></a><span class="in">A_complete &lt;- A_items %&gt;%</span></span>
-<span id="cb23-132"><a href="#cb23-132" aria-hidden="true" tabindex="-1"></a><span class="in">    drop_na()</span></span>
-<span id="cb23-133"><a href="#cb23-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-134"><a href="#cb23-134" aria-hidden="true" tabindex="-1"></a><span class="in">dim(A_complete)</span></span>
-<span id="cb23-135"><a href="#cb23-135" aria-hidden="true" tabindex="-1"></a><span class="in">head(A_complete)</span></span>
-<span id="cb23-136"><a href="#cb23-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-137"><a href="#cb23-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-138"><a href="#cb23-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-139"><a href="#cb23-139" aria-hidden="true" tabindex="-1"></a>For Likert scale items, make sure item direction is consistent before</span>
-<span id="cb23-140"><a href="#cb23-140" aria-hidden="true" tabindex="-1"></a>computing discrimination, reliability and total score. In this subscale, <span class="in">`A1`</span> is reverse-keyed.</span>
-<span id="cb23-141"><a href="#cb23-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-142"><a href="#cb23-142" aria-hidden="true" tabindex="-1"></a><span class="in">```{r score-items}</span></span>
-<span id="cb23-143"><a href="#cb23-143" aria-hidden="true" tabindex="-1"></a><span class="in"># Responses are on a 1-6 scale, so reverse-score with 7 - x</span></span>
-<span id="cb23-144"><a href="#cb23-144" aria-hidden="true" tabindex="-1"></a><span class="in">A_keyed &lt;- A_complete %&gt;%</span></span>
-<span id="cb23-145"><a href="#cb23-145" aria-hidden="true" tabindex="-1"></a><span class="in">    mutate(A1 = 7 - A1)</span></span>
-<span id="cb23-146"><a href="#cb23-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-147"><a href="#cb23-147" aria-hidden="true" tabindex="-1"></a><span class="in">head(A_keyed)</span></span>
-<span id="cb23-148"><a href="#cb23-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-149"><a href="#cb23-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-150"><a href="#cb23-150" aria-hidden="true" tabindex="-1"></a><span class="fu">## Internal Consistency Reliability Estimation in R</span></span>
-<span id="cb23-151"><a href="#cb23-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-152"><a href="#cb23-152" aria-hidden="true" tabindex="-1"></a>To calculate reliability, we can use the <span class="in">`psych`</span> package's <span class="in">`alpha()`</span> and <span class="in">`omega()`</span> functions.</span>
-<span id="cb23-153"><a href="#cb23-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-154"><a href="#cb23-154" aria-hidden="true" tabindex="-1"></a><span class="in">```{r reliability-alpha-omega}</span></span>
-<span id="cb23-155"><a href="#cb23-155" aria-hidden="true" tabindex="-1"></a><span class="in"># Alpha</span></span>
-<span id="cb23-156"><a href="#cb23-156" aria-hidden="true" tabindex="-1"></a><span class="in">alpha_fit &lt;- psych::alpha(A_keyed)</span></span>
-<span id="cb23-157"><a href="#cb23-157" aria-hidden="true" tabindex="-1"></a><span class="in">alpha_fit</span></span>
-<span id="cb23-158"><a href="#cb23-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-159"><a href="#cb23-159" aria-hidden="true" tabindex="-1"></a><span class="in"># Omega (single-factor approximation for this 5-item example)</span></span>
-<span id="cb23-160"><a href="#cb23-160" aria-hidden="true" tabindex="-1"></a><span class="in">omega_fit &lt;- psych::omega(A_keyed, nfactors = 1, plot = FALSE)</span></span>
-<span id="cb23-161"><a href="#cb23-161" aria-hidden="true" tabindex="-1"></a><span class="in">omega_fit$omega.tot</span></span>
-<span id="cb23-162"><a href="#cb23-162" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-163"><a href="#cb23-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-164"><a href="#cb23-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-165"><a href="#cb23-165" aria-hidden="true" tabindex="-1"></a><span class="fu">## Item Analysis</span></span>
-<span id="cb23-166"><a href="#cb23-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-167"><a href="#cb23-167" aria-hidden="true" tabindex="-1"></a>Reliability analysis allows one to check if the test produces consistent scores but it does not provide any insights into the quality of individual items.</span>
-<span id="cb23-168"><a href="#cb23-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-169"><a href="#cb23-169" aria-hidden="true" tabindex="-1"></a>Item analysis lets us investigate the quality of these individual items, including in terms of how well they contribute to the whole and improve the validity of our measurement.</span>
-<span id="cb23-170"><a href="#cb23-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-171"><a href="#cb23-171" aria-hidden="true" tabindex="-1"></a><span class="fu">### Item Discrimination</span></span>
-<span id="cb23-172"><a href="#cb23-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-173"><a href="#cb23-173" aria-hidden="true" tabindex="-1"></a>In general, one would expect that respondents with a high level of knowledge or skill would be **more** likely to answer an achievement or aptitude item correctly than those with lower levels of knowledge, and vice versa.</span>
-<span id="cb23-174"><a href="#cb23-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-175"><a href="#cb23-175" aria-hidden="true" tabindex="-1"></a>Similarly, in noncognitive tests, respondents with a high level of construct would be more likely to agree or disagree a certain statement.</span>
-<span id="cb23-176"><a href="#cb23-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-177"><a href="#cb23-177" aria-hidden="true" tabindex="-1"></a>Item discrimination refers to how well an item differentiates between respondents with different levels of the underlying construct.</span>
-<span id="cb23-178"><a href="#cb23-178" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-179"><a href="#cb23-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-180"><a href="#cb23-180" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Item-total correlation**: correlation between an item and the total score</span>
-<span id="cb23-181"><a href="#cb23-181" aria-hidden="true" tabindex="-1"></a>        including that item.</span>
-<span id="cb23-182"><a href="#cb23-182" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Adjusted item-total correlation** (also called corrected item-total or</span>
-<span id="cb23-183"><a href="#cb23-183" aria-hidden="true" tabindex="-1"></a>        item-remainder): correlation between an item and total score excluding that</span>
-<span id="cb23-184"><a href="#cb23-184" aria-hidden="true" tabindex="-1"></a>        item.</span>
-<span id="cb23-185"><a href="#cb23-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-186"><a href="#cb23-186" aria-hidden="true" tabindex="-1"></a>The adjusted version is preferred because it avoids part-whole inflation. We can use the <span class="in">`CTT`</span> package's <span class="in">`itemAnalysis()`</span> function to compute these statistics.</span>
-<span id="cb23-187"><a href="#cb23-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-188"><a href="#cb23-188" aria-hidden="true" tabindex="-1"></a><span class="in">```{r item-discrimination-manual}</span></span>
-<span id="cb23-189"><a href="#cb23-189" aria-hidden="true" tabindex="-1"></a><span class="in">ctt_item &lt;- CTT::itemAnalysis(A_keyed)</span></span>
-<span id="cb23-190"><a href="#cb23-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-191"><a href="#cb23-191" aria-hidden="true" tabindex="-1"></a><span class="in">kable(ctt_item$itemReport, digits = 3)</span></span>
-<span id="cb23-192"><a href="#cb23-192" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-193"><a href="#cb23-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-194"><a href="#cb23-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-195"><a href="#cb23-195" aria-hidden="true" tabindex="-1"></a>In <span class="in">`CTT::itemAnalysis()`</span>, <span class="in">`pBis`</span> is the item-rest (adjusted item-total)</span>
-<span id="cb23-196"><a href="#cb23-196" aria-hidden="true" tabindex="-1"></a>correlation, computed as the correlation between each item and the total score</span>
-<span id="cb23-197"><a href="#cb23-197" aria-hidden="true" tabindex="-1"></a>with that item removed.</span>
-<span id="cb23-198"><a href="#cb23-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-199"><a href="#cb23-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-200"><a href="#cb23-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-201"><a href="#cb23-201" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Practical interpretation guideline</span></span>
-<span id="cb23-202"><a href="#cb23-202" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-203"><a href="#cb23-203" aria-hidden="true" tabindex="-1"></a>In applied work, adjusted item-total correlations around .30 or higher are often</span>
-<span id="cb23-204"><a href="#cb23-204" aria-hidden="true" tabindex="-1"></a>considered minimally acceptable for early scale development, with higher values</span>
-<span id="cb23-205"><a href="#cb23-205" aria-hidden="true" tabindex="-1"></a>indicating stronger discrimination.</span>
-<span id="cb23-206"><a href="#cb23-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-207"><a href="#cb23-207" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reliability Change If Item Deleted</span></span>
-<span id="cb23-208"><a href="#cb23-208" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-209"><a href="#cb23-209" aria-hidden="true" tabindex="-1"></a>This analysis asks whether the scale would become more or less reliable if an</span>
-<span id="cb23-210"><a href="#cb23-210" aria-hidden="true" tabindex="-1"></a>item were removed. If reliability increases after deleting an item, that item may be weakly aligned with the rest of the scale and could be a candidate for removal.</span>
-<span id="cb23-211"><a href="#cb23-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-212"><a href="#cb23-212" aria-hidden="true" tabindex="-1"></a><span class="fu">### Alpha if item deleted</span></span>
-<span id="cb23-213"><a href="#cb23-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-214"><a href="#cb23-214" aria-hidden="true" tabindex="-1"></a>From <span class="in">`psych::alpha()`</span>, <span class="in">`raw_alpha`</span> in <span class="in">`alpha.drop`</span> is alpha-if-item-deleted.</span>
-<span id="cb23-215"><a href="#cb23-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-216"><a href="#cb23-216" aria-hidden="true" tabindex="-1"></a><span class="in">```{r alpha-if-deleted}</span></span>
-<span id="cb23-217"><a href="#cb23-217" aria-hidden="true" tabindex="-1"></a><span class="in">alpha_deleted_tbl &lt;- alpha_fit$alpha.drop %&gt;%</span></span>
-<span id="cb23-218"><a href="#cb23-218" aria-hidden="true" tabindex="-1"></a><span class="in">    as.data.frame() %&gt;%</span></span>
-<span id="cb23-219"><a href="#cb23-219" aria-hidden="true" tabindex="-1"></a><span class="in">    rownames_to_column("item_deleted") %&gt;%</span></span>
-<span id="cb23-220"><a href="#cb23-220" aria-hidden="true" tabindex="-1"></a><span class="in">    select(item_deleted, raw_alpha, std.alpha, average_r)</span></span>
-<span id="cb23-221"><a href="#cb23-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-222"><a href="#cb23-222" aria-hidden="true" tabindex="-1"></a><span class="in">kable(alpha_deleted_tbl, digits = 3)</span></span>
-<span id="cb23-223"><a href="#cb23-223" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-224"><a href="#cb23-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-225"><a href="#cb23-225" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-226"><a href="#cb23-226" aria-hidden="true" tabindex="-1"></a><span class="fu">### Omega if item deleted</span></span>
-<span id="cb23-227"><a href="#cb23-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-228"><a href="#cb23-228" aria-hidden="true" tabindex="-1"></a><span class="in">`psych`</span> does not provide omega-if-item-deleted in one direct table, so we compute</span>
-<span id="cb23-229"><a href="#cb23-229" aria-hidden="true" tabindex="-1"></a>it in a loop.</span>
-<span id="cb23-230"><a href="#cb23-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-231"><a href="#cb23-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r omega-if-deleted}</span></span>
-<span id="cb23-232"><a href="#cb23-232" aria-hidden="true" tabindex="-1"></a><span class="in">omega_full &lt;- psych::omega(A_keyed, nfactors = 1, plot = FALSE)$omega.tot</span></span>
-<span id="cb23-233"><a href="#cb23-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-234"><a href="#cb23-234" aria-hidden="true" tabindex="-1"></a><span class="in">omega_deleted_tbl &lt;- map_dfr(names(A_keyed), function(it) {</span></span>
-<span id="cb23-235"><a href="#cb23-235" aria-hidden="true" tabindex="-1"></a><span class="in">    dat_drop &lt;- A_keyed %&gt;% select(-all_of(it))</span></span>
-<span id="cb23-236"><a href="#cb23-236" aria-hidden="true" tabindex="-1"></a><span class="in">    om_drop &lt;- psych::omega(dat_drop, nfactors = 1, plot = FALSE)$omega.tot</span></span>
-<span id="cb23-237"><a href="#cb23-237" aria-hidden="true" tabindex="-1"></a><span class="in">    tibble(item_deleted = it, omega_if_deleted = om_drop)</span></span>
-<span id="cb23-238"><a href="#cb23-238" aria-hidden="true" tabindex="-1"></a><span class="in">}) %&gt;%</span></span>
-<span id="cb23-239"><a href="#cb23-239" aria-hidden="true" tabindex="-1"></a><span class="in">    mutate(</span></span>
-<span id="cb23-240"><a href="#cb23-240" aria-hidden="true" tabindex="-1"></a><span class="in">        omega_full = omega_full,</span></span>
-<span id="cb23-241"><a href="#cb23-241" aria-hidden="true" tabindex="-1"></a><span class="in">        change = omega_if_deleted - omega_full</span></span>
-<span id="cb23-242"><a href="#cb23-242" aria-hidden="true" tabindex="-1"></a><span class="in">    )</span></span>
-<span id="cb23-243"><a href="#cb23-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-244"><a href="#cb23-244" aria-hidden="true" tabindex="-1"></a><span class="in">kable(omega_deleted_tbl, digits = 3)</span></span>
-<span id="cb23-245"><a href="#cb23-245" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-246"><a href="#cb23-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-247"><a href="#cb23-247" aria-hidden="true" tabindex="-1"></a>Interpretation:</span>
-<span id="cb23-248"><a href="#cb23-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-249"><a href="#cb23-249" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`change &gt; 0`</span>: omega improved after deleting the item (possible concern).</span>
-<span id="cb23-250"><a href="#cb23-250" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`change &lt; 0`</span>: omega dropped after deleting the item (item contributes to</span>
-<span id="cb23-251"><a href="#cb23-251" aria-hidden="true" tabindex="-1"></a>        consistency).</span>
-<span id="cb23-252"><a href="#cb23-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-253"><a href="#cb23-253" aria-hidden="true" tabindex="-1"></a><span class="fu">### Inter-item Correlations</span></span>
-<span id="cb23-254"><a href="#cb23-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-255"><a href="#cb23-255" aria-hidden="true" tabindex="-1"></a>Inter-item correlations show how strongly items relate to each other.</span>
-<span id="cb23-256"><a href="#cb23-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-257"><a href="#cb23-257" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Very low correlations may suggest an item is off-construct.</span>
-<span id="cb23-258"><a href="#cb23-258" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Very high correlations may suggest redundancy.</span>
-<span id="cb23-259"><a href="#cb23-259" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-260"><a href="#cb23-260" aria-hidden="true" tabindex="-1"></a><span class="in">```{r interitem-correlation-table}</span></span>
-<span id="cb23-261"><a href="#cb23-261" aria-hidden="true" tabindex="-1"></a><span class="in">R_items &lt;- cor(A_keyed)</span></span>
-<span id="cb23-262"><a href="#cb23-262" aria-hidden="true" tabindex="-1"></a><span class="in">round(R_items, 2)</span></span>
-<span id="cb23-263"><a href="#cb23-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-264"><a href="#cb23-264" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-265"><a href="#cb23-265" aria-hidden="true" tabindex="-1"></a><span class="in">```{r interitem-correlation-plot, fig.width=7, fig.height=5}</span></span>
-<span id="cb23-266"><a href="#cb23-266" aria-hidden="true" tabindex="-1"></a><span class="in">corrplot(R_items, method = "number", type = "lower")</span></span>
-<span id="cb23-267"><a href="#cb23-267" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-268"><a href="#cb23-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-269"><a href="#cb23-269" aria-hidden="true" tabindex="-1"></a>Average inter-item correlation is also useful:</span>
-<span id="cb23-270"><a href="#cb23-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-271"><a href="#cb23-271" aria-hidden="true" tabindex="-1"></a><span class="in">```{r average-interitem}</span></span>
-<span id="cb23-272"><a href="#cb23-272" aria-hidden="true" tabindex="-1"></a><span class="in">mean_interitem &lt;- psych::alpha(A_keyed)$total$average_r</span></span>
-<span id="cb23-273"><a href="#cb23-273" aria-hidden="true" tabindex="-1"></a><span class="in">mean_interitem</span></span>
-<span id="cb23-274"><a href="#cb23-274" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb23-275"><a href="#cb23-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-276"><a href="#cb23-276" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-277"><a href="#cb23-277" aria-hidden="true" tabindex="-1"></a><span class="fu">## Factor Analysis</span></span>
-<span id="cb23-278"><a href="#cb23-278" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-279"><a href="#cb23-279" aria-hidden="true" tabindex="-1"></a>The purpose of factor analytic techniques is to help us understand the **number** and **nature** of the dimensions, or factors, underlying a set of variables. In factor analysis, the word 'factor' is usually used instead of the word 'construct', and we shall follow this convention from now on.</span>
-<span id="cb23-280"><a href="#cb23-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-281"><a href="#cb23-281" aria-hidden="true" tabindex="-1"></a>Factor analytic studies address questions such as:</span>
-<span id="cb23-282"><a href="#cb23-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-283"><a href="#cb23-283" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>How many factors are there?</span>
-<span id="cb23-284"><a href="#cb23-284" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What do these factors represent?</span>
-<span id="cb23-285"><a href="#cb23-285" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-286"><a href="#cb23-286" aria-hidden="true" tabindex="-1"></a>If researchers do not know the number of factors measured by the test or the structure of the test, they should use **EFA** to explore the underlying structure. On the other hand, if researchers hypothesize a particular number of factors that represent distinct aspects of a construct, based on theory or prior research, and write items to measure each factor, they may consider using **CFA** to confirm whether the data support their hypothesized structure.</span>
-<span id="cb23-287"><a href="#cb23-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-288"><a href="#cb23-288" aria-hidden="true" tabindex="-1"></a>::: note-box</span>
-<span id="cb23-289"><a href="#cb23-289" aria-hidden="true" tabindex="-1"></a>Factor analytic methods answer the question, "Why are these variables correlated in the way we observe?" In factor analysis, the answer to this question is that the variables are correlated through a common cause: the factor(s).</span>
-<span id="cb23-290"><a href="#cb23-290" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb23-291"><a href="#cb23-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-292"><a href="#cb23-292" aria-hidden="true" tabindex="-1"></a><span class="fu">### Determine the number of factors</span></span>
-<span id="cb23-293"><a href="#cb23-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-294"><a href="#cb23-294" aria-hidden="true" tabindex="-1"></a>Determining the most interpretable number of factors from a factor analysis is perhaps one of the greatest challenges in factor analysis. There are many solutions to this problem, none of which is uniformly the best. Below are some examples:</span>
-<span id="cb23-295"><a href="#cb23-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-296"><a href="#cb23-296" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**The eigenvalue-greater-than-one rule**, also often referred to as the Kaiser criterion</span>
-<span id="cb23-297"><a href="#cb23-297" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-298"><a href="#cb23-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-299"><a href="#cb23-299" aria-hidden="true" tabindex="-1"></a>The Kaiser criterion is one of the oldest and simplest tests for determining the number of factors. One simply performs a factor analysis on the data, extracting as many factors as there are variables but without rotating the factors. The eigenvalues are calculated as usual by summing the squared loadings on each component. One then simply counts how many eigenvalues are greater than 1.0 - this is the number of factors to be used. When used in factor analysis, use of this criterion will typically result in overestimation of the number of factors. Although many statistical software programs report this information, it should never be used.</span>
-<span id="cb23-300"><a href="#cb23-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-301"><a href="#cb23-301" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-302"><a href="#cb23-302" aria-hidden="true" tabindex="-1"></a>::: note-box</span>
-<span id="cb23-303"><a href="#cb23-303" aria-hidden="true" tabindex="-1"></a>A problem with the scree test is that it does rely on subjective judgement and may sometimes have several possible interpretations, particularly when the sample size or the 'salient' factor loadings are small.</span>
-<span id="cb23-304"><a href="#cb23-304" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb23-305"><a href="#cb23-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-306"><a href="#cb23-306" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Parallel Analysis**</span>
-<span id="cb23-307"><a href="#cb23-307" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Based on the eigenvalues</span>
-<span id="cb23-308"><a href="#cb23-308" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Instead of comparing eigenvalues to one, PA compares eigenvalues to the average eigenvalue obtained from sets of randomly generated data</span>
-<span id="cb23-309"><a href="#cb23-309" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The largest number of factors with actual data eigenvalue greater than simulated data eigenvalue is the number of factors</span>
-<span id="cb23-310"><a href="#cb23-310" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-311"><a href="#cb23-311" aria-hidden="true" tabindex="-1"></a><span class="al">![](pic/PA.JPG)</span></span>
-<span id="cb23-312"><a href="#cb23-312" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-313"><a href="#cb23-313" aria-hidden="true" tabindex="-1"></a>::: note-box</span>
-<span id="cb23-314"><a href="#cb23-314" aria-hidden="true" tabindex="-1"></a>Simulation studies show that parallel analysis is the most accurate way of determining the correct number of factors to extract. The PA involves checking whether each of the eigenvalues that emerges from a factor analysis is larger than you would expect by chance. Suppose that you gather data on 10 variables and 100 people and factor analyze the results (but without rotating the factors). The factor analysis program will produce a list of eigenvalues, as many eigenvalues as there are variables. Now perform another factor analysis, but, rather than using the data that you have collected, just analyze random data (again using 10 variables, 100 people). You could literally just type in numbers at random into the computer program that you use for factor analysis. Then run the factor analysis again, based on this random data. You would expect the correlations between these random variables to be roughly zero – though some will be a little larger than zero, and some smaller than zero by chance. (The size of your sample will affect how close to zero they are; with a small sample, you might find that some correlations are as large as 0.3 or as small as -0.3; with a large sample, few if any will be above 0.1 or less than -0.1.) This approach, generating lots of sets of data and seeing what happens when you analyze them in a particular way, is known as a Monte Carlo analysis. If all the correlations are zero, no factors are present in the data. But some of the correlations will be greater or less than zero just because of chance sampling variations. The question is whether the eigenvalues from the data are larger than would be expected by chance - that is, from factor analyzing correlations between random numbers.</span>
-<span id="cb23-315"><a href="#cb23-315" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb23-316"><a href="#cb23-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-317"><a href="#cb23-317" aria-hidden="true" tabindex="-1"></a>To assess the number of factors for the data, we used parallel analysis with the <span class="in">`psych`</span> R package:</span>
-<span id="cb23-318"><a href="#cb23-318" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-321"><a href="#cb23-321" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb23-322"><a href="#cb23-322" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb23-323"><a href="#cb23-323" aria-hidden="true" tabindex="-1"></a><span class="co"># parallel analysis</span></span>
-<span id="cb23-324"><a href="#cb23-324" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">fa.parallel</span>(A_keyed, <span class="at">fa =</span> <span class="st">"fa"</span>)</span>
-<span id="cb23-325"><a href="#cb23-325" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb22" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Psychometric Analysis"</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>This session focuses on item analysis under Classical Test Theory (CTT) in survey.</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">## Classical Test Theory (CTT) and Reliability</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>In CTT, each person's observed score is decomposed into a true score and random</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>measurement error:</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>X = T + E</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>where $X$ is the observed score, $T$ is the true score, and $E$ is error.</span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>Standard CTT assumptions are:</span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a>\mathbb{E}(E)=0 \quad \text{and} \quad \operatorname{Cov}(T,E)=0</span>
+<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-24"><a href="#cb22-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-25"><a href="#cb22-25" aria-hidden="true" tabindex="-1"></a>So the observed-score variance can be written as:</span>
+<span id="cb22-26"><a href="#cb22-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-27"><a href="#cb22-27" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-28"><a href="#cb22-28" aria-hidden="true" tabindex="-1"></a>\operatorname{Var}(X)=\operatorname{Var}(T)+\operatorname{Var}(E)</span>
+<span id="cb22-29"><a href="#cb22-29" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-30"><a href="#cb22-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-31"><a href="#cb22-31" aria-hidden="true" tabindex="-1"></a>Reliability is the proportion of observed-score variance attributable to true</span>
+<span id="cb22-32"><a href="#cb22-32" aria-hidden="true" tabindex="-1"></a>score variance:</span>
+<span id="cb22-33"><a href="#cb22-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-34"><a href="#cb22-34" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-35"><a href="#cb22-35" aria-hidden="true" tabindex="-1"></a>\rho_{XX'} = \frac{\operatorname{Var}(T)}{\operatorname{Var}(X)}</span>
+<span id="cb22-36"><a href="#cb22-36" aria-hidden="true" tabindex="-1"></a>= 1 - \frac{\operatorname{Var}(E)}{\operatorname{Var}(X)}</span>
+<span id="cb22-37"><a href="#cb22-37" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-38"><a href="#cb22-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-39"><a href="#cb22-39" aria-hidden="true" tabindex="-1"></a>Reliability refers to the consistency of scores produced by a test.</span>
+<span id="cb22-40"><a href="#cb22-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-41"><a href="#cb22-41" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Inconsistency means different scores may be observed for an individual with an unchanged true score when the test was administered more than once.</span>
+<span id="cb22-42"><a href="#cb22-42" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Scores could be inconsistent in varied ways:</span>
+<span id="cb22-43"><a href="#cb22-43" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>consistency of scores over time</span>
+<span id="cb22-44"><a href="#cb22-44" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>consistency of scores over multiple test forms</span>
+<span id="cb22-45"><a href="#cb22-45" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>consistency of scores across test items</span>
+<span id="cb22-46"><a href="#cb22-46" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>consistency of scores across raters</span>
+<span id="cb22-47"><a href="#cb22-47" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Reliability should be assessed accordingly.</span>
+<span id="cb22-48"><a href="#cb22-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-49"><a href="#cb22-49" aria-hidden="true" tabindex="-1"></a><span class="fu">### Split-Half Reliability</span></span>
+<span id="cb22-50"><a href="#cb22-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-51"><a href="#cb22-51" aria-hidden="true" tabindex="-1"></a>An early approach to estimating the reliability of a test was to split the test into two halves and correlate the resulting two scores.</span>
+<span id="cb22-52"><a href="#cb22-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-53"><a href="#cb22-53" aria-hidden="true" tabindex="-1"></a>::: {.note-box .note}</span>
+<span id="cb22-54"><a href="#cb22-54" aria-hidden="true" tabindex="-1"></a>This approach mimics that of correlating scores on two parallel forms of a test, or on two scores from the same test obtained at different times, but it can be used in situations where neither scores from two test forms nor scores from two test administrations are available.</span>
+<span id="cb22-55"><a href="#cb22-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-56"><a href="#cb22-56" aria-hidden="true" tabindex="-1"></a>One acceptable way to split a test is to randomly assign items to one or the other half of the test. Another acceptable way to split a test is to assign odd-numbered items to one half of the test and even-numbered items to the other half.</span>
+<span id="cb22-57"><a href="#cb22-57" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-58"><a href="#cb22-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-59"><a href="#cb22-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-60"><a href="#cb22-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-61"><a href="#cb22-61" aria-hidden="true" tabindex="-1"></a>**How to Calculate Split-Half Reliability**</span>
+<span id="cb22-62"><a href="#cb22-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-63"><a href="#cb22-63" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>administer the test to a single sample of individuals</span>
+<span id="cb22-64"><a href="#cb22-64" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The entire set of items is then divided into two equally sized halves, with the intent that the halves are equivalent in terms of item difficulty, item content, and location in the instrument itself (i.e., near the front, in the middle, or near the end)</span>
+<span id="cb22-65"><a href="#cb22-65" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The two halves are then scored individually</span>
+<span id="cb22-66"><a href="#cb22-66" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>The correlation between the halves is thus an estimate of the reliability of these **shortened** parallel forms of the measure</span>
+<span id="cb22-67"><a href="#cb22-67" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>adjust the correlation between the halves in order to reflect the reliability of the full instrument with the current sample. This can be done via the Spearman-Brown prophecy formula $$\rho_{\text{full test}}=\frac{2\rho_{\text{shortened test}}}{1+\rho_{\text{shortened test}}}$$</span>
+<span id="cb22-68"><a href="#cb22-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-69"><a href="#cb22-69" aria-hidden="true" tabindex="-1"></a><span class="fu">### Cronbach’s $\alpha$</span></span>
+<span id="cb22-70"><a href="#cb22-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-71"><a href="#cb22-71" aria-hidden="true" tabindex="-1"></a>Cronbach’s $\alpha$ is probably the most popular internal consistency index, reflecting the degree to which a set of items is interrelated.</span>
+<span id="cb22-72"><a href="#cb22-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-73"><a href="#cb22-73" aria-hidden="true" tabindex="-1"></a>The (raw or unstandardized) $\alpha$ coefficient can be calculated by:</span>
+<span id="cb22-74"><a href="#cb22-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-75"><a href="#cb22-75" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-76"><a href="#cb22-76" aria-hidden="true" tabindex="-1"></a>\hat{\alpha}=\frac{J}{J-1}\big<span class="co">[</span><span class="ot">1-\frac{\sum_{j=1}^J\hat{\sigma}_{j}^2}{\hat{\sigma}^2}\big</span><span class="co">]</span>=J^2\frac{\bar{\sigma}_{jj'}}{\hat{\sigma}^2}</span>
+<span id="cb22-77"><a href="#cb22-77" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb22-78"><a href="#cb22-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-79"><a href="#cb22-79" aria-hidden="true" tabindex="-1"></a>where $J$ is the test length, $\hat{\sigma}_{k}^2$ the variance of scores on item $j$, and $\hat{\sigma}^2$ the variance of the test scores and $\bar{\sigma}_{jj'}$ the average covariance of all items.</span>
+<span id="cb22-80"><a href="#cb22-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-81"><a href="#cb22-81" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Cronbach’s $\alpha$ may be thought of as the mean of all possible split-half correlations, corrected by the Spearman-Brown formula (As a result, split-half should not be used).</span>
+<span id="cb22-82"><a href="#cb22-82" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>unstandardized $\alpha$ should be used when raw item responses are used and standardized $\alpha$ should be used when standardized item scores are used (Falk, 2011)</span>
+<span id="cb22-83"><a href="#cb22-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-84"><a href="#cb22-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-85"><a href="#cb22-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-86"><a href="#cb22-86" aria-hidden="true" tabindex="-1"></a><span class="fu">### McDonald’s $\omega$</span></span>
+<span id="cb22-87"><a href="#cb22-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-88"><a href="#cb22-88" aria-hidden="true" tabindex="-1"></a>McDonald’s $\omega$ is another measure for internal consistency, reflecting the degree to which a set of items is interrelated.</span>
+<span id="cb22-89"><a href="#cb22-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-90"><a href="#cb22-90" aria-hidden="true" tabindex="-1"></a>Conceptually, McDonald’s $\omega$ is calculated as</span>
+<span id="cb22-91"><a href="#cb22-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-92"><a href="#cb22-92" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-93"><a href="#cb22-93" aria-hidden="true" tabindex="-1"></a>\omega=\frac{\text{Signal}}{\text{Signal}+\text{Noise}}.</span>
+<span id="cb22-94"><a href="#cb22-94" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb22-95"><a href="#cb22-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-96"><a href="#cb22-96" aria-hidden="true" tabindex="-1"></a>Computationally, McDonald’s $\omega$ is often calculated based on confirmatory factor analysis.</span>
+<span id="cb22-97"><a href="#cb22-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-98"><a href="#cb22-98" aria-hidden="true" tabindex="-1"></a>::: {.note-box .note}</span>
+<span id="cb22-99"><a href="#cb22-99" aria-hidden="true" tabindex="-1"></a>**Recommended Values for internal consistency**</span>
+<span id="cb22-100"><a href="#cb22-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-101"><a href="#cb22-101" aria-hidden="true" tabindex="-1"></a>Raykov (2011) recommend values of at least .80</span>
+<span id="cb22-102"><a href="#cb22-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-103"><a href="#cb22-103" aria-hidden="true" tabindex="-1"></a>Nunnally (1978) recommend values of .70 for scales in the initial stages of development; .80 for “basic research scales,” and .90 as minimum for use in clinical settings</span>
+<span id="cb22-104"><a href="#cb22-104" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-105"><a href="#cb22-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-106"><a href="#cb22-106" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reliability in R</span></span>
+<span id="cb22-107"><a href="#cb22-107" aria-hidden="true" tabindex="-1"></a>We will use the <span class="in">`bfi`</span> dataset from the psych package, which contains item</span>
+<span id="cb22-108"><a href="#cb22-108" aria-hidden="true" tabindex="-1"></a>responses to Big Five personality items on a 1-6 Likert scale to show how to compute reliability in R. The dataset has 25 items, with 5 items for each of the Big Five traits: Extraversion (E), Agreeableness (A), Conscientiousness (C), Neuroticism (N), and Openness (O). To keep the example focused, we will analyze the 5 Agreeableness items (<span class="in">`A1`</span> to</span>
+<span id="cb22-109"><a href="#cb22-109" aria-hidden="true" tabindex="-1"></a><span class="in">`A5`</span>). In practice, you would replace this with your own survey items.</span>
+<span id="cb22-110"><a href="#cb22-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-111"><a href="#cb22-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-112"><a href="#cb22-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-113"><a href="#cb22-113" aria-hidden="true" tabindex="-1"></a><span class="in">```{r load-packages, message=FALSE}</span></span>
+<span id="cb22-114"><a href="#cb22-114" aria-hidden="true" tabindex="-1"></a><span class="in"># Run this ONCE if needed:</span></span>
+<span id="cb22-115"><a href="#cb22-115" aria-hidden="true" tabindex="-1"></a><span class="in"># install.packages(c("psych", "CTT", "tidyverse", "corrplot", "knitr"))</span></span>
+<span id="cb22-116"><a href="#cb22-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-117"><a href="#cb22-117" aria-hidden="true" tabindex="-1"></a><span class="in">library(psych)</span></span>
+<span id="cb22-118"><a href="#cb22-118" aria-hidden="true" tabindex="-1"></a><span class="in">library(CTT)</span></span>
+<span id="cb22-119"><a href="#cb22-119" aria-hidden="true" tabindex="-1"></a><span class="in">library(tidyverse)</span></span>
+<span id="cb22-120"><a href="#cb22-120" aria-hidden="true" tabindex="-1"></a><span class="in">library(corrplot)</span></span>
+<span id="cb22-121"><a href="#cb22-121" aria-hidden="true" tabindex="-1"></a><span class="in">library(knitr)</span></span>
+<span id="cb22-122"><a href="#cb22-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-123"><a href="#cb22-123" aria-hidden="true" tabindex="-1"></a><span class="in"># Load built-in dataset</span></span>
+<span id="cb22-124"><a href="#cb22-124" aria-hidden="true" tabindex="-1"></a><span class="in">data("bfi", package = "psych")</span></span>
+<span id="cb22-125"><a href="#cb22-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-126"><a href="#cb22-126" aria-hidden="true" tabindex="-1"></a><span class="in"># Select Agreeableness items</span></span>
+<span id="cb22-127"><a href="#cb22-127" aria-hidden="true" tabindex="-1"></a><span class="in">A_items &lt;- bfi %&gt;%</span></span>
+<span id="cb22-128"><a href="#cb22-128" aria-hidden="true" tabindex="-1"></a><span class="in">    select(A1:A5)</span></span>
+<span id="cb22-129"><a href="#cb22-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-130"><a href="#cb22-130" aria-hidden="true" tabindex="-1"></a><span class="in"># Keep complete cases for simpler demonstration</span></span>
+<span id="cb22-131"><a href="#cb22-131" aria-hidden="true" tabindex="-1"></a><span class="in">A_complete &lt;- A_items %&gt;%</span></span>
+<span id="cb22-132"><a href="#cb22-132" aria-hidden="true" tabindex="-1"></a><span class="in">    drop_na()</span></span>
+<span id="cb22-133"><a href="#cb22-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-134"><a href="#cb22-134" aria-hidden="true" tabindex="-1"></a><span class="in">dim(A_complete)</span></span>
+<span id="cb22-135"><a href="#cb22-135" aria-hidden="true" tabindex="-1"></a><span class="in">head(A_complete)</span></span>
+<span id="cb22-136"><a href="#cb22-136" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-137"><a href="#cb22-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-138"><a href="#cb22-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-139"><a href="#cb22-139" aria-hidden="true" tabindex="-1"></a>For Likert scale items, make sure item direction is consistent before</span>
+<span id="cb22-140"><a href="#cb22-140" aria-hidden="true" tabindex="-1"></a>computing discrimination, reliability and total score. In this subscale, <span class="in">`A1`</span> is reverse-keyed.</span>
+<span id="cb22-141"><a href="#cb22-141" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-142"><a href="#cb22-142" aria-hidden="true" tabindex="-1"></a><span class="in">```{r score-items}</span></span>
+<span id="cb22-143"><a href="#cb22-143" aria-hidden="true" tabindex="-1"></a><span class="in"># Responses are on a 1-6 scale, so reverse-score with 7 - x</span></span>
+<span id="cb22-144"><a href="#cb22-144" aria-hidden="true" tabindex="-1"></a><span class="in">A_keyed &lt;- A_complete %&gt;%</span></span>
+<span id="cb22-145"><a href="#cb22-145" aria-hidden="true" tabindex="-1"></a><span class="in">    mutate(A1 = 7 - A1)</span></span>
+<span id="cb22-146"><a href="#cb22-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-147"><a href="#cb22-147" aria-hidden="true" tabindex="-1"></a><span class="in">head(A_keyed)</span></span>
+<span id="cb22-148"><a href="#cb22-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-149"><a href="#cb22-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-150"><a href="#cb22-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-151"><a href="#cb22-151" aria-hidden="true" tabindex="-1"></a>To calculate reliability, we can use the <span class="in">`psych`</span> package's <span class="in">`alpha()`</span> and <span class="in">`omega()`</span> functions.</span>
+<span id="cb22-152"><a href="#cb22-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-153"><a href="#cb22-153" aria-hidden="true" tabindex="-1"></a><span class="in">```{r reliability-alpha-omega}</span></span>
+<span id="cb22-154"><a href="#cb22-154" aria-hidden="true" tabindex="-1"></a><span class="in"># Alpha</span></span>
+<span id="cb22-155"><a href="#cb22-155" aria-hidden="true" tabindex="-1"></a><span class="in">alpha_fit &lt;- psych::alpha(A_keyed)</span></span>
+<span id="cb22-156"><a href="#cb22-156" aria-hidden="true" tabindex="-1"></a><span class="in">alpha_fit$total$raw_alpha</span></span>
+<span id="cb22-157"><a href="#cb22-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-158"><a href="#cb22-158" aria-hidden="true" tabindex="-1"></a><span class="in"># Omega (single-factor approximation for this 5-item example)</span></span>
+<span id="cb22-159"><a href="#cb22-159" aria-hidden="true" tabindex="-1"></a><span class="in">omega_fit &lt;- psych::omega(A_keyed, nfactors = 1)</span></span>
+<span id="cb22-160"><a href="#cb22-160" aria-hidden="true" tabindex="-1"></a><span class="in">omega_fit$omega.tot</span></span>
+<span id="cb22-161"><a href="#cb22-161" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-162"><a href="#cb22-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-163"><a href="#cb22-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-164"><a href="#cb22-164" aria-hidden="true" tabindex="-1"></a><span class="fu">## Item Analysis</span></span>
+<span id="cb22-165"><a href="#cb22-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-166"><a href="#cb22-166" aria-hidden="true" tabindex="-1"></a>Reliability analysis allows one to check if the test produces consistent scores but it does not provide any insights into the quality of individual items.</span>
+<span id="cb22-167"><a href="#cb22-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-168"><a href="#cb22-168" aria-hidden="true" tabindex="-1"></a>Item analysis lets us investigate the quality of these individual items, including in terms of how well they contribute to the whole and improve the validity of our measurement.</span>
+<span id="cb22-169"><a href="#cb22-169" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-170"><a href="#cb22-170" aria-hidden="true" tabindex="-1"></a><span class="fu">### Item Discrimination</span></span>
+<span id="cb22-171"><a href="#cb22-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-172"><a href="#cb22-172" aria-hidden="true" tabindex="-1"></a>In general, one would expect that respondents with a high level of knowledge or skill would be **more** likely to answer an achievement or aptitude item correctly than those with lower levels of knowledge, and vice versa.</span>
+<span id="cb22-173"><a href="#cb22-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-174"><a href="#cb22-174" aria-hidden="true" tabindex="-1"></a>Similarly, in noncognitive tests, respondents with a high level of construct would be more likely to agree or disagree a certain statement.</span>
+<span id="cb22-175"><a href="#cb22-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-176"><a href="#cb22-176" aria-hidden="true" tabindex="-1"></a>Item discrimination refers to how well an item differentiates between respondents with different levels of the underlying construct.</span>
+<span id="cb22-177"><a href="#cb22-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-178"><a href="#cb22-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-179"><a href="#cb22-179" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Item-total correlation**: correlation between an item and the total score</span>
+<span id="cb22-180"><a href="#cb22-180" aria-hidden="true" tabindex="-1"></a>        including that item.</span>
+<span id="cb22-181"><a href="#cb22-181" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Adjusted item-total correlation** (also called corrected item-total or</span>
+<span id="cb22-182"><a href="#cb22-182" aria-hidden="true" tabindex="-1"></a>        item-remainder): correlation between an item and total score excluding that</span>
+<span id="cb22-183"><a href="#cb22-183" aria-hidden="true" tabindex="-1"></a>        item.</span>
+<span id="cb22-184"><a href="#cb22-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-185"><a href="#cb22-185" aria-hidden="true" tabindex="-1"></a>The adjusted version is preferred because it avoids part-whole inflation. We can use the <span class="in">`psych`</span> package's <span class="in">`alpha()`</span> function to compute these statistics.</span>
+<span id="cb22-186"><a href="#cb22-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-187"><a href="#cb22-187" aria-hidden="true" tabindex="-1"></a><span class="in">```{r item-discrimination-manual}</span></span>
+<span id="cb22-188"><a href="#cb22-188" aria-hidden="true" tabindex="-1"></a><span class="in">alpha_fit &lt;- psych::alpha(A_keyed)</span></span>
+<span id="cb22-189"><a href="#cb22-189" aria-hidden="true" tabindex="-1"></a><span class="in">alpha_fit$item.stats</span></span>
+<span id="cb22-190"><a href="#cb22-190" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-191"><a href="#cb22-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-192"><a href="#cb22-192" aria-hidden="true" tabindex="-1"></a>Below are the interpretation of each column:</span>
+<span id="cb22-193"><a href="#cb22-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-194"><a href="#cb22-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>raw.r: The correlation of each item with the total score, not corrected for item overlap.</span>
+<span id="cb22-195"><a href="#cb22-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>std.r: The correlation of each item with the total score (not corrected for item overlap) if the items were all standardized</span>
+<span id="cb22-196"><a href="#cb22-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>r.cor: Item whole correlation corrected for item overlap and scale reliability</span>
+<span id="cb22-197"><a href="#cb22-197" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>r.drop: Item whole correlation for this item against the scale without this item</span>
+<span id="cb22-198"><a href="#cb22-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>mean: for data matrices, the mean of each item</span>
+<span id="cb22-199"><a href="#cb22-199" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>sd: For data matrices, the standard deviation of each item</span>
+<span id="cb22-200"><a href="#cb22-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-201"><a href="#cb22-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-202"><a href="#cb22-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-203"><a href="#cb22-203" aria-hidden="true" tabindex="-1"></a>In applied work, adjusted item-total correlations around .30 or higher are often</span>
+<span id="cb22-204"><a href="#cb22-204" aria-hidden="true" tabindex="-1"></a>considered minimally acceptable for early scale development, with higher values</span>
+<span id="cb22-205"><a href="#cb22-205" aria-hidden="true" tabindex="-1"></a>indicating stronger discrimination.</span>
+<span id="cb22-206"><a href="#cb22-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-207"><a href="#cb22-207" aria-hidden="true" tabindex="-1"></a><span class="fu">### Reliability Change If Item Deleted</span></span>
+<span id="cb22-208"><a href="#cb22-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-209"><a href="#cb22-209" aria-hidden="true" tabindex="-1"></a>This analysis asks whether the scale would become more or less reliable if an</span>
+<span id="cb22-210"><a href="#cb22-210" aria-hidden="true" tabindex="-1"></a>item were removed. If reliability increases after deleting an item, that item may be weakly aligned with the rest of the scale and could be a candidate for removal.</span>
+<span id="cb22-211"><a href="#cb22-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-212"><a href="#cb22-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-213"><a href="#cb22-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-214"><a href="#cb22-214" aria-hidden="true" tabindex="-1"></a><span class="in">```{r alpha-if-deleted}</span></span>
+<span id="cb22-215"><a href="#cb22-215" aria-hidden="true" tabindex="-1"></a><span class="in">psych::alpha(A_keyed)</span></span>
+<span id="cb22-216"><a href="#cb22-216" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-217"><a href="#cb22-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-218"><a href="#cb22-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-219"><a href="#cb22-219" aria-hidden="true" tabindex="-1"></a><span class="fu">### Inter-item Correlations</span></span>
+<span id="cb22-220"><a href="#cb22-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-221"><a href="#cb22-221" aria-hidden="true" tabindex="-1"></a>Inter-item correlations show how strongly items relate to each other.</span>
+<span id="cb22-222"><a href="#cb22-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-223"><a href="#cb22-223" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Very low correlations may suggest an item is off-construct.</span>
+<span id="cb22-224"><a href="#cb22-224" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Very high correlations may suggest redundancy.</span>
+<span id="cb22-225"><a href="#cb22-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-226"><a href="#cb22-226" aria-hidden="true" tabindex="-1"></a><span class="in">```{r interitem-correlation-table}</span></span>
+<span id="cb22-227"><a href="#cb22-227" aria-hidden="true" tabindex="-1"></a><span class="in">R_items &lt;- cor(A_keyed)</span></span>
+<span id="cb22-228"><a href="#cb22-228" aria-hidden="true" tabindex="-1"></a><span class="in">round(R_items, 2)</span></span>
+<span id="cb22-229"><a href="#cb22-229" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-230"><a href="#cb22-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-231"><a href="#cb22-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r interitem-correlation-plot, fig.width=7, fig.height=5}</span></span>
+<span id="cb22-232"><a href="#cb22-232" aria-hidden="true" tabindex="-1"></a><span class="in">corrplot(R_items, method = "number", type = "lower")</span></span>
+<span id="cb22-233"><a href="#cb22-233" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-234"><a href="#cb22-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-235"><a href="#cb22-235" aria-hidden="true" tabindex="-1"></a>Average inter-item correlation is also useful:</span>
+<span id="cb22-236"><a href="#cb22-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-237"><a href="#cb22-237" aria-hidden="true" tabindex="-1"></a><span class="in">```{r average-interitem}</span></span>
+<span id="cb22-238"><a href="#cb22-238" aria-hidden="true" tabindex="-1"></a><span class="in">mean_interitem &lt;- psych::alpha(A_keyed)$total$average_r</span></span>
+<span id="cb22-239"><a href="#cb22-239" aria-hidden="true" tabindex="-1"></a><span class="in">mean_interitem</span></span>
+<span id="cb22-240"><a href="#cb22-240" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-241"><a href="#cb22-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-242"><a href="#cb22-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-243"><a href="#cb22-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-244"><a href="#cb22-244" aria-hidden="true" tabindex="-1"></a><span class="fu">## Factor Analysis</span></span>
+<span id="cb22-245"><a href="#cb22-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-246"><a href="#cb22-246" aria-hidden="true" tabindex="-1"></a>The purpose of factor analytic techniques is to help us understand the **number** and **nature** of the dimensions, or factors, underlying a set of variables. In factor analysis, the word 'factor' is usually used instead of the word 'construct', and we shall follow this convention from now on.</span>
+<span id="cb22-247"><a href="#cb22-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-248"><a href="#cb22-248" aria-hidden="true" tabindex="-1"></a>Factor analytic studies address questions such as:</span>
+<span id="cb22-249"><a href="#cb22-249" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-250"><a href="#cb22-250" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>How many factors are there?</span>
+<span id="cb22-251"><a href="#cb22-251" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>What do these factors represent?</span>
+<span id="cb22-252"><a href="#cb22-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-253"><a href="#cb22-253" aria-hidden="true" tabindex="-1"></a>If researchers do not know the number of factors measured by the test or the structure of the test, they should use **EFA** to explore the underlying structure. On the other hand, if researchers hypothesize a particular number of factors that represent distinct aspects of a construct, based on theory or prior research, and write items to measure each factor, they may consider using **CFA** to confirm whether the data support their hypothesized structure.</span>
+<span id="cb22-254"><a href="#cb22-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-255"><a href="#cb22-255" aria-hidden="true" tabindex="-1"></a>::: note-box</span>
+<span id="cb22-256"><a href="#cb22-256" aria-hidden="true" tabindex="-1"></a>Factor analytic methods answer the question, "Why are these variables correlated in the way we observe?" In factor analysis, the answer to this question is that the variables are correlated through a common cause: the factor(s).</span>
+<span id="cb22-257"><a href="#cb22-257" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-258"><a href="#cb22-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-259"><a href="#cb22-259" aria-hidden="true" tabindex="-1"></a><span class="fu">### Determine the number of factors</span></span>
+<span id="cb22-260"><a href="#cb22-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-261"><a href="#cb22-261" aria-hidden="true" tabindex="-1"></a>Determining the most interpretable number of factors from a factor analysis is perhaps one of the greatest challenges in factor analysis. There are many solutions to this problem, none of which is uniformly the best. Below are some examples:</span>
+<span id="cb22-262"><a href="#cb22-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-263"><a href="#cb22-263" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**The eigenvalue-greater-than-one rule**, also often referred to as the Kaiser criterion</span>
+<span id="cb22-264"><a href="#cb22-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-265"><a href="#cb22-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-266"><a href="#cb22-266" aria-hidden="true" tabindex="-1"></a>The Kaiser criterion is one of the oldest and simplest tests for determining the number of factors. One simply performs a factor analysis on the data, extracting as many factors as there are variables but without rotating the factors. The eigenvalues are calculated as usual by summing the squared loadings on each component. One then simply counts how many eigenvalues are greater than 1.0 - this is the number of factors to be used. When used in factor analysis, use of this criterion will typically result in overestimation of the number of factors. Although many statistical software programs report this information, it should never be used.</span>
+<span id="cb22-267"><a href="#cb22-267" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-268"><a href="#cb22-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-269"><a href="#cb22-269" aria-hidden="true" tabindex="-1"></a>::: note-box</span>
+<span id="cb22-270"><a href="#cb22-270" aria-hidden="true" tabindex="-1"></a>A problem with the scree test is that it does rely on subjective judgement and may sometimes have several possible interpretations, particularly when the sample size or the 'salient' factor loadings are small.</span>
+<span id="cb22-271"><a href="#cb22-271" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-272"><a href="#cb22-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-273"><a href="#cb22-273" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Parallel Analysis**</span>
+<span id="cb22-274"><a href="#cb22-274" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Based on the eigenvalues</span>
+<span id="cb22-275"><a href="#cb22-275" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Instead of comparing eigenvalues to one, PA compares eigenvalues to the average eigenvalue obtained from sets of randomly generated data</span>
+<span id="cb22-276"><a href="#cb22-276" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>The largest number of factors with actual data eigenvalue greater than simulated data eigenvalue is the number of factors</span>
+<span id="cb22-277"><a href="#cb22-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-278"><a href="#cb22-278" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-279"><a href="#cb22-279" aria-hidden="true" tabindex="-1"></a>::: note-box</span>
+<span id="cb22-280"><a href="#cb22-280" aria-hidden="true" tabindex="-1"></a>Simulation studies show that parallel analysis is the most accurate way of determining the correct number of factors to extract. The PA involves checking whether each of the eigenvalues that emerges from a factor analysis is larger than you would expect by chance. Suppose that you gather data on 10 variables and 100 people and factor analyze the results (but without rotating the factors). The factor analysis program will produce a list of eigenvalues, as many eigenvalues as there are variables. Now perform another factor analysis, but, rather than using the data that you have collected, just analyze random data (again using 10 variables, 100 people). You could literally just type in numbers at random into the computer program that you use for factor analysis. Then run the factor analysis again, based on this random data. You would expect the correlations between these random variables to be roughly zero – though some will be a little larger than zero, and some smaller than zero by chance. (The size of your sample will affect how close to zero they are; with a small sample, you might find that some correlations are as large as 0.3 or as small as -0.3; with a large sample, few if any will be above 0.1 or less than -0.1.) This approach, generating lots of sets of data and seeing what happens when you analyze them in a particular way, is known as a Monte Carlo analysis. If all the correlations are zero, no factors are present in the data. But some of the correlations will be greater or less than zero just because of chance sampling variations. The question is whether the eigenvalues from the data are larger than would be expected by chance - that is, from factor analyzing correlations between random numbers.</span>
+<span id="cb22-281"><a href="#cb22-281" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb22-282"><a href="#cb22-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-283"><a href="#cb22-283" aria-hidden="true" tabindex="-1"></a>To assess the number of factors for the data, we used parallel analysis with the <span class="in">`psych`</span> R package:</span>
+<span id="cb22-284"><a href="#cb22-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-287"><a href="#cb22-287" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb22-288"><a href="#cb22-288" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb22-289"><a href="#cb22-289" aria-hidden="true" tabindex="-1"></a><span class="co"># parallel analysis</span></span>
+<span id="cb22-290"><a href="#cb22-290" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">fa.parallel</span>(A_keyed, <span class="at">fa =</span> <span class="st">"fa"</span>)</span>
+<span id="cb22-291"><a href="#cb22-291" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb22-292"><a href="#cb22-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-293"><a href="#cb22-293" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise</span></span>
+<span id="cb22-294"><a href="#cb22-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-295"><a href="#cb22-295" aria-hidden="true" tabindex="-1"></a>::: callout-tip</span>
+<span id="cb22-296"><a href="#cb22-296" aria-hidden="true" tabindex="-1"></a><span class="fu">## </span></span>
+<span id="cb22-297"><a href="#cb22-297" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-298"><a href="#cb22-298" aria-hidden="true" tabindex="-1"></a>Please download the <span class="co">[</span><span class="ot">course survey data</span><span class="co">](https://wenchao-ma.github.io/Data/)</span> for the following anlaysis.</span>
+<span id="cb22-299"><a href="#cb22-299" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-300"><a href="#cb22-300" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-301"><a href="#cb22-301" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>calculate coefficient alpha and omega.</span>
+<span id="cb22-302"><a href="#cb22-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-303"><a href="#cb22-303" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>calculate item discrimination and alpha-if-item-deleted. Interpret the results.</span>
+<span id="cb22-304"><a href="#cb22-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-305"><a href="#cb22-305" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>calculate inter-item correlation and draw the correlation plot. Interpret the results.</span>
+<span id="cb22-306"><a href="#cb22-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-307"><a href="#cb22-307" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-308"><a href="#cb22-308" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
