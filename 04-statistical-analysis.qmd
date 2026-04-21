@@ -2,16 +2,52 @@
 title: "Statistical Analysis"
 ---
 
-This handout uses the [2001 Learning and Technology Survey](http://edmeasurement.net/5244/2001-survey.html) for illustration. The survey collected information on students' technology comfort, online learning experiences, and demographics.
+## Research questions and analysis methods
+
+How many variables are included in each question?
+
+Identify the independent & dependent variables of interest in each question (if applicable)
+
+![](images/clipboard-1122645313.png)
+
+Univariate Analysis: Statistics calculated on one variable
+
+-   Question 1: Focus on a single variable (obesity)
+
+-   Question 3: Focus on a single variable (attitudes) at multiple time points
+
+Bivariate Analysis: Analyses involving two variables
+
+-   Question 2: Education and party affiliation
+
+-   Question 4: Wealth grouped by subpopulations compared between gender groups
+
+-   Question 5: Retention rates compared across school types Graduation compared across school types
+
+## Statistical Methods Decision Table
+
+Use this quick guide to choose an analysis method based on your research question and variable types.
+
+| Analysis family | Outcome variable scale | Predictor/grouping variable scale | Typical use case | Common methods |
+|:---|:---|:---|:---|:---|
+| Univariate analysis | Nominal, ordinal, or continuous (single variable) | None (no predictor) | Describe one variable or compare a single-sample estimate to a reference value | Nominal: counts, percentages, mode; Ordinal: median, IQR, category proportions; Continuous: mean, SD, CI; Inference: one-sample *t*-test (continuous) |
+| Mean comparison | Continuous (or approximately continuous) | One or more categorical grouping variables | Compare group means across two or more groups and/or factors | Independent/paired *t*-test, One-way ANOVA, Two-way ANOVA, Repeated-measures ANOVA |
+| Correlational analysis | Continuous, ordinal, or categorical | Continuous, ordinal, or categorical | Assess whether variables are associated (strength/pattern) rather than testing mean differences | Pearson's correlation, Spearman rank correlation, Chi-square test of independence |
+| Regression analysis | Continuous (linear) or categorical binary (logistic) | One or more predictors: continuous, categorical, or ordinal | Predict an outcome and estimate adjusted effects of multiple predictors | Simple linear regression, Multiple linear regression, Logistic regression |
+
+::: {.note-box .note}
+Rule of thumb: choose methods based on outcome type first (continuous, categorical, ordinal), then study design (independent groups vs repeated measures), and finally distribution assumptions (parametric vs non-parametric).
+:::
+
+
+## An Illustration
+
+This handout addresses four research questions that progress from simple description to multivariate prediction. We uses the [2001 Learning and Technology Survey](http://edmeasurement.net/5244/2001-survey.html) for illustration. The survey collected information on students' technology comfort, online learning experiences, and demographics.
 
 Data source:
 
 -   Survey instrument: http://edmeasurement.net/5244/2001-survey.html
 -   SPSS data: https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2001/2001-data.sav
-
-## Research Questions
-
-This handout addresses four research questions that progress from simple description to multivariate prediction:
 
 | \# | Research Question | Analysis Method |
 |:------------------|:--------------------------|:-------------------------|
@@ -419,8 +455,7 @@ In Jamovi, Analyses -\> Regression -\> Logistic Regression
 
 Select the following options to create table and plot
 
-![](images/clipboard-1013060150.png)
-![](images/clipboard-527665642.png)
+![](images/clipboard-1013060150.png) ![](images/clipboard-527665642.png)
 :::
 
 ::: {.note-box .note}
@@ -445,7 +480,7 @@ A binary logistic regression was conducted to identify predictors of willingness
 ## Summary: What to Report
 
 | RQ | Method | Key statistics to report |
-|:-----------------|:-----------------|:-----------------------------------|
+|:------------------|:------------------|:-----------------------------------|
 | RQ1 | Frequency table + bar chart | *N*, % per category, combined satisfied/dissatisfied % |
 | RQ2 | Chi-square + Cramer's *V* | $\chi^2$, df, *p*, Cramer's *V*, effect size interpretation |
 | RQ3 | Likert response profile | Mean and SD per item; % in each response category |

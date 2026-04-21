@@ -1,0 +1,399 @@
+---
+title: "Assignment: Housing Data Analysis"
+execute:
+  echo: false
+  output: false
+  warning: false
+  message: false
+---
+
+This assignment uses the Housing dataset from:
+
+- https://wenchao-ma.github.io/Data/
+- Direct data link: https://raw.githubusercontent.com/Wenchao-Ma/Data/main/housing/housing.sav
+
+## Assignment Questions
+
+1. Psychometric analysis based on items `Q139aW1`-`Q139dW1`:
+   - Calculate scale reliability.
+   - Calculate adjusted item-total correlations.
+   - Note: the first two items are negatively worded and may need reverse coding.
+   - What does the response profile look like across `Q139aW1`-`Q139dW1` after reverse-coding the first two items?
+   - interpret your findings.
+
+2. Analyze the association between:
+   - `Q134W1`: Which Would You Prefer, to Fix Up Your Public Housing Community or to Relocate
+   - `Houstype`: Indicator for Living in Family Projects versus Senior Housing Project
+   - report the chi-square test result and Cramer's V. Also interpret the results.
+
+3. Descriptive analysis:
+  - What proportion of residents believe their public housing community is physically run-down beyond repair (`Q132W1`)?
+
+5. Logistic regression:
+  - Which factors predict preference for relocation (vs. fixing up current housing), using `Houstype`, `Q137W1`, and `Age` as predictors?
+
+6. Optional question:
+  - Assess the missing-data pattern.
+  - Perform multiple imputation before analysis.
+  - Compare results with the analyses without multiple imputation.
+
+
+```{r install-packages, eval=FALSE}
+# Run once if needed
+# install.packages(c("haven", "dplyr", "tidyr", "ggplot2", "psych", "knitr", "mice"))
+```
+
+```{r load-packages, message=FALSE}
+library(haven)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(psych)
+library(knitr)
+library(mice)
+```
+
+## Import Data
+
+```{r import-data, echo=TRUE}
+df <- haven::read_sav(
+  "https://raw.githubusercontent.com/Wenchao-Ma/Data/main/housing/housing.sav",
+  user_na = FALSE
+)
+
+dim(df)
+names(df)
+```
+
+## Q1: Psychometric Analysis for `Q139aW1`-`Q139dW1`
+
+The response coding for these items is 1-5. We keep valid responses only and reverse-code `Q139aW1` and `Q139bW1` so that higher values point in the same direction across all items.
+
+```{r q1-prepare-items}
+items_raw <- df %>%
+  select(Q139aW1, Q139bW1, Q139cW1, Q139dW1) %>%
+  mutate(across(everything(), as.numeric)) %>%
+  filter(if_all(everything(), ~ .x %in% 1:5))
+
+items_keyed <- items_raw %>%
+  mutate(
+    Q139aW1 = 6 - Q139aW1,
+    Q139bW1 = 6 - Q139bW1
+  )
+
+summary(items_keyed)
+```
+
+### Reliability
+
+```{r q1-reliability}
+alpha_fit <- psych::alpha(items_keyed)
+
+alpha_fit$total$raw_alpha
+```
+
+### Item-Total Correlation
+
+`raw.r` is the item-total correlation (uncorrected).
+`r.drop` is the corrected item-total correlation (item-rest correlation).
+
+```{r q1-item-total}
+item_total <- alpha_fit$item.stats %>%
+  select(raw.r, r.drop, mean, sd)
+
+knitr::kable(round(item_total, 3), caption = "Item statistics for Q139aW1-Q139dW1")
+```
+
+### Response Profile (After Reverse Coding)
+
+```{r q1-response-profile}
+q1_profile <- items_keyed %>%
+  pivot_longer(
+    cols = everything(),
+    names_to = "item",
+    values_to = "response"
+  ) %>%
+  group_by(item) %>%
+  summarise(
+    agree_pct = 100 * mean(response %in% c(4, 5)),
+    .groups = "drop"
+  )
+
+top_item <- q1_profile$item[which.max(q1_profile$agree_pct)]
+top_item_agree <- max(q1_profile$agree_pct)
+
+q1_profile
+```
+
+::: {.note-box .exercise}
+### Answer (from this dataset)
+
+- Number of complete cases used in psychometric analysis: `r nrow(items_keyed)`
+- Cronbach's alpha: `r round(alpha_fit$total$raw_alpha, 3)`
+- Corrected item-total correlations (`r.drop`) range from `r round(min(alpha_fit$item.stats$r.drop), 3)` to `r round(max(alpha_fit$item.stats$r.drop), 3)`.
+- Lowest corrected item-total correlation (`r.drop`):
+  `r rownames(alpha_fit$item.stats)[which.min(alpha_fit$item.stats$r.drop)]`
+  (`r round(min(alpha_fit$item.stats$r.drop), 3)`)
+- Response profile result: the highest combined Agree/Strongly Agree percentage is for `r top_item` (`r round(top_item_agree, 1)`%).
+- Interpretation: alpha is in the moderate range. For a short 4-item scale, this suggests acceptable internal consistency for exploratory classroom analysis, but there is room to improve the scale. The response profile indicates differences in endorsement strength across items even after reverse coding.
+:::
+
+## Q2: Association Between `Q134W1` and `Houstype`
+
+In this dataset, the housing type variable is named `Houstype`.
+
+```{r q2-prepare}
+assoc_df <- df %>%
+  transmute(
+    pref = as.numeric(Q134W1),
+    housetype = as.numeric(Houstype)
+  ) %>%
+  filter(pref %in% c(1, 2), housetype %in% c(0, 1)) %>%
+  mutate(
+    pref = factor(pref, levels = c(1, 2), labels = c("Fix Up", "Relocate")),
+    housetype = factor(housetype, levels = c(0, 1), labels = c("Senior Housing", "Family Housing"))
+  )
+
+head(assoc_df)
+```
+
+### Crosstab
+
+```{r q2-crosstab}
+tab <- table(assoc_df$housetype, assoc_df$pref)
+tab
+prop.table(tab, margin = 1)
+```
+
+### Chi-Square Test and Cramer's V
+
+```{r q2-chi-square}
+chi_fit <- chisq.test(tab, correct = FALSE)
+chi_fit
+
+# Cramer's V
+n <- sum(tab)
+r <- nrow(tab)
+c <- ncol(tab)
+cramers_v <- sqrt(as.numeric(chi_fit$statistic) / (n * min(r - 1, c - 1)))
+cramers_v
+```
+
+::: {.note-box .exercise}
+### Answer (from this dataset)
+
+- Chi-square test: $\chi^2(1) = `r round(as.numeric(chi_fit$statistic), 2)`$, $p = `r format.pval(chi_fit$p.value, digits = 4)`$
+- Cramer's $V$: `r round(cramers_v, 3)`
+- Row percentages:
+  - Senior Housing preferring Relocate: `r round(100 * prop.table(tab, 1)["Senior Housing", "Relocate"], 1)`%
+  - Family Housing preferring Relocate: `r round(100 * prop.table(tab, 1)["Family Housing", "Relocate"], 1)`%
+- Interpretation: housing type is significantly associated with relocation preference. Family Housing residents are more likely to prefer relocation, while Senior Housing residents are more likely to prefer fixing up current housing.
+:::
+
+## Q3: Descriptive Analysis
+
+**Question:** What proportion of residents believe their public housing community is physically run-down beyond repair (`Q132W1`)?
+
+```{r q3-descriptive-data}
+q3_df <- df %>%
+  transmute(rundown = as.numeric(Q132W1)) %>%
+  filter(rundown %in% c(0, 1)) %>%
+  mutate(
+    rundown = factor(rundown, levels = c(0, 1), labels = c("No", "Yes"))
+  )
+
+q3_counts <- table(q3_df$rundown)
+q3_props <- prop.table(q3_counts)
+
+data.frame(
+  response = names(q3_counts),
+  count = as.integer(q3_counts),
+  percent = round(100 * as.numeric(q3_props), 1)
+)
+```
+
+```{r q3-descriptive-plot, fig.width=7, fig.height=4}
+q3_plot_df <- as.data.frame(q3_counts)
+names(q3_plot_df) <- c("rundown", "count")
+
+ggplot(q3_plot_df, aes(x = rundown, y = count, fill = rundown)) +
+  geom_col(show.legend = FALSE) +
+  labs(
+    title = "Perceived Physical Condition of Public Housing Community",
+    x = "Run-down beyond repair",
+    y = "Number of respondents"
+  ) +
+  theme_bw()
+```
+
+::: {.note-box .exercise}
+### Answer (from this dataset)
+
+- Proportion selecting "Yes": `r round(100 * q3_props["Yes"], 1)`%
+- Interpretation: this percentage indicates how common the perception of severe physical deterioration is among respondents in this sample.
+:::
+
+## Q5: Logistic Regression
+
+**Question:** Which factors predict preference for relocation (vs. fixing up current housing)?
+
+Outcome:
+
+- `Q134W1` recoded as 1 = Relocate, 0 = Fix Up
+
+Predictors:
+
+- `Houstype` (0 = Senior Housing, 1 = Family Housing)
+- `Q137W1` (confidence about post-relocation housing quality; higher values = less confidence)
+- `Age`
+
+```{r q5-logit-fit}
+logit_df <- df %>%
+  transmute(
+    relocate = ifelse(as.numeric(Q134W1) == 2, 1,
+                      ifelse(as.numeric(Q134W1) == 1, 0, NA)),
+    housetype = as.numeric(Houstype),
+    confidence = as.numeric(Q137W1),
+    age = as.numeric(Age)
+  ) %>%
+  filter(
+    !is.na(relocate),
+    housetype %in% c(0, 1),
+    confidence %in% 1:4,
+    !is.na(age)
+  )
+
+logit_fit <- glm(
+  relocate ~ housetype + confidence + age,
+  data = logit_df,
+  family = binomial(link = "logit")
+)
+
+summary(logit_fit)
+```
+
+```{r q5-logit-or-table}
+or_table <- data.frame(
+  term = names(coef(logit_fit)),
+  OR = exp(coef(logit_fit)),
+  conf.low = exp(confint(logit_fit)[, 1]),
+  conf.high = exp(confint(logit_fit)[, 2]),
+  p.value = summary(logit_fit)$coefficients[, 4],
+  row.names = NULL
+)
+
+or_table_display <- or_table %>%
+  mutate(across(where(is.numeric), ~ round(.x, 3)))
+
+knitr::kable(or_table_display, caption = "Odds ratios for relocation preference")
+```
+
+::: {.note-box .exercise}
+### Answer (from this dataset)
+
+- Significant predictors at $\alpha=.05$ are those with `p.value < .05` in the odds-ratio table.
+- Interpretations:
+  - `Houstype` OR $> 1$ indicates Family Housing residents have higher odds of preferring relocation than Senior Housing residents.
+  - `confidence` OR $> 1$ indicates that lower confidence in post-relocation housing quality is associated with higher odds of preferring relocation.
+  - `age` OR indicates how odds of preferring relocation change per one-year increase in age.
+:::
+
+## Q6 (Optional): Missing Pattern and Multiple Imputation
+
+**Question:** Assess the missing-data pattern and perform multiple imputation (MI) before analysis. Compare MI-based results with complete-case results.
+
+```{r q6-missing-summary}
+mi_vars <- df %>%
+  transmute(
+    Q134W1 = as.numeric(Q134W1),
+    Houstype = as.numeric(Houstype),
+    Q132W1 = as.numeric(Q132W1),
+    Q137W1 = as.numeric(Q137W1),
+    Q139aW1 = as.numeric(Q139aW1),
+    Q139bW1 = as.numeric(Q139bW1),
+    Q139cW1 = as.numeric(Q139cW1),
+    Q139dW1 = as.numeric(Q139dW1),
+    Age = as.numeric(Age)
+  )
+
+miss_pct <- sapply(mi_vars, function(x) mean(is.na(x)) * 100)
+overall_any_missing_pct <- mean(!complete.cases(mi_vars)) * 100
+max_miss_var <- names(which.max(miss_pct))
+max_miss_pct <- max(miss_pct)
+```
+
+```{r q6-compare-q2}
+# Q2 comparison: complete-case vs MI
+assoc_dat <- mi_vars %>%
+  transmute(
+    pref = ifelse(Q134W1 %in% c(1, 2), Q134W1, NA_real_),
+    housetype = ifelse(Houstype %in% c(0, 1), Houstype, NA_real_)
+  )
+
+assoc_cc <- assoc_dat %>% filter(complete.cases(.))
+tab_cc <- table(assoc_cc$housetype, assoc_cc$pref)
+chi_cc <- chisq.test(tab_cc, correct = FALSE)
+v_cc <- sqrt(as.numeric(chi_cc$statistic) / (sum(tab_cc) * min(nrow(tab_cc) - 1, ncol(tab_cc) - 1)))
+
+imp_assoc <- mice(assoc_dat, m = 20, maxit = 10, seed = 5244, printFlag = FALSE)
+assoc_list <- complete(imp_assoc, action = "all")
+
+chi_stats <- sapply(assoc_list, function(dd) {
+  tt <- table(dd$housetype, dd$pref)
+  as.numeric(chisq.test(tt, correct = FALSE)$statistic)
+})
+p_vals <- sapply(assoc_list, function(dd) {
+  tt <- table(dd$housetype, dd$pref)
+  chisq.test(tt, correct = FALSE)$p.value
+})
+v_vals <- sapply(assoc_list, function(dd) {
+  tt <- table(dd$housetype, dd$pref)
+  sqrt(as.numeric(chisq.test(tt, correct = FALSE)$statistic) /
+         (sum(tt) * min(nrow(tt) - 1, ncol(tt) - 1)))
+})
+
+chi_mi_med <- median(chi_stats)
+p_mi_med <- median(p_vals)
+v_mi_med <- median(v_vals)
+```
+
+```{r q6-compare-q5}
+# Q5 comparison: complete-case vs MI
+q5_dat <- df %>%
+  transmute(
+    relocate = ifelse(as.numeric(Q134W1) == 2, 1,
+                      ifelse(as.numeric(Q134W1) == 1, 0, NA)),
+    housetype = ifelse(as.numeric(Houstype) %in% c(0, 1), as.numeric(Houstype), NA_real_),
+    confidence = ifelse(as.numeric(Q137W1) %in% 1:4, as.numeric(Q137W1), NA_real_),
+    age = as.numeric(Age)
+  )
+
+q5_cc <- q5_dat %>% filter(complete.cases(.))
+fit_q5_cc <- glm(relocate ~ housetype + confidence + age, data = q5_cc, family = binomial())
+cc_coef <- coef(summary(fit_q5_cc))
+
+imp_q5 <- mice(q5_dat, m = 20, maxit = 10, seed = 5244, printFlag = FALSE)
+fit_q5_mi <- with(imp_q5, glm(relocate ~ housetype + confidence + age, family = binomial()))
+pool_q5_mi <- summary(pool(fit_q5_mi))
+
+cc_houstype_p <- cc_coef["housetype", "Pr(>|z|)"]
+cc_confidence_p <- cc_coef["confidence", "Pr(>|z|)"]
+cc_age_p <- cc_coef["age", "Pr(>|z|)"]
+
+mi_houstype_p <- pool_q5_mi$p.value[pool_q5_mi$term == "housetype"]
+mi_confidence_p <- pool_q5_mi$p.value[pool_q5_mi$term == "confidence"]
+mi_age_p <- pool_q5_mi$p.value[pool_q5_mi$term == "age"]
+```
+
+::: {.note-box .exercise}
+### Optional Answer (from this dataset)
+
+- Missingness is generally low; highest missing variable is `r max_miss_var` (`r round(max_miss_pct, 2)`%), and `r round(overall_any_missing_pct, 2)`% of rows have at least one missing value across key variables.
+- Q2 comparison:
+  - Complete-case: $\chi^2(1)=`r round(as.numeric(chi_cc$statistic), 2)`$, $p=`r format.pval(chi_cc$p.value, digits = 4)`$, Cramer's $V=`r round(v_cc, 3)`$.
+  - MI (median across 20 imputations): $\chi^2(1)\approx`r round(chi_mi_med, 2)`$, $p\approx`r format.pval(p_mi_med, digits = 4)`$, Cramer's $V\approx`r round(v_mi_med, 3)`$.
+- Q5 comparison:
+  - Complete-case p-values: Houstype `r format.pval(cc_houstype_p, digits = 4)`, confidence `r format.pval(cc_confidence_p, digits = 4)`, age `r format.pval(cc_age_p, digits = 4)`.
+  - MI pooled p-values: Houstype `r format.pval(mi_houstype_p, digits = 4)`, confidence `r format.pval(mi_confidence_p, digits = 4)`, age `r format.pval(mi_age_p, digits = 4)`.
+- Interpretation: MI does not materially change substantive conclusions in this assignment, so complete-case analysis and MI lead to similar decisions.
+:::
