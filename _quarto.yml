@@ -15,8 +15,7 @@ book:
     - 02-post-survey-data-preparation.qmd
     - 03-psychometric-analysis.qmd
     - 04-statistical-analysis.qmd
-    - 05-open-ended-question-analysis.qmd
-    - 01-data.qmd
+    - 06-multiple-imputation.qmd
 
 csl: csl/apa.csl  
 format:

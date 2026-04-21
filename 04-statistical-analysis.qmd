@@ -2,368 +2,443 @@
 title: "Statistical Analysis"
 ---
 
-This handout uses well-validated R packages so students can run core analyses with minimal code. The goal is to focus on interpretation rather than writing long scripts.
+This handout uses the [2001 Learning and Technology Survey](http://edmeasurement.net/5244/2001-survey.html) for illustration. The survey collected information on students' technology comfort, online learning experiences, and demographics.
 
-How to read this handout:
+Data source:
 
-- Each section starts with a question the analysis answers.
-- Each section uses as few lines of R as possible.
-- Each section ends with what to report in plain language.
+- Survey instrument: http://edmeasurement.net/5244/2001-survey.html
+- SPSS data: https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2001/2001-data.sav
 
-## Packages You Need
+## Research Questions
 
-Install once if needed:
+This handout addresses four research questions that progress from simple description to multivariate prediction:
+
+| # | Research Question | Analysis Method |
+|:--|:------------------|:----------------|
+| RQ1 | Overall, to what extent are students dissatisfied or satisfied with the online course(s) they have taken? | Frequency table + bar chart |
+| RQ2 | Is motivation about using technology tools related to overall online learning experience? | Chi-square test + Cramer's *V* |
+| RQ3 | What does the distribution of technology comfort look like across the nine Q1.2 items? | Likert response profile |
+| RQ4 | Which factors predict whether students would consider registering for another online course? | Binary logistic regression |
+
+---
+
+## Load Packages
+
+Packages are collections of extra functions that extend base R. You install a package once (like downloading an app), then load it at the start of every session (like opening the app).
 
 ```{r install-packages, eval=FALSE}
-# Run once if needed
-install.packages(c(
-	"tidyverse", "haven", "janitor", "sjlabelled", "skimr",
-	"gtsummary", "rstatix", "GGally", "performance", "report"
-))
+# Run this block ONCE to install all required packages.
+# After installation you never need to run it again.
+#install.packages(c("ggplot2", "likert", "scales", "sjPlot"))
 ```
 
-Load at the start of each session:
-
-```{r load-packages}
-library(tidyverse)
+```{r load-packages, message=FALSE}
+# Load packages at the start of every R session.
+library(ggplot2)   # creating plots
+library(likert)    # Likert response profile plots
+library(scales)    # formatting axis labels
 library(haven)
-library(janitor)
-library(sjlabelled)
-library(skimr)
-library(gtsummary)
-library(rstatix)
-library(GGally)
-library(performance)
-library(report)
+library(sjPlot)    # contingency tables and regression output
 ```
 
-## Import SPSS Data
+## Import the Data
 
-Place `housing.sav` in your project folder. The code below checks several common locations.
+`read_sav()` reads an SPSS data file — either from your computer or directly from a URL — into a data frame. Recall that a data frame is R's version of a spreadsheet: rows are respondents, columns are variables.
 
 ```{r import-data}
-sav_candidates <- c(
-	"housing.sav",
-	"data/housing.sav",
-	"Data/housing.sav",
-	"../housing.sav",
-	"~/Downloads/housing.sav"
+# Read the SPSS file directly from the web into a data frame named df
+df <- haven::read_sav(
+  "https://raw.githubusercontent.com/Wenchao-Ma/Data/main/EDM2001/2001-data.sav",user_na = FALSE,
 )
 
-sav_path <- sav_candidates[file.exists(sav_candidates)][1]
+# Check the dimensions: rows = respondents, columns = variables
+dim(df)
 
-if (is.na(sav_path)) {
-	message("`housing.sav` not found in common locations. Using a small simulated dataset so this chapter remains runnable.")
-
-	set.seed(5244)
-	housing <- tibble(
-		price = round(rnorm(200, mean = 350000, sd = 90000), 0),
-		sqft = round(rnorm(200, mean = 1900, sd = 500), 0),
-		bedrooms = sample(2:5, 200, replace = TRUE),
-		bathrooms = sample(1:4, 200, replace = TRUE),
-		neighborhood = sample(c("Urban", "Suburban", "Rural"), 200, replace = TRUE),
-		renovated = sample(c("No", "Yes"), 200, replace = TRUE)
-	)
-} else {
-	housing <- haven::read_sav(sav_path)
-}
-
-housing <- housing %>% janitor::clean_names()
-
-# Convert SPSS labelled variables to factors for easier group analyses.
-housing <- housing %>% mutate(across(where(is.labelled), as_factor))
-
-dim(housing)
-head(housing)
+# Preview the first six rows
+head(df)
 ```
 
-## Step 1: Understand Variables
 
-Question: What variables do we have, and what type is each variable?
 
-Why this matters: Your test choice depends on variable type (numeric vs categorical).
+## RQ1: Overall Satisfaction With Online Course(s)
 
-```{r inspect-structure}
-glimpse(housing)
-skimr::skim(housing)
+**Question:** Overall, to what extent are students dissatisfied or satisfied with the online course(s) they have taken? (Q2.2, six-point scale)
+
+**Approach:** Q2.2 is a single categorical variable, so we describe its distribution with a frequency table (counts and percentages) and a bar chart.
+
+### Filter to Valid Responses
+
+Before computing proportions we remove rows where Q2.2 is missing (`NA`). The expression `!is.na()` returns `TRUE` for rows that have a valid response.
+
+```{r rq1-data}
+
+# ------------------------------------------------------------------
+# Q2.2: Overall, to what extent are you dissatisfied or satisfied
+#        with the online course(s) you have taken?
+#        1 = Completely dissatisfied  ...  6 = Completely satisfied
+# ------------------------------------------------------------------
+
+df$overall_exp_num <- df$q2.2   
+
+df$overall_exp <- factor(
+  df$q2.2,
+  levels  = 1:6,
+  labels  = c(
+    "Completely dissatisfied",
+    "Mostly dissatisfied",
+    "Somewhat dissatisfied",
+    "Somewhat satisfied",
+    "Mostly satisfied",
+    "Completely satisfied"
+  ),
+  ordered = TRUE   # ordered = TRUE tells R this is an ordinal scale
+)
+
+
 ```
 
-Identify numeric and categorical variables for analysis:
+### Frequency Table
 
-```{r identify-variable-types}
-numeric_vars <- housing %>% select(where(is.numeric)) %>% names()
-cat_vars <- housing %>% select(where(~ is.factor(.) || is.character(.))) %>% names()
+`table()` counts how many respondents chose each category. `prop.table()` converts those counts into proportions, which we multiply by 100 to get percentages.
 
-numeric_vars
-cat_vars
+```{r rq1-proportions}
+rq1_counts <- table(df$overall_exp)       # raw counts
+rq1_props  <- prop.table(rq1_counts)       # proportions (each / total)
+
+# Combine into a readable data frame
+data.frame(
+  response   = names(rq1_counts),
+  count      = as.integer(rq1_counts),
+  proportion = round(as.numeric(rq1_props), 3),
+  percent    = round(100 * as.numeric(rq1_props), 1)
+)
 ```
 
-## Step 2: Choose an Outcome Variable
+### Collapsed Summary
 
-Question: Which variable are we trying to explain or predict?
+To simplify reporting we combine the three satisfied categories and the three dissatisfied categories into two groups.
 
-For housing data, the outcome is often `price`, `value`, or `cost`. The code tries these names first and then defaults to the first numeric variable.
+```{r rq1-collapsed}
+# Proportion who chose "Somewhat satisfied" or higher (codes 4, 5, 6)
+prop_satisfied    <- mean(df$overall_exp_num >= 4,na.rm = TRUE)
 
-```{r choose-outcome}
-target_candidates <- names(housing)[str_detect(names(housing), "price|value|cost|rent")]
+# Proportion who chose "Somewhat dissatisfied" or lower (codes 1, 2, 3)
+prop_dissatisfied <- mean(df$overall_exp_num <= 3,na.rm = TRUE)
 
-outcome_var <- if (length(target_candidates) > 0) {
-	target_candidates[1]
-} else {
-	numeric_vars[1]
-}
-
-outcome_var
+data.frame(
+  group      = c("Somewhat or more satisfied", "Somewhat or more dissatisfied"),
+  proportion = round(c(prop_satisfied, prop_dissatisfied), 3)
+)
 ```
 
-## Step 3: Descriptive Statistics (Low-Code Tables)
+### Bar Chart
 
-Question: What does the sample look like before we run inferential tests?
+`ggplot2` builds plots layer by layer. `aes()` maps variables to visual properties (x axis, y axis). `geom_col()` draws bars. `labs()` sets titles and axis labels.
 
-Interpretation tip:
+```{r rq1-bar, fig.width=9, fig.height=4}
+# Convert the frequency table to a data frame for ggplot
+rq1_plot_df <- as.data.frame(rq1_counts)
+names(rq1_plot_df) <- c("overall_exp", "count")
 
-- Numeric variables: read mean/median/spread.
-- Categorical variables: read counts and percentages.
-
-```{r descriptives-table}
-housing %>%
-  select(all_of(c(outcome_var, head(setdiff(numeric_vars, outcome_var), 4), head(cat_vars, 2)))) %>%
-  tbl_summary(missing = "ifany")
+ggplot(rq1_plot_df, aes(x = overall_exp, y = count)) +
+  geom_col(fill = "steelblue") +
+  labs(
+    title = "Overall Satisfaction With Online Course(s) (Q2.2)",
+    x     = "Response category",
+    y     = "Number of respondents"
+  ) +
+  theme_bw() +
+  # Rotate x-axis labels so they don't overlap
+  theme(axis.text.x = element_text(angle = 20, hjust = 1))
 ```
 
-```{r hist-outcome, fig.width=7, fig.height=4}
-ggplot(housing, aes(x = .data[[outcome_var]])) +
-	geom_histogram(bins = 30, color = "white", fill = "steelblue") +
-	labs(
-		title = paste("Distribution of", outcome_var),
-		x = outcome_var,
-		y = "Count"
-	) +
-	theme_minimal()
+
+
+::: {.note-box .example}
+**Reporting template (RQ1):**
+
+Among respondents with non-missing ratings on overall online-course experience ($N = 170$), the majority reported positive experiences: 24.1% somewhat satisfied, 40.0% mostly satisfied, and 12.9% completely satisfied (77.1% combined). A smaller proportion reported dissatisfaction: 11.8% somewhat dissatisfied, 8.8% mostly dissatisfied, and 2.4% completely dissatisfied (22.9% combined; see Figure X).
+:::
+
+::: {.note-box .exercise}
+Check the total number of respondents in 5.5.2? Is it the same as the number of responses in the sample? If not, why might that be?
+:::
+
+---
+
+## RQ2: Motivation and Overall Online Learning Experience
+
+**RQ2:** Is motivation about using technology tools (Q1.3) associated with overall online learning experience (Q2.2)?
+
+Both variables are categorical, so we use a chi-square test of independence to test whether the two variables are related, and Cramer's V to quantify the strength of that association.
+
+::: {.note-box .note}
+The chi-square test  checks whether the distribution of satisfaction ratings looks the same across all motivation groups. A significant result ($p < .05$) means the groups differ more than we would expect by chance. A non-significant result means any observed differences are within the range of random variation.
+:::
+
+
+### Cross-Tabulation and Chi-Square Test
+
+`sjPlot::tab_xtab()` produces a contingency table, chi-square test, and Cramer's *V* in one step. `show.row.prc = TRUE` displays row percentages, making it easier to compare distributions across motivation groups.
+
+```{r rq2-crosstab}
+sjPlot::tab_xtab(
+  var.row      = df$q1.3,
+  var.col      = df$overall_exp,
+  show.row.prc = TRUE
+)
 ```
 
-## Step 4: Categorical Analysis (Cross-Tab + Chi-Square)
+### Interpreting Cramer's *V*
 
-Question: Are two categorical variables associated?
+Cramer's *V* measures the **strength** of association between two categorical variables, independent of sample size. Use the thresholds below to interpret the magnitude. Degrees of freedom (df) here = $\min(r - 1,\, c - 1)$, where $r$ = number of rows and $c$ = number of columns.
 
-Use this when both variables are categories (for example, `neighborhood` and `renovated`).
+| df | Small | Medium | Large |
+|:--:|:-----:|:------:|:-----:|
+| 1  | 0.10  | 0.30   | 0.50  |
+| 2  | 0.07  | 0.21   | 0.35  |
+| 3  | 0.06  | 0.17   | 0.29  |
+| 4  | 0.05  | 0.15   | 0.25  |
+| 5  | 0.04  | 0.13   | 0.22  |
 
-```{r choose-two-cat-vars}
-chi_candidates <- housing %>%
-	select(where(~ is.factor(.) || is.character(.))) %>%
-	keep(~ n_distinct(., na.rm = TRUE) >= 2) %>%
-	names()
+::: {.note-box .question}
+How would you interpret a non-significant chi-square result paired with a medium Cramer's *V*? What might that combination tell you about sample size?
+:::
 
-chi_candidates
+### Stacked Bar Chart
+
+A stacked bar chart shows the full distribution of satisfaction levels within each motivation group side by side, making it easy to compare groups visually.
+
+```{r rq2-stacked, fig.width=9, fig.height=10}
+sjPlot::plot_xtab(
+  df$q1.3,
+  df$overall_exp,
+  margin     = "row",    # compute percentages within each row (motivation group)
+  bar.pos    = "stack",  # stack bar segments
+  coord.flip = F      # flip so motivation groups appear on the y axis
+)
 ```
 
-```{r crosstab-and-chi-square}
-if (length(chi_candidates) >= 2) {
-	cat_var1 <- chi_candidates[1]
-	cat_var2 <- chi_candidates[2]
+::: {.note-box .note}
+Each column is a motivation group. The segments within each bar show what percentage of that group chose each satisfaction level. If the segment pattern looks similar across all rows, the two variables are not strongly related.
+:::
 
-	cat_df <- housing %>%
-		select(all_of(c(cat_var1, cat_var2))) %>%
-		drop_na() %>%
-		mutate(across(everything(), as.factor))
+::: {.note-box .note}
 
-	# Easy-to-read cross-tab with row percentages
-	cat_df %>%
-		janitor::tabyl(.data[[cat_var1]], .data[[cat_var2]]) %>%
-		janitor::adorn_percentages("row") %>%
-		janitor::adorn_pct_formatting(digits = 1)
+A chi-square test of independence examined whether motivation about using technology (Q1.3) was associated with overall online learning experience (Q2.2), using $N = 169$ respondents with complete data on both variables. The test was not significant, $\chi^2(15) = 41.21$, $p =0.147$, Cramer's $V = .285$. This suggests that motivation and overall experience are not significantly related in this sample, although the medium effect size (Cramer's $V = .285$) indicates a moderate association that may warrant further investigation with a larger sample.
+:::
 
-	# Chi-square test of association (robust to character columns)
-	chi_table <- table(cat_df[[cat_var1]], cat_df[[cat_var2]])
-	chi_table
+---
 
-	stats::chisq.test(chi_table)
-} else {
-	message("Need at least two categorical variables for cross-tab and chi-square.")
-}
+## RQ3: Likert Item Analysis — Technology Comfort
+
+**RQ3:** What does the distribution of comfort levels look like across the nine technology tasks in Q1.2?
+
+We use the `likert` package to compute and visualize the full response profile or the percentage of respondents in each response category — for all nine items at once.
+
+::: {.note-box .note}
+Item mean collapses the full distribution into one number. Two items can have identical means but very different profiles — for example, one item might be uniformly "somewhat comfortable" while another is split between "mostly uncomfortable" and "mostly comfortable." The Likert plot reveals the full picture.
+:::
+
+### Select and Label the Items
+
+```{r rq3-select-items}
+# Select the nine Q1.2 sub-items (columns q1.2a through q1.2i)
+# paste0() creates the column names: "q1.2a", "q1.2b", ..., "q1.2i"
+likert_items <- df[, paste0("q1.2", letters[1:9])]
+
+# Assign descriptive column names (these appear on the plot)
+names(likert_items) <- c(
+  "Using email",
+  "Typing / keyboarding",
+  "Accessing the Web",
+  "Sending documents electronically",
+  "Receiving documents electronically",
+  "Downloading documents",
+  "Downloading multimedia materials",
+  "Listening to audio on the computer",
+  "Viewing video on the computer"
+)
+
+
+head(likert_items)
 ```
 
-Bar chart (recommended for categorical comparisons):
+### Item-Level Descriptives (Mean and SD)
 
-```{r bar-chart-categorical, fig.width=7, fig.height=4}
-if (exists("cat_var1") && exists("cat_var2")) {
-	ggplot(housing, aes(x = .data[[cat_var1]], fill = .data[[cat_var2]])) +
-		geom_bar(position = "fill") +
-		scale_y_continuous(labels = scales::percent) +
-		labs(
-			title = paste("Proportion of", cat_var2, "within", cat_var1),
-			x = cat_var1,
-			y = "Percent",
-			fill = cat_var2
-		) +
-		theme_minimal()
-}
+`sapply()` applies the same function to every column of a data frame and returns a vector (or matrix) of results. `na.rm = TRUE` tells the function to ignore missing values.
+
+```{r rq3-item-summary}
+data.frame(
+  item    = names(likert_items),
+  valid_n = sapply(likert_items, function(x) sum(!is.na(x))),
+  mean    = round(sapply(likert_items, mean, na.rm = TRUE), 2),
+  sd      = round(sapply(likert_items, sd,   na.rm = TRUE), 2)
+)
 ```
 
-Pie chart (simple composition view):
+### Convert to Labeled Factors and Fit the Likert Object
 
-```{r pie-chart-categorical, fig.width=6, fig.height=6}
-if (exists("cat_var1")) {
-	housing %>%
-		count(.data[[cat_var1]]) %>%
-		ggplot(aes(x = "", y = n, fill = .data[[cat_var1]])) +
-		geom_col(width = 1, color = "white") +
-		coord_polar(theta = "y") +
-		labs(title = paste("Composition of", cat_var1), fill = cat_var1) +
-		theme_void()
-}
+The `likert()` function requires **ordered factors** with text labels. `lapply()` applies the conversion to every column.
+
+```{r rq3-likert-fit}
+# Define the four response labels in ascending order
+likert_labels_4 <- c(
+  "Mostly uncomfortable",
+  "Somewhat uncomfortable",
+  "Somewhat comfortable",
+  "Mostly comfortable"
+)
+
+# Convert every column to an ordered factor with these labels
+likert_items_factor <- as.data.frame(lapply(
+  likert_items,
+  function(x) factor(x, levels = 1:4, labels = likert_labels_4, ordered = TRUE)
+))
+
+# Fit the likert object -- computes the percentage in each category per item
+likert_fit <- likert::likert(likert_items_factor)
+
+# Print the percentage table
+likert_fit$results
 ```
 
-## Step 5: Independent-Samples t-test
+### Response Profile Plot
 
-Question: Is the mean of a numeric outcome different across two groups?
-
-If a categorical variable has exactly two levels (for example, `renovated = Yes/No`), we can compare mean outcome between groups.
-
-```{r choose-binary-group}
-binary_candidates <- housing %>%
-	select(where(~ is.factor(.) || is.character(.))) %>%
-	keep(~ n_distinct(., na.rm = TRUE) == 2) %>%
-	names()
-
-binary_candidates
+```{r rq3-likert-plot, fig.width=10, fig.height=7}
+plot(likert_fit,type = "bar")
 ```
 
-```{r ttest-analysis}
-if (length(binary_candidates) > 0) {
-  group_var <- binary_candidates[1]
+::: {.note-box .note}
+**How to read this plot:** Each row is one survey item. The colored bar segments show the percentage of respondents choosing each comfort level. Items with a large "Mostly comfortable" segment (dark teal, far right) are tasks respondents feel confident about. Items with large segments on the left (uncomfortable) are where students may need more support or training.
+:::
 
-  housing %>%
-    select(all_of(c(outcome_var, group_var))) %>%
-    drop_na() %>%
-    t_test(as.formula(paste(outcome_var, "~", group_var)), detailed = TRUE)
-} else {
-  message("No binary grouping variable found for a t-test.")
-}
+::: {.note-box .example}
+**Reporting template (RQ3):**
+
+Descriptive analyses of the nine technology-comfort items (Q1.2) showed that mean ratings ranged from $M = 2.83$ ($SD = 0.99$) for *Downloading multimedia materials* to $M = 3.81$ ($SD = 0.68$) for *Using email* (see Table X). The Likert response profiles (Figure X) indicated that *Using email* had the highest concentration of "Mostly comfortable" responses (91.8%), whereas *Downloading multimedia materials* had the largest proportion of uncomfortable responses (35.0% combined across the two uncomfortable categories). These results suggest that students are generally comfortable with basic internet tasks (email, web access, keyboarding) but may need additional support with multimedia-related tasks such as downloading multimedia materials, viewing video, and listening to audio.
+:::
+
+---
+
+## RQ4: Logistic Regression — Predicting Willingness to Register Again
+
+**RQ4:** Which factors predict whether a respondent would consider registering for another online course if the topic was of interest?
+
+**Outcome variable (Q2.9):** Would you consider registering for another online course? (1 = Yes, 0 = No)
+
+**Predictor variables:**
+
+| Variable | Survey Question | Scale |
+|:---------|:----------------|:------|
+| Q2.2 | Overall satisfaction with online course(s) taken | 1 (completely dissatisfied) – 6 (completely satisfied) |
+| Q2.5 | Agreement that online courses meet the same quality standards as classroom courses | 1 (disagree) – 4 (agree) |
+| Q1.3 | Motivation to learn more about using technology tools | 1 (poor) – 4 (excellent) |
+| Q4.3 | Age range | 1 (youngest) – 5 (oldest) |
+| Q4.4 | Distance from place of residence to the University | 1 (closest) – 5 (farthest) |
+
+::: {.note-box .note}
+**Why logistic regression?** The outcome variable is binary (Yes / No). Ordinary linear regression is not appropriate for binary outcomes because it can predict values outside the 0–1 range. Logistic regression models the **log-odds** of the outcome and always produces predicted probabilities between 0 and 1.
+
+**What is an odds ratio (OR)?** The OR tells you how the *odds* of "Yes" change for each one-unit increase in a predictor:
+
+- OR > 1: higher predictor values → higher odds of "Yes"
+- OR < 1: higher predictor values → lower odds of "Yes"
+- OR = 1: predictor has no effect on the odds
+- OR = 2: each one-unit increase *doubles* the odds of "Yes"
+:::
+
+
+
+### Fit the Logistic Regression Model
+
+`glm()` fits a **Generalized Linear Model**. Setting `family = binomial(link = "logit")` specifies logistic regression. The formula `register ~ ...` reads: "predict register from the listed predictors."
+
+```{r logit-fit}
+logit_model <- glm(
+  q2.9 ~ q2.2 + q2.5 + q1.3 + q4.3 + q4.4,
+  data   = df,
+  family = binomial(link = "logit")
+)
+
+# The summary shows log-odds coefficients (not yet odds ratios)
+summary(logit_model)
 ```
 
-## Step 6: One-Way ANOVA
+### Model Summary Table (Odds Ratios)
 
-Question: Is the mean of a numeric outcome different across 3 or more groups?
+`sjPlot::tab_model()` exponentiates the log-odds coefficients to give **odds ratios** and displays them with 95% confidence intervals and p-values — all in one formatted table.
 
-When a categorical variable has 3 or more groups, compare group means with ANOVA.
-
-```{r choose-anova-group}
-anova_candidates <- housing %>%
-	select(where(~ is.factor(.) || is.character(.))) %>%
-	keep(~ n_distinct(., na.rm = TRUE) >= 3) %>%
-	names()
-
-anova_candidates
+```{r logit-table}
+sjPlot::tab_model(
+  logit_model,
+  pred.labels = c(
+    "Intercept",
+    "Overall satisfaction (Q2.2)",
+    "Quality standards agreement (Q2.5)",
+    "Motivation for technology (Q1.3)",
+    "Age range (Q4.3)",
+    "Distance from university (Q4.4)"
+  ),
+  dv.labels = "Register for another online course (1 = Yes)",
+  digits    = 3
+)
 ```
 
-```{r anova-analysis}
-if (length(anova_candidates) > 0) {
-	anova_var <- anova_candidates[1]
+### Odds Ratio Plot
 
-	model_aov <- housing %>%
-		select(all_of(c(outcome_var, anova_var))) %>%
-		drop_na() %>%
-		anova_test(as.formula(paste(outcome_var, "~", anova_var)))
+A forest plot displays each odds ratio as a dot with a horizontal line for its 95% confidence interval. If the line does **not** cross the vertical reference line at OR = 1, the predictor is statistically significant at $\alpha = .05$.
 
-	model_aov
-
-	housing %>%
-		select(all_of(c(outcome_var, anova_var))) %>%
-		drop_na() %>%
-		tukey_hsd(as.formula(paste(outcome_var, "~", anova_var)))
-} else {
-	message("No 3+ level categorical variable found for ANOVA.")
-}
+```{r logit-or-plot, fig.width=7, fig.height=4}
+sjPlot::plot_model(
+  logit_model,
+  type        = "est",
+  axis.labels = c(
+    "Distance from university (Q4.4)",
+    "Age range (Q4.3)",
+    "Motivation for technology (Q1.3)",
+    "Quality standards agreement (Q2.5)",
+    "Overall satisfaction (Q2.2)"
+  ),
+  title        = "Odds Ratios: Willingness to Register for Another Online Course",
+  show.values  = TRUE,
+  value.offset = 0.3
+)
 ```
 
-## Step 7: Correlation Analysis
+::: {.note-box .note}
+**How to read this plot:**
 
-Question: How strongly are numeric variables linearly related?
+- Each **dot** is the estimated odds ratio for that predictor.
+- The **horizontal line** through the dot is the 95% confidence interval.
+- The **vertical dashed line** marks OR = 1 (no effect).
+- If the entire CI is to the **right** of 1, the predictor significantly increases the odds of "Yes."
+- If the entire CI is to the **left** of 1, the predictor significantly decreases the odds.
+- If the CI **crosses** 1, the predictor is not statistically significant at $\alpha = .05$.
+:::
 
-Examine linear relationships among numeric variables.
+::: {.note-box .example}
+**Reporting template (RQ4):**
 
-```{r correlation-matrix}
-num_df <- housing %>% select(where(is.numeric))
+A binary logistic regression was conducted to identify predictors of willingness to register for another online course ($N = 160$). Two predictors were statistically significant. Overall satisfaction with online coursework was a significant positive predictor (OR = 2.03, 95% CI [1.25, 3.42], $p = .006$), indicating that each one-unit increase in satisfaction was associated with approximately twice the odds of willingness to register again. Agreement that online courses meet the same quality standards as classroom courses was also a significant positive predictor (OR = 2.62, 95% CI [1.34, 5.70], $p = .008$). Motivation for technology use (OR = 0.81, 95% CI [0.41, 1.55], $p = .529$), age range (OR = 1.17, 95% CI [0.74, 2.12], $p = .539$), and distance from the university (OR = 0.94, 95% CI [0.54, 1.69], $p = .829$) were not statistically significant predictors.
+:::
 
-if (ncol(num_df) >= 2) {
-	num_df %>%
-		cor_mat() %>%
-		cor_get_pval()
+---
 
-	GGally::ggpairs(num_df %>% select(head(names(.), 5)))
-} else {
-	message("Not enough numeric variables for correlation analysis.")
-}
-```
+## Summary: What to Report
 
-## Step 8: Multiple Linear Regression
+| RQ | Method | Key statistics to report |
+|:---|:-------|:-------------------------|
+| RQ1 | Frequency table + bar chart | *N*, % per category, combined satisfied/dissatisfied % |
+| RQ2 | Chi-square + Cramer's *V* | $\chi^2$, df, *p*, Cramer's *V*, effect size interpretation |
+| RQ3 | Likert response profile | Mean and SD per item; % in each response category |
+| RQ4 | Binary logistic regression | OR with 95% CI and *p* per predictor |
 
-Question: Which predictors are associated with the outcome when considered together?
+## Exercise
 
-Build one model to predict the outcome using up to two numeric and one categorical predictor.
+Using the same data, answer the following research questions:
 
-```{r choose-regression-predictors}
-predictor_pool <- setdiff(names(housing), outcome_var)
+- Describe where the primary computer is located for the participants in the sample (Q1.1)?
+- What's the relationship between whether they will recommend online courses to others (Q2.9) and their overall satisfaction with online courses (Q2.2)? Create a contingency table, chi-square test, and Cramer's *V* to answer this question. Then write a brief report summarizing the results.
 
-num_predictors <- housing %>%
-  select(all_of(predictor_pool)) %>%
-  select(where(is.numeric)) %>%
-  names() %>%
-  head(2)
 
-cat_predictor <- housing %>%
-  select(all_of(predictor_pool)) %>%
-  select(where(~ is.factor(.) || is.character(.))) %>%
-  names() %>%
-  head(1)
-
-model_predictors <- c(num_predictors, cat_predictor)
-model_predictors
-```
-
-```{r regression-fit}
-if (length(model_predictors) >= 1) {
-  reg_formula <- as.formula(paste(outcome_var, "~", paste(model_predictors, collapse = " + ")))
-  reg_fit <- lm(reg_formula, data = housing)
-
-  tbl_regression(reg_fit)
-  report(reg_fit)
-} else {
-  message("No usable predictors found for regression.")
-}
-```
-
-## Step 9: Regression Assumption Checks
-
-Question: Are key model assumptions reasonable?
-
-Interpretation tip: If diagnostics look poor, report this and consider transformations, robust methods, or simpler models.
-
-```{r regression-diagnostics, fig.width=8, fig.height=8}
-if (exists("reg_fit")) {
-  check_model(reg_fit)
-  check_collinearity(reg_fit)
-} else {
-  message("Run regression section first to generate diagnostics.")
-}
-```
-
-## Reporting Template (Simple)
-
-Use this structure to report your findings:
-
-1. Research question and variables.
-2. Descriptive table from `tbl_summary()`.
-3. Categorical association results from cross-tab and chi-square (`chisq_test()`).
-4. Mean-comparison results from `t_test()` or `anova_test()` and post-hoc tests.
-5. Regression table from `tbl_regression()` and narrative from `report()`.
-6. Practical interpretation in context (for example, what a one-unit change in a predictor means for housing price).
-7. Limitations and next steps (missing data, model assumptions, omitted variables).
-
-## Why This Version Is Easier
-
-- Most analyses are one function call.
-- Output tables are publication-ready by default.
-- Assumption checks are automated with `performance`.
-- You can replace auto-selected variables with your planned variables once codebook names are confirmed.

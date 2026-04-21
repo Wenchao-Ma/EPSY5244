@@ -1,0 +1,393 @@
+---
+title: "Multiple Imputation"
+---
+
+Missing data are nearly universal in health surveys. How you handle them can substantially affect your conclusions. This session introduces multiple imputation (MI)  using the `mice` package in R and a subset of the [NHANES](https://www.cdc.gov/nchs/nhanes/) dataset.
+
+The NHANES is the National Health and Nutrition Examination Survey.
+It is a national survey that measures the health and nutrition of adults and children in the United States. It is the only national health survey that includes health exams and laboratory tests for participants of all ages.
+
+Research question: What factors, including age, physical activity, sleep, BMI, and total cholesterol, are associated with a diabetes diagnosis?
+
+The outcome variable is `Diabetes` (Yes/No), modeled with binary logistic regression. All missing data are handled with MI.
+
+## Load Packages
+
+```{r install-packages, eval=FALSE}
+# Run this block ONCE to install all required packages.
+#install.packages(c("NHANES", "mice", "naniar", "ggplot2", "dplyr",
+#                   "broom", "gtsummary", "howManyImputations"))
+```
+
+```{r load-packages, message=FALSE, warning=FALSE}
+library(NHANES)            # NHANES demo dataset
+library(mice)              # multiple imputation
+library(naniar)            # missing-data visualisation
+library(ggplot2)           # general-purpose plotting
+library(dplyr)             # data manipulation
+library(broom)             # tidy model output
+library(gtsummary)         # publication-ready summary tables
+library(howManyImputations) # von Hippel two-stage M calculation
+```
+
+***
+
+## The NHANES Dataset
+
+
+The `NHANES` package provides a 10,000-row teaching subset of the U.S. National Health and Nutrition Examination Survey. We select the variables relevant to the diabetes research question.
+
+```{r load-nhanes}
+# Select variables for the diabetes research question
+nhanes_sub <- NHANES |>
+  select(
+    Age,             # age in years
+    PhysActive,      # physically active in past 30 days (Yes/No)
+    Diabetes,        # ever told have diabetes (Yes/No) — outcome
+    SleepHrsNight,   # self-reported hours of sleep per night
+    BMI,             # body-mass index
+    TotChol          # total cholesterol (mmol/L)
+  )
+
+dim(nhanes_sub)
+glimpse(nhanes_sub)
+```
+
+***
+## Complete-Case Analysis
+
+Complete-case analysis (CCA) — deleting all rows with any missing value — is the default in most R functions. It is easy but can be biased whenever data are not MCAR.
+
+```{r cca-demo}
+# How many complete cases do we have?
+n_total    <- nrow(nhanes_sub)
+n_complete <- sum(complete.cases(nhanes_sub))
+cat(sprintf("Total rows: %d | Complete cases: %d (%.1f%%)\n",
+            n_total, n_complete, 100 * n_complete / n_total))
+```
+
+```{r cca-regression}
+# Binary logistic regression: what factors are associated with diabetes?
+cca_model <- glm(
+  Diabetes ~ Age + PhysActive + SleepHrsNight +
+             BMI + TotChol,
+  data   = nhanes_sub,
+  family = binomial(link = "logit")
+)
+summary(cca_model)
+```
+
+***
+## Understand Missingness
+
+
+The first step is to quantify how much data are missing. `miss_var_summary()` from `naniar` gives the count and percentage of missing values for every variable.
+
+```{r missing-summary}
+naniar::miss_var_summary(nhanes_sub)
+```
+
+> Note: Variables with more than ~40–50 % missing values are unlikely to be well-imputed; consider whether they are worth keeping in the model.
+
+`md.pattern()` from `mice` provides a row-by-row breakdown of which variables are missing together. Each row is a block of participants who share the same missingness pattern; the numbers on the left count how many participants are in that block.
+
+```{r md-pattern,fig.width=8, fig.height=8}
+md.pattern(nhanes_sub, rotate.names = TRUE)
+```
+
+> Note: A `1` means the variable is *observed* for that block; `0` means it is *missing*. The bottom row gives the total number of missing values per variable, and the right-hand column gives the number of variables missing per block. The bottom-right cell is the total number of missing values across the entire dataset — note this is not the same as the number of incomplete cases, since some participants may be missing more than one variable.
+
+A missingness heatmap (also called an aggregation plot) shows which variables tend to be missing together — a key input for building the imputation model.
+
+```{r vis-missing-heatmap, fig.height=6, fig.width=10}
+vis_miss(nhanes_sub, sort_miss = TRUE) +
+  labs(title = "Missingness heatmap: NHANES subset") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+An upset plot highlights the most common patterns of co-missingness across variables.
+
+```{r vis-upset, fig.height=4, fig.width=7}
+gg_miss_upset(nhanes_sub)
+```
+
+
+***
+
+## Missing-Data Mechanisms
+
+Understanding *why* data are missing guides the choice of analysis method.
+
+| Mechanism | Abbreviation | Definition | Implication |
+|:----------|:-------------|:-----------|:------------|
+| Missing Completely at Random | MCAR | Missingness is unrelated to any variable (observed or unobserved). | Complete-case analysis is unbiased (but less efficient). |
+| Missing at Random | MAR | Missingness depends only on *observed* variables, not on the missing value itself. | MI (and other likelihood-based methods) are unbiased. |
+| Missing Not at Random | MNAR | Missingness depends on the *unobserved* (missing) value. | No standard method fully fixes this; sensitivity analyses needed. |
+
+MCAR is generally unrealistic. MAR is more plausible because it allows for systematic differences as long as those differences are predictable from observed information. Under MAR (plus a technical condition called *ignorability*), MI produces consistent estimates with correct standard errors. Under MNAR, MI reduces bias relative to CCA but cannot fully eliminate it.
+
+
+
+## Multiple Imputation with `mice`
+
+
+
+`mice` stands for Multivariate Imputation by Chained Equations (van Buuren & Groothuis-Oudshoorn, 2011). Rather than fitting one joint model for all variables simultaneously, it imputes one variable at a time in a chain, using all other variables as predictors. For three variables $X$, $Y$, $Z$, one iteration of the chain looks like this:
+
+1. Randomly impute missing $X$ values using the model $X \sim Y + Z + \text{randomness}$.
+2. Given those predictions, impute $Y$ using $Y \sim X + Z + \text{randomness}$.
+3. Given those predictions, impute $Z$ using $Z \sim X + Y + \text{randomness}$.
+4. Repeat this chain many times until the results converge.
+
+The key insight is that adding *randomness* at each step — rather than substituting the predicted mean — preserves the natural variability in the data. Doing this $m$ times produces $m$ complete datasets that reflect all the uncertainty introduced by the missing values.
+
+Multiple imputation replaces each missing value with *m* plausible values drawn from a posterior predictive distribution, creating *m* complete datasets. Each dataset is analysed separately, and the results are pooled using Rubin's rules.
+
+
+### Best Practices Before Imputing
+
+::: {.callout-tip}
+#### What to include in the imputation model (Nahhas, 2024)
+
+1. Include all analysis variables — both the regression outcome and all predictors — even those with no missing values. The imputation model should be *at least as complex* as the analysis model. Leaving out analysis variables causes the imputation to distort the relationships you are trying to estimate.
+
+2. Include auxiliary variables — variables *not* in the regression model that are believed to relate to missingness or to the incomplete variables. Including them strengthens the MAR assumption and improves precision.
+
+3. Transform before you impute — if a variable needs a transformation (e.g., log, quadratic, interaction) for the regression model, create that transformed version *first* and include it in the imputation model. This is called transform-then-impute. Doing it the other way (impute-then-transform) distorts the relationships between variables and leads to inconsistent estimates (von Hippel, 2009).
+
+4. Do not impute impossible values. Some responses may be missing by design.
+
+:::
+
+`mice` works best when:
+
+- Factor variables are proper R factors (not character strings).
+- Variables with near-zero variance or with more than ~50 % missing are excluded.
+
+```{r prep-impute}
+# Convert character variables to factors
+nhanes_imp_ready <- nhanes_sub |>
+  mutate(across(where(is.character), as.factor))
+
+# Inspect the class of each column
+sapply(nhanes_imp_ready, class)
+```
+
+
+
+### Inspect the Default Imputation Methods
+
+Before running imputation, call `mice()` with `maxit = 0` to preview what method it will use for each variable.
+
+```{r mice-dry-run}
+# Dry run: no actual imputation, just inspect setup
+init <- mice(nhanes_imp_ready, maxit = 0, printFlag = FALSE)
+
+# Default imputation methods chosen automatically
+init$method
+
+# Predictor matrix: 1 = variable in column is used to impute variable in row
+# (showing first 6 variables for readability)
+init$predictorMatrix[1:6, 1:6]
+```
+
+The `mice` package selects methods automatically based on variable type:
+
+| Method | Used for | Key property |
+|:-------|:---------|:-------------|
+| `pmm` | Continuous variables | Imputed values are *always* drawn from observed values; never out-of-range |
+| `logreg` | Binary factor | Logistic regression |
+| `polyreg` | Unordered (nominal) factor | Multinomial logistic regression |
+| `polr` | Ordered (ordinal) factor | Proportional odds logistic regression |
+
+> Why `pmm` by default for continuous variables? Predictive mean matching first fits a linear regression to compute a predicted value for the missing case, then *replaces* that missing value with a randomly selected *observed* value whose prediction is closest. This means imputed values are always within the observed range and do not require normality assumptions — making it more robust than standard linear regression imputation (van Buuren, 2018).
+
+### Run the Imputation
+
+We generate m = 20 imputed datasets with 50 iterations of the chained-equations algorithm. More imputations reduce Monte Carlo error in the pooled estimates; 20 is adequate for most applied analyses.
+
+```{r mice-run, cache=TRUE}
+set.seed(42)   # for reproducibility
+
+imputed <- mice(
+  nhanes_imp_ready,
+  m         = 20,     # number of imputed datasets — start with 20 (von Hippel, 2020)
+  maxit     = 50,     # number of iterations per dataset
+  printFlag = FALSE   # suppress verbose output
+)
+```
+
+> A note on `m = 20`: Twenty imputations is a recommended starting point (von Hippel, 2020). The correct number is actually a function of the *fraction of missing information* (FMI) — a quantity that is not known until you have already fitted the imputation and analysis models. Section 6.4 below shows how to check whether 20 is sufficient using the `howManyImputations` package.
+
+***
+
+## Diagnose the Imputation
+
+### Convergence — Trace Plots
+
+Trace plots show how the mean and standard deviation of imputed values evolve across iterations for each variable. Good convergence looks like intermingled, horizontal lines with no obvious trend.
+
+```{r mice-trace, fig.height=5, fig.width=8}
+plot(imputed, layout = c(4, 4))
+```
+
+### Density Plots
+
+Density plots overlay the distribution of observed values (blue) against each of the *m* imputed distributions (red). The imputed values should be broadly plausible — they need not match the observed distribution exactly, but gross departures warrant investigation.
+
+```{r mice-density, fig.height=5, fig.width=8}
+densityplot(imputed)
+```
+
+### Strip Plots
+
+Strip plots display each imputed value as a dot, coloured by whether it is observed (blue) or imputed (red). Imputed values should be scattered throughout the range of observed values.
+
+```{r mice-strip, fig.height=5, fig.width=8}
+stripplot(imputed, BMI + SleepHrsNight + TotChol ~ .imp,
+          pch = 20, cex = 0.5)
+```
+
+### Box Plots — Alternative for Large Datasets
+
+When the fraction of missing data is large, strip plots can become hard to read because imputed points are piled on top of observed ones. `bwplot()` is a cleaner alternative: imputation 0 is the original data, and boxes 1–*m* show the distribution of *imputed* values only.
+
+```{r mice-bwplot, fig.height=4, fig.width=6}
+bwplot(imputed, BMI ~ .imp)
+```
+
+### Categorical Variable Distribution Check
+
+For categorical variables, compare the distribution of categories between observed and imputed data using a cross-tabulation on the "long" form of the imputed data.
+
+```{r mice-categ-check}
+# Extract all imputed datasets in long form (include original data with .imp == 0)
+imputed_long <- complete(imputed, "long", include = TRUE)
+
+# Label observed vs imputed rows
+imputed_long <- imputed_long |>
+  mutate(
+    data_source = factor(.imp > 0,
+                         levels = c(FALSE, TRUE),
+                         labels = c("Observed", "Imputed"))
+  )
+
+# Compare PhysActive distribution between observed and pooled imputed rows
+prop.table(
+  table(imputed_long$PhysActive, imputed_long$data_source),
+  margin = 2   # column percentages
+)
+```
+
+> The column proportions should be broadly similar between "Observed" and "Imputed". Large differences may indicate a problem with the imputation model — for example, a missing auxiliary variable or a violation of the MAR assumption.
+
+## Analyse and Pool Results
+
+### Fit the Model on Each Imputed Dataset
+
+`with()` applies any analysis function to each of the *m* completed datasets produced by `mice`.
+
+```{r mice-fit}
+# Fit the same logistic regression as the complete-case model
+mi_fit <- with(
+  imputed,
+  glm(Diabetes ~ Age + PhysActive + SleepHrsNight +
+                 BMI + TotChol,
+      family = binomial(link = "logit"))
+)
+```
+
+### Pool Results 
+
+`pool()` combines the *m* sets of estimates using Rubin's rules. `summary()` displays the pooled log-odds coefficients along with pooled standard errors, *t*-statistics, and *p*-values.
+
+```{r mice-pool}
+mi_pooled <- pool(mi_fit)
+summary(mi_pooled, conf.int = TRUE)
+```
+
+
+How many imputations do you really need? The correct number of imputations $m$ depends on the other information in the dataset. Von Hippel (2020) proposes a two-stage approach: start with $m = 20$, fit the model, and then use `how_many_imputations()` to calculate whether more are needed. If the required number exceeds 20, re-run `mice()` with the larger $m$.
+
+```{r n-imputations}
+howManyImputations::how_many_imputations(mi_fit)
+```
+
+> If the result is $\leq 20$, your current run is sufficient. If it is larger, re-run `mice()` with that number. 
+
+---
+
+## Compare Complete-Case vs MI Results
+
+Side-by-side comparison helps you see whether MI materially changed the conclusions.
+
+```{r compare-results}
+# --- Complete-case estimates ---
+cca_tidy <- tidy(cca_model, conf.int = TRUE) |>
+  select(term, estimate, std.error, conf.low, conf.high, p.value) |>
+  mutate(method = "Complete-case")
+
+# --- MI pooled estimates ---
+mi_tidy <- summary(mi_pooled, conf.int = TRUE) |>
+  as_tibble() |>
+  select(
+    term,
+    estimate,
+    std.error = std.error,
+    conf.low  = `2.5 %`,
+    conf.high = `97.5 %`,
+    p.value
+  ) |>
+  mutate(method = "Multiple imputation")
+
+# Combine
+compare_tbl <- bind_rows(cca_tidy, mi_tidy) |>
+  arrange(term, method)
+
+compare_tbl
+```
+
+```{r compare-plot, fig.height=5, fig.width=7}
+# Visualise coefficient estimates with 95% CIs, excluding the intercept
+compare_tbl |>
+  filter(term != "(Intercept)") |>
+  ggplot(aes(x = estimate, y = term, colour = method,
+             xmin = conf.low, xmax = conf.high)) +
+  geom_point(position = position_dodge(width = 0.5), size = 2) +
+  geom_errorbarh(position = position_dodge(width = 0.5), height = 0.25) +
+  geom_vline(xintercept = 0, linetype = "dashed", colour = "grey50") +
+  scale_colour_manual(values = c("Complete-case" = "#E69F00",
+                                  "Multiple imputation" = "#0072B2")) +
+  labs(
+    title   = "Complete-case vs. Multiple imputation: log-odds estimates",
+    x       = "Log-odds estimate (95% CI)",
+    y       = NULL,
+    colour  = NULL
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "bottom")
+```
+
+> If the MI confidence intervals are noticeably narrower or if the point estimates shift, that is evidence that CCA was either inefficient or biased. When results are similar, CCA is adequate — but MI is the safer default.
+
+
+
+## References
+
+van Buuren, S., & Groothuis-Oudshoorn, K. (2011). mice: Multivariate imputation by chained equations in R. *Journal of Statistical Software, 45*(3), 1–67. <https://doi.org/10.18637/jss.v045.i03>
+
+van Buuren, S. (2018). *Flexible imputation of missing data* (2nd ed.). Chapman & Hall/CRC. <https://stefvanbuuren.name/fimd/>
+
+Little, R. J. A. (1988). A test of missing completely at random for multivariate data with missing values. *Journal of the American Statistical Association, 83*(404), 1198–1202.
+
+Little, R. J. A., & Rubin, D. B. (2019). *Statistical analysis with missing data* (3rd ed.). Hoboken, NJ: Wiley.
+
+Nahhas, R. W. (2024). *Introduction to regression methods for public health using R* (Chapter 9: Multiple Imputation of Missing Data). <https://bookdown.org/rwnahhas/RMPH/mi.html>
+
+Rubin, D. B. (1976). Inference and missing data. *Biometrika, 63*(3), 581–592.
+
+Rubin, D. B. (1987). *Multiple imputation for nonresponse in surveys*. John Wiley & Sons.
+
+von Hippel, P. T. (2009). How to impute interactions, squares, and other transformed variables. *Sociological Methodology, 39*(1), 265–291. <https://doi.org/10.1111/j.1467-9531.2009.01215.x>
+
+von Hippel, P. T. (2020). How many imputations do you need? A two-stage calculation using a quadratic rule. *Sociological Methods & Research, 49*(3), 699–718. <https://doi.org/10.1177/0049124117747303>
