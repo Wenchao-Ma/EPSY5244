@@ -2,6 +2,9 @@
 title: "Statistical Analysis"
 ---
 
+
+
+
 This handout uses the [2001 Learning and Technology Survey](http://edmeasurement.net/5244/2001-survey.html) for illustration. The survey collected information on students' technology comfort, online learning experiences, and demographics.
 
 Data source:
@@ -22,6 +25,9 @@ This handout addresses four research questions that progress from simple descrip
 
 ------------------------------------------------------------------------
 
+
+
+
 ```{r install-packages, eval=FALSE}
 # Run this block ONCE to install all required packages.
 # After installation you never need to run it again.
@@ -37,9 +43,15 @@ library(haven)
 library(sjPlot)    # contingency tables and regression output
 ```
 
+
+
+
 ## Import the Data
 
 `read_sav()` reads an SPSS data file — either from your computer or directly from a URL — into a data frame. Recall that a data frame is R's version of a spreadsheet: rows are respondents, columns are variables.
+
+
+
 
 ```{r import-data}
 # Read the SPSS file directly from the web into a data frame named df
@@ -54,11 +66,17 @@ dim(df)
 head(df)
 ```
 
+
+
+
 ## RQ1: Overall Satisfaction With Online Course(s)
 
 **Question:** Overall, to what extent are students dissatisfied or satisfied with the online course(s) they have taken? (Q2.2, six-point scale)
 
 Q2.2 is a single categorical variable, so we describe its distribution with a frequency table (counts and percentages) and a bar chart.
+
+
+
 
 ```{r rq1-data}
 
@@ -87,9 +105,15 @@ df$overall_exp <- factor(
 
 ```
 
+
+
+
 ### Frequency Table
 
 `table()` counts how many respondents chose each category. `prop.table()` converts those counts into proportions, which we multiply by 100 to get percentages.
+
+
+
 
 ```{r rq1-proportions}
 rq1_counts <- table(df$overall_exp)       # raw counts
@@ -104,9 +128,15 @@ data.frame(
 )
 ```
 
+
+
+
 ### Collapsed Summary
 
 To simplify reporting we combine the three satisfied categories and the three dissatisfied categories into two groups.
+
+
+
 
 ```{r rq1-collapsed}
 # Proportion who chose "Somewhat satisfied" or higher (codes 4, 5, 6)
@@ -121,9 +151,15 @@ data.frame(
 )
 ```
 
+
+
+
 ### Bar Chart
 
 `ggplot2` builds plots layer by layer. `aes()` maps variables to visual properties (x axis, y axis). `geom_col()` draws bars. `labs()` sets titles and axis labels.
+
+
+
 
 ```{r rq1-bar, fig.width=9, fig.height=4}
 # Convert the frequency table to a data frame for ggplot
@@ -141,6 +177,9 @@ ggplot(rq1_plot_df, aes(x = overall_exp, y = count)) +
   # Rotate x-axis labels so they don't overlap
   theme(axis.text.x = element_text(angle = 20, hjust = 1))
 ```
+
+
+
 
 ::: {.note-box .note}
 **Reporting template (RQ1):**
@@ -172,6 +211,9 @@ The chi-square test checks whether the distribution of satisfaction ratings look
 
 `sjPlot::tab_xtab()` produces a contingency table, chi-square test, and Cramer's *V* in one step. `show.row.prc = TRUE` displays row percentages, making it easier to compare distributions across motivation groups.
 
+
+
+
 ```{r rq2-crosstab}
 sjPlot::tab_xtab(
   var.row      = df$q1.3,
@@ -179,6 +221,9 @@ sjPlot::tab_xtab(
   show.row.prc = TRUE
 )
 ```
+
+
+
 
 ### Interpreting Cramer's *V*
 
@@ -200,6 +245,9 @@ How would you interpret a non-significant chi-square result paired with a medium
 
 A stacked bar chart shows the full distribution of satisfaction levels within each motivation group side by side, making it easy to compare groups visually.
 
+
+
+
 ```{r rq2-stacked, fig.width=9, fig.height=10}
 sjPlot::plot_xtab(
   df$q1.3,
@@ -209,6 +257,9 @@ sjPlot::plot_xtab(
   coord.flip = F      # flip so motivation groups appear on the y axis
 )
 ```
+
+
+
 
 ::: {.note-box .note}
 Each column is a motivation group. The segments within each bar show what percentage of that group chose each satisfaction level. If the segment pattern looks similar across all rows, the two variables are not strongly related.
@@ -242,6 +293,9 @@ Item mean collapses the full distribution into one number. Two items can have id
 
 ### Select and Label the Items
 
+
+
+
 ```{r rq3-select-items}
 # Select the nine Q1.2 sub-items (columns q1.2a through q1.2i)
 # paste0() creates the column names: "q1.2a", "q1.2b", ..., "q1.2i"
@@ -264,9 +318,15 @@ names(likert_items) <- c(
 head(likert_items)
 ```
 
+
+
+
 ### Item-Level Descriptives (Mean and SD)
 
 `sapply()` applies the same function to every column of a data frame and returns a vector (or matrix) of results. `na.rm = TRUE` tells the function to ignore missing values.
+
+
+
 
 ```{r rq3-item-summary}
 data.frame(
@@ -277,9 +337,15 @@ data.frame(
 )
 ```
 
+
+
+
 ### Convert to Labeled Factors and Fit the Likert Object
 
 The `likert()` function requires **ordered factors** with text labels. `lapply()` applies the conversion to every column.
+
+
+
 
 ```{r rq3-likert-fit}
 # Define the four response labels in ascending order
@@ -303,11 +369,20 @@ likert_fit <- likert::likert(likert_items_factor)
 likert_fit$results
 ```
 
+
+
+
 ### Response Profile Plot
+
+
+
 
 ```{r rq3-likert-plot, fig.width=10, fig.height=7}
 plot(likert_fit,type = "bar")
 ```
+
+
+
 
 ::: {.note-box .note}
 **How to read this plot:** Each row is one survey item. The colored bar segments show the percentage of respondents choosing each comfort level. Items with a large "Mostly comfortable" segment (dark teal, far right) are tasks respondents feel confident about. Items with large segments on the left (uncomfortable) are where students may need more support or training.
@@ -362,6 +437,9 @@ Descriptive analyses of the nine technology-comfort items (Q1.2) showed that mea
 
 `glm()` fits a **Generalized Linear Model**. Setting `family = binomial(link = "logit")` specifies logistic regression. The formula `register ~ ...` reads: "predict register from the listed predictors."
 
+
+
+
 ```{r logit-fit}
 logit_model <- glm(
   q2.9 ~ q2.2 + q2.5 + q1.3 + q4.3 + q4.4,
@@ -373,9 +451,15 @@ logit_model <- glm(
 summary(logit_model)
 ```
 
+
+
+
 ### Model Summary Table (Odds Ratios)
 
 `sjPlot::tab_model()` exponentiates the log-odds coefficients to give **odds ratios** and displays them with 95% confidence intervals and p-values — all in one formatted table.
+
+
+
 
 ```{r logit-table}
 sjPlot::tab_model(
@@ -393,9 +477,15 @@ sjPlot::tab_model(
 )
 ```
 
+
+
+
 ### Odds Ratio Plot
 
 A forest plot displays each odds ratio as a dot with a horizontal line for its 95% confidence interval. If the line does **not** cross the vertical reference line at OR = 1, the predictor is statistically significant at $\alpha = .05$.
+
+
+
 
 ```{r logit-or-plot, fig.width=7, fig.height=4}
 sjPlot::plot_model(
@@ -413,6 +503,9 @@ sjPlot::plot_model(
   value.offset = 0.3
 )
 ```
+
+
+
 
 ::: {.note-box .jamovi}
 In Jamovi, Analyses -\> Regression -\> Logistic Regression
@@ -457,3 +550,4 @@ Using the same data, answer the following research questions:
 
 -   Describe where the primary computer is located for the participants in the sample (Q1.1)?
 -   What's the relationship between whether they will recommend online courses to others (Q2.9) and their overall satisfaction with online courses (Q2.2)? Create a contingency table, chi-square test, and Cramer's *V* to answer this question. Then write a brief report summarizing the results.
+

@@ -125,7 +125,7 @@ a {
   border-color: #7A0019;
   color: #000;
 }
-.standards {
+.jamovi {
   background-color: #F3EAFF; /* soft violet */
   border-color: #7A0019;
   color: #000;
@@ -150,7 +150,7 @@ a {
 }
 
 .note::before     { content: "📝 Note:"; }
-.standards::before     { content: "📘 Testing Standards:"; }
+.jamovi::before     { content: "📘 Jamovi:"; }
 .warning::before  { content: "❗ Warning:"; }
 .example::before  { content: "📘 Example:"; }
 .activities::before { content: "🧮 Class Activities/Assignments:"; }
