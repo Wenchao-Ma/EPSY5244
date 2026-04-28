@@ -208,36 +208,4 @@ main.content {
   #quarto-content {
     padding-top: 0.5rem;
   }
-
-  body.nav-collapsed #quarto-sidebar,
-  body.nav-collapsed #quarto-sidebar-glass {
-    display: none !important;
-  }
-
-  body.nav-collapsed #quarto-content.page-columns .content,
-  body.nav-collapsed #quarto-content.page-columns .column-body,
-  body.nav-collapsed #quarto-content.page-columns .page-navigation {
-    grid-column: page-start / page-end !important;
-  }
-
-  #left-nav-toggle {
-    position: fixed;
-    top: 0.9rem;
-    left: 0.9rem;
-    z-index: 1200;
-    width: 2.3rem;
-    height: 2.3rem;
-    border: 1px solid #c9ced4;
-    border-radius: 0.4rem;
-    background: #ffffff;
-    color: #2b2f33;
-    font-size: 1.05rem;
-    line-height: 1;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  }
-
-  #left-nav-toggle:hover {
-    background: #f5f7fa;
-  }
 }

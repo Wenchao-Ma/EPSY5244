@@ -14,31 +14,6 @@
 
 <script>
 window.addEventListener("DOMContentLoaded", function () {
-  function setNavCollapsed(isCollapsed) {
-    document.body.classList.toggle("nav-collapsed", isCollapsed);
-    var toggle = document.getElementById("left-nav-toggle");
-    if (toggle) {
-      toggle.textContent = isCollapsed ? "☰" : "✕";
-      toggle.setAttribute("aria-label", isCollapsed ? "Show chapter navigation" : "Hide chapter navigation");
-      toggle.title = isCollapsed ? "Show chapter navigation" : "Hide chapter navigation";
-    }
-  }
-
-  if (window.matchMedia("(min-width: 992px)").matches) {
-    if (!document.getElementById("left-nav-toggle")) {
-      var navToggle = document.createElement("button");
-      navToggle.id = "left-nav-toggle";
-      navToggle.type = "button";
-      navToggle.textContent = "☰";
-      navToggle.setAttribute("aria-label", "Show chapter navigation");
-      navToggle.addEventListener("click", function () {
-        setNavCollapsed(!document.body.classList.contains("nav-collapsed"));
-      });
-      document.body.appendChild(navToggle);
-    }
-    setNavCollapsed(false);
-  }
-
   var cells = document.querySelectorAll("div.cell");
   var counter = 0;
 
