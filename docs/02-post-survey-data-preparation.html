@@ -74,7 +74,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-0de45b8b5f35a93596f1d788d60c4c11.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-8732330c0d84fc7a255228a3cc736e1e.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-97c1b54b8c8dfb4054ea707ac36fb132.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -102,6 +102,133 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<style>
+.code-result-tabs {
+  margin-top: 0.75rem;
+}
+
+.code-result-tabs .nav-tabs {
+  margin-bottom: 0.75rem;
+}
+
+.code-result-tabs .tab-pane {
+  padding-top: 0.25rem;
+}
+</style>
+
+<script>
+window.addEventListener("DOMContentLoaded", function () {
+  function setNavCollapsed(isCollapsed) {
+    document.body.classList.toggle("nav-collapsed", isCollapsed);
+    var toggle = document.getElementById("left-nav-toggle");
+    if (toggle) {
+      toggle.textContent = isCollapsed ? "☰" : "✕";
+      toggle.setAttribute("aria-label", isCollapsed ? "Show chapter navigation" : "Hide chapter navigation");
+      toggle.title = isCollapsed ? "Show chapter navigation" : "Hide chapter navigation";
+    }
+  }
+
+  if (window.matchMedia("(min-width: 992px)").matches) {
+    if (!document.getElementById("left-nav-toggle")) {
+      var navToggle = document.createElement("button");
+      navToggle.id = "left-nav-toggle";
+      navToggle.type = "button";
+      navToggle.textContent = "☰";
+      navToggle.setAttribute("aria-label", "Show chapter navigation");
+      navToggle.addEventListener("click", function () {
+        setNavCollapsed(!document.body.classList.contains("nav-collapsed"));
+      });
+      document.body.appendChild(navToggle);
+    }
+    setNavCollapsed(true);
+  }
+
+  var cells = document.querySelectorAll("div.cell");
+  var counter = 0;
+
+  cells.forEach(function (cell) {
+    var codeNode = cell.querySelector(":scope > .cell-code") || cell.querySelector(":scope > .sourceCode");
+    var outputNodes = Array.from(cell.children).filter(function (child) {
+      return Array.from(child.classList).some(function (cls) {
+        return cls.indexOf("cell-output") === 0;
+      });
+    });
+
+    if (!codeNode || outputNodes.length === 0) {
+      return;
+    }
+
+    counter += 1;
+    var resultId = "result-tab-" + counter;
+    var codeId = "code-tab-" + counter;
+
+    var wrapper = document.createElement("div");
+    wrapper.className = "code-result-tabs";
+
+    var nav = document.createElement("ul");
+    nav.className = "nav nav-tabs";
+    nav.setAttribute("role", "tablist");
+
+    var resultNav = document.createElement("li");
+    resultNav.className = "nav-item";
+    resultNav.setAttribute("role", "presentation");
+    var resultBtn = document.createElement("button");
+    resultBtn.className = "nav-link active";
+    resultBtn.type = "button";
+    resultBtn.setAttribute("data-bs-toggle", "tab");
+    resultBtn.setAttribute("data-bs-target", "#" + resultId);
+    resultBtn.setAttribute("role", "tab");
+    resultBtn.setAttribute("aria-controls", resultId);
+    resultBtn.setAttribute("aria-selected", "true");
+    resultBtn.textContent = "Results";
+    resultNav.appendChild(resultBtn);
+
+    var codeNav = document.createElement("li");
+    codeNav.className = "nav-item";
+    codeNav.setAttribute("role", "presentation");
+    var codeBtn = document.createElement("button");
+    codeBtn.className = "nav-link";
+    codeBtn.type = "button";
+    codeBtn.setAttribute("data-bs-toggle", "tab");
+    codeBtn.setAttribute("data-bs-target", "#" + codeId);
+    codeBtn.setAttribute("role", "tab");
+    codeBtn.setAttribute("aria-controls", codeId);
+    codeBtn.setAttribute("aria-selected", "false");
+    codeBtn.textContent = "Code";
+    codeNav.appendChild(codeBtn);
+
+    nav.appendChild(resultNav);
+    nav.appendChild(codeNav);
+
+    var content = document.createElement("div");
+    content.className = "tab-content";
+
+    var resultPane = document.createElement("div");
+    resultPane.className = "tab-pane fade show active";
+    resultPane.id = resultId;
+    resultPane.setAttribute("role", "tabpanel");
+
+    var codePane = document.createElement("div");
+    codePane.className = "tab-pane fade";
+    codePane.id = codeId;
+    codePane.setAttribute("role", "tabpanel");
+
+    outputNodes.forEach(function (node) {
+      resultPane.appendChild(node);
+    });
+
+    codePane.appendChild(codeNode);
+
+    content.appendChild(resultPane);
+    content.appendChild(codePane);
+
+    wrapper.appendChild(nav);
+    wrapper.appendChild(content);
+
+    cell.insertBefore(wrapper, cell.firstChild);
+  });
+});
+</script>
 
 
 </head>
@@ -174,6 +301,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="sidebar-item-container"> 
   <a href="./05-open-ended-question-analysis.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Open-Ended Question Analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-multiple-imputation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Multiple Imputation</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-survey-weights.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Survey Data Analysis: Weights</span></span></a>
   </div>
 </li>
     </ul>

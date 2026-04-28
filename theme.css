@@ -156,3 +156,88 @@ a {
 .activities::before { content: "🧮 Class Activities/Assignments:"; }
 .question::before { content: "❓ Question:";}
 .exercise::before { content: "️ Exercise:"; }
+
+/* Larger reading text with slightly wider line spacing */
+main.content p,
+main.content li,
+main.content td,
+main.content th,
+main.content blockquote,
+main.content .callout-body {
+  font-size: 1.18rem;
+  line-height: 1.8;
+}
+
+/* Keep a comfortable reading measure while allowing a wider page */
+main.content {
+  width: min(100%, clamp(46rem, 90vw, 82rem));
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(0.5rem, 1.2vw, 1.25rem);
+  padding-right: clamp(0.5rem, 1.2vw, 1.25rem);
+}
+
+/* Slightly tighten side padding on small screens so text uses space better */
+@media screen and (max-width: 991.98px) {
+  #quarto-content {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+/* Remove nonessential navigation and maximize content width */
+@media screen and (min-width: 992px) {
+  #quarto-header,
+  .quarto-secondary-nav,
+  .quarto-page-breadcrumbs,
+  .quarto-search-button,
+  .page-navigation {
+    display: none !important;
+  }
+
+  #quarto-margin-sidebar {
+    display: none !important;
+  }
+
+  #quarto-content.page-columns .content,
+  #quarto-content.page-columns .column-body,
+  #quarto-content.page-columns .page-navigation {
+    grid-column: body-content-start / page-end !important;
+  }
+
+  #quarto-content {
+    padding-top: 0.5rem;
+  }
+
+  body.nav-collapsed #quarto-sidebar,
+  body.nav-collapsed #quarto-sidebar-glass {
+    display: none !important;
+  }
+
+  body.nav-collapsed #quarto-content.page-columns .content,
+  body.nav-collapsed #quarto-content.page-columns .column-body,
+  body.nav-collapsed #quarto-content.page-columns .page-navigation {
+    grid-column: page-start / page-end !important;
+  }
+
+  #left-nav-toggle {
+    position: fixed;
+    top: 0.9rem;
+    left: 0.9rem;
+    z-index: 1200;
+    width: 2.3rem;
+    height: 2.3rem;
+    border: 1px solid #c9ced4;
+    border-radius: 0.4rem;
+    background: #ffffff;
+    color: #2b2f33;
+    font-size: 1.05rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  #left-nav-toggle:hover {
+    background: #f5f7fa;
+  }
+}

@@ -16,8 +16,11 @@ book:
     - 03-psychometric-analysis.qmd
     - 04-statistical-analysis.qmd
     - 06-multiple-imputation.qmd
+    - 08-survey-weights.qmd
+    - 05-open-ended-question-analysis.qmd
 
 csl: csl/apa.csl  
+
 format:
   html:
     mainfont: Roboto
@@ -31,6 +34,7 @@ format:
       - theme.css
       - theme.scss
       - lumen
+    include-in-header: code-result-tabs.html
 
 execute:
   warning: false

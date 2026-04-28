@@ -1,0 +1,330 @@
+---
+title: "Survey Data Analysis: Weights"
+---
+
+## Why do survey weights exist?
+
+Imagine that you want to estimate public opinion in a state.
+
+In the **real population**:
+
+-   80% of people live in urban areas
+-   20% of people live in rural areas
+
+But in your **sample**:
+
+-   50% are urban
+-   50% are rural
+
+That sample does **not** match the population. If rural and urban respondents answer differently, the raw sample average may be misleading.
+
+In practice, weights are often used because of one or more of these reasons:
+
+
+- Some people had a higher chance of being sampled than others.
+- Some groups were less likely to respond, so their responses may be upweighted.
+- The sample is adjusted so that it better matches known population totals, such as age, sex, region, or education.
+
+
+## A demonstration of survey weights
+
+In this first activity, we will create a population where we know the truth, then draw a biased sample. This helps us see why weights matter.
+
+In the population, we consider two groups: urban (80% population) and rural (20% population). We will make the rural group more supportive of a policy (0.7) than the urban group (0.4).
+
+
+```{r}
+#| warning: false
+#| message: false
+library(dplyr)
+library(ggplot2)
+library(survey)
+
+set.seed(123)
+
+N <- 50000
+
+population <- tibble(
+  id = 1:N,
+  region = sample(c("Urban", "Rural"), N, replace = TRUE, prob = c(0.80, 0.20)),
+  supports_policy = rbinom(
+    N,
+    size = 1,
+    prob = ifelse(region == "Urban", 0.4, 0.70)
+  )
+)
+
+head(population)
+```
+
+At the population level, the support rate is ________.
+
+```{r}
+true_support <- mean(population$supports_policy)
+true_support
+```
+
+This value is the **truth** in our simulated population.
+
+Now suppose we draw a sample that is 50% urban and 50% rural. That is a biased sample, because it does not reflect the population composition.
+
+```{r}
+set.seed(456)
+
+urban_sample <- population |>
+  filter(region == "Urban") |>
+  slice_sample(n = 500)
+
+rural_sample <- population |>
+  filter(region == "Rural") |>
+  slice_sample(n = 500)
+
+sample_data <- bind_rows(urban_sample, rural_sample)
+
+sample_data |> count(region) |> mutate(prop = n / sum(n))
+```
+
+::: {.note-box .question}
+Will the support rate estimated from this sample be too high, too low, or about right? Run the code below to find out.
+:::
+
+
+```{r}
+unweighted_support <- mean(sample_data$supports_policy)
+unweighted_support
+```
+
+
+Our sample is 50% urban and 50% rural, but the population is 80% urban and 20% rural.
+
+So we assign weights based on:
+
+$$
+	{weight} = \frac{\text{population share}}{\text{sample share}}
+$$
+
+```{r}
+sample_data <- sample_data |>
+  mutate(
+    weight = case_when(
+      region == "Urban" ~ 0.80 / 0.50,
+      region == "Rural" ~ 0.20 / 0.50
+    )
+  )
+
+sample_data |> count(region, weight)
+```
+
+
+
+```{r}
+weighted_support <- weighted.mean(sample_data$supports_policy, w = sample_data$weight)
+weighted_support
+```
+
+Now we can compare the three results: the true population value, the unweighted sample estimate, and the weighted sample estimate.
+
+```{r}
+comparison <- tibble(
+  method = c("True population", "Unweighted sample", "Weighted sample"),
+  estimate = c(true_support, unweighted_support, weighted_support)
+)
+
+comparison
+```
+
+
+## Analysis using the `survey` package
+
+So far, we used `weighted.mean()`. That is useful for intuition, but survey analysis usually needs methods that also handle **standard errors** appropriately.
+
+The `survey` package is a standard R package for this purpose.
+
+When using `survey` package, we need to specify survey design using `svydesign` function.
+
+- ids = ~1 means that the sampling units are individual rows  and there is no clustering.
+- weights = ~weight tells the function to use the specified weights.
+
+
+
+```{r}
+design_w <- svydesign(
+  ids = ~1,
+  weights = ~weight,
+  data = sample_data
+)
+
+design_w
+```
+
+To calculate the weighted mean of `supports_policy` with a survey-aware standard error, we can use `svymean()`.
+```{r}
+svymean(~supports_policy, design = design_w)
+```
+
+## An analysis of California schools
+
+The `api` data come from the California Academic Performance Index study included with the `survey` package. The full population data in apipop has 6194 schools.
+
+
+The key datasets we will use are:
+
+- `apipop`: population of schools
+- `apistrat`: stratified sample of schools
+- `apiclus1`: one-stage cluster sample of schools
+- `apisrs`: simple random sample of schools
+
+Each row represents a school, and `api00` is the school performance score in year 2000. Other useful variables in this handout include:
+
+- `api00`: outcome (school performance)
+- `meals`: percent of students eligible for subsidized meals
+- `ell`: percent of English language learners
+- `stype`: school type (elementary, middle, high)
+
+
+Let us assume that we want to estimate the average API score in the population of California schools. Because `apipop` is the full population in this teaching dataset, we can compute the population mean directly.
+
+```{r}
+data(api)
+```
+
+```{r}
+true_mean_api <- mean(apipop$api00, na.rm = TRUE)
+true_mean_api
+```
+
+
+## Simple random sampling with finite population
+
+```{r}
+head(apisrs)
+```
+
+When using `survey` package, we need to specify survey design using `svydesign` function.
+
+- ids = ~1 means that the sampling units are individual rows (schools) and there is no clustering.
+- fpc = ~fpc tells the function to use the finite population correction based on the `fpc` column in the data, which contains the total population size for each school. 
+
+
+```{r}
+design_srs <- svydesign(
+  ids = ~1,
+  fpc = ~fpc,
+  data = apisrs
+)
+
+design_srs
+```
+
+::: {.note-box .note}
+The `fpc` argument stands for **Finite Population Correction**. Standard variance formulas assume you are sampling from an infinitely large population, which overestimates variance when your sample covers a meaningful fraction of the total population. The FPC adjusts for this by applying the factor $1 - n/N$, where $n$ is the sample size and $N$ is the total population size. In `apisrs`, the `fpc` column holds $N$ (the total number of California schools) for each row. By passing `fpc = ~fpc`, we tell `svydesign()` to use this to shrink standard errors appropriately. If the sampling fraction $n/N$ is negligible (e.g., 200 people from millions), the FPC barely matters — but when it is non-trivial, omitting it meaningfully overstates uncertainty.
+:::
+
+
+To estimate the mean API score (`api00`) with a survey-aware standard error, use `svymean()`.
+
+```{r}
+srs_mean <- svymean(~api00, design = design_srs)
+srs_mean
+```
+
+
+## Stratified sample analysis
+
+Now let us analyze the stratified sample that comes with the package. The dataset `apistrat` is a stratified sample of schools, where the strata are defined by `stype` (school type).
+
+We specify the survey design for the stratified sample. The `strata` argument tells the function to account for the stratification by school type, and `weights` specifies the sampling weights for each school.
+
+```{r}
+strat_design <- svydesign(
+  id = ~1,
+  strata = ~stype,
+  weights = ~pw,
+  fpc = ~fpc,
+  data = apistrat
+)
+```
+
+To estimate the mean API score for the stratified sample, we can use `svymean()` again.
+
+```{r}
+strat_mean <- svymean(~api00, strat_design)
+strat_mean
+```
+
+
+## Clustered sample analysis
+
+Now let us analyze a clustered design.
+
+The dataset `apiclus1` is a one-stage cluster sample. A key cluster identifier is `dnum`, which represents district. This dataset contains 40 districts, and all schools within those districts are included in the sample. The `pw` variable contains the sampling weights for each school.
+
+The code below specifies the survey design for the clustered sample. The `id` argument tells the function that the primary sampling units are districts (`dnum`), and `weights` specifies the sampling weights for each school.
+
+```{r}
+clus1_design <- svydesign(
+  id = ~dnum,
+  weights = ~pw,
+  fpc = ~fpc,
+  data = apiclus1
+)
+```
+
+To estimate the mean API score for the clustered sample, we can use `svymean()` again.
+
+```{r}
+clus1_mean <- svymean(~api00, clus1_design)
+clus1_mean
+```
+
+
+
+We can now compare three designs:
+
+- simple random sample 
+- stratified design
+- clustered design
+
+```{r}
+results <- tibble(
+  design = c("Population truth", "Simple random sample", "Stratified sample", "Clustered sample"),
+  estimate = c(
+    true_mean_api,
+    as.numeric(coef(srs_mean)),
+    as.numeric(coef(strat_mean)),
+    as.numeric(coef(clus1_mean))
+  ),
+  se = c(
+    NA,
+    as.numeric(SE(srs_mean)),
+    as.numeric(SE(strat_mean)),
+    as.numeric(SE(clus1_mean))
+  )
+)
+
+results
+```
+
+
+
+
+We can also look at confidence intervals for the mean API score under each design. The `confint()` function computes confidence intervals based on the survey design and standard errors.
+
+```{r}
+confint(srs_mean)
+confint(strat_mean)
+confint(clus1_mean)
+```
+
+## A regression example
+
+The code below estimates the relationship between API score and percent eligible for subsidized meals using a simple linear regression. We will compare the results from an unweighted model (which ignores the survey design) to a survey-aware model that accounts for clustering and weights.
+
+We will estimate the relationship between API score and percent eligible for subsidized meals.
+
+
+```{r}
+summary(lm(api00 ~ meals, data = apiclus1))
+
+summary(svyglm(api00 ~ meals, design = clus1_design))
+```
