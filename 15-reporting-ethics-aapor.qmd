@@ -1,0 +1,199 @@
+---
+title: "Best Practices and Ethics for Survey Studies"
+author: "Wenchao Ma"
+format:
+  pptx:
+    theme: simple
+    slide-number: true
+    transition: slide
+    toc: true
+    toc-depth: 1
+    toc-title: "Agenda"
+    chalkboard: true
+---
+
+# Introduction to Survey Quality
+
+## The Philosophy of Survey Research
+
+> "The quality of a survey is best judged not by its size, scope, or prominence, but by how much attention is given to preventing, measuring and dealing with the many important problems that can arise." 
+> — *American Statistical Association / AAPOR*
+
+- High-quality surveys are a balancing act between rigorous methodology and ethical responsibility.
+- A large sample size does not fix a biased questionnaire.
+- Transparency builds scientific trust.
+
+::: {.notes}
+Welcome everyone. Today we are looking at the AAPOR Best Practices and Code of Ethics. 
+Spend about 2 minutes here. Emphasize to the students that in the era of Big Data, people often mistake "large amounts of data" for "good data." A fundamentally flawed survey of 100,000 people is worse than a perfectly executed survey of 1,000 people because the flawed survey gives a false sense of precision.
+:::
+
+# 1. The Core of Survey Ethics
+
+## The AAPOR Code of Ethics
+Ethical researchers adhere to strict professional standards. As survey researchers, we have obligations to our respondents, our clients/sponsors, and the public.
+
+- **Integrity:** Never use surveys to produce predetermined results.
+- **Protection:** Guard respondent privacy, confidentiality, and autonomy.
+- **Transparency:** Fully disclose methods, funding sources, and potential conflicts of interest.
+
+::: {.notes}
+AAPOR stands for the American Association for Public Opinion Research. It is the leading professional organization for survey researchers. Mention that ethics aren't just "nice to have"; they are the foundation that makes the public willing to answer our questions at all. If we break that trust, the entire field suffers.
+:::
+
+## Anonymity vs. Confidentiality
+These terms are often confused but mean very different things in research ethics.
+
+* **Anonymity:** The researcher cannot link the data back to the specific respondent. (e.g., an un-tracked web link).
+* **Confidentiality:** The researcher knows who the respondent is (or holds PII like an IP address or email) but promises not to reveal this to the public or the client.
+
+**Best Practice:** Always be clear with respondents about which level of privacy they are receiving.
+
+::: {.notes}
+This is a critical distinction for IRB (Institutional Review Board) approval. If you are conducting a panel survey where you need to track change over time, you cannot offer anonymity, only confidentiality. You must secure your data accordingly.
+:::
+
+# 2. Planning & Mode Selection
+
+## Is a Survey the Right Tool?
+Before writing any questions, researchers must ask:
+
+1. Are the research objectives specific and unambiguous?
+2. Has this data already been collected? (Can we use administrative data?)
+3. Is another method more appropriate? (e.g., focus groups for exploratory research, content analysis).
+
+::: {.notes}
+Spend 1-2 minutes here. Remind students that surveys measure *self-reported* attitudes and behaviors. If you want to know how much electricity people use, a survey will give you their *perception*, but their utility bill (administrative data) will give you the *fact*.
+:::
+
+## Choosing the Right Mode
+The choice of mode impacts cost, time, and data quality (mode effects).
+
+- **Online:** Quick, cost-effective, good for sensitive topics. *Risk:* Excludes offline populations.
+- **Telephone:** Interviewers build rapport and clarify questions. *Risk:* High cost, declining response rates.
+- **Face-to-Face:** Highest data quality for complex/long surveys. *Risk:* Highest cost and time investment.
+- **Mail:** Convenient for respondents. *Risk:* Cannot use complex skip patterns.
+
+::: {.notes}
+Discuss "Mode Effects." For example, people are more likely to admit to undesirable behaviors (like illegal drug use or not voting) on an online or mail survey than to a live interviewer on the phone. This is called Social Desirability Bias.
+:::
+
+## Mixed-Mode Designs
+To maximize coverage and minimize costs, modern surveys often combine modes.
+
+* **Sequential Mixed-Mode:** Send a mail invitation with a web link. Follow up via mail with a paper questionnaire for non-respondents. Finally, call the remaining non-respondents.
+* **Benefit:** Reaches different demographics where they are most comfortable while controlling budget.
+
+::: {.notes}
+Give an example: Younger demographics might respond immediately to the web link, while older demographics might wait for the paper mailer. By doing sequential mixed-mode, you get a more representative sample.
+:::
+
+# 3. Sampling & Representation
+
+## Sampling Frames
+Your sample represents the larger population you are studying. The **sampling frame** is the list from which you draw your sample.
+
+* **Coverage Error:** Occurs when your sampling frame does not match your target population.
+    * *Example:* Using a landline phone directory to survey college students. 
+
+
+
+::: {.notes}
+Explain that a perfect sampling frame rarely exists. Researchers always have to figure out who is left out of their frame and how that might skew the data.
+:::
+
+## Probability vs. Non-Probability
+* **Probability Samples:** Everyone in the frame has a known, non-zero chance of selection (e.g., Random Digit Dialing, Address-Based Sampling). Historically the gold standard.
+* **Non-Probability Samples:** Opt-in online panels, social media recruitment. 
+    * *Reality:* Increasingly popular due to cost constraints.
+    * *Requirement:* Demands advanced statistical adjustments and extreme transparency regarding recruitment.
+
+::: {.notes}
+Spend 3 minutes here. The industry is actively debating the future of probability vs. non-probability sampling. If a student does market research, they will likely use opt-in panels. If they work for the Census, they will use probability samples. Both have utility if reported honestly.
+:::
+
+# 4. Questionnaire Design Mechanics
+
+## Best Practices for Question Wording
+Poor questions yield garbage data.
+
+- **One concept at a time:** Avoid "double-barreled" questions.
+- **Keep it simple:** Write for the general public's literacy level.
+- **Neutral language:** Avoid loaded or leading phrasing.
+- **Exhaustive & Mutually Exclusive:** Response categories must cover all possibilities and not overlap.
+
+::: {.notes}
+Walk through the mechanics. Remind them of "cognitive load"—if a question is too hard to understand, respondents will "satisfice" (pick the first okay answer just to move on) or quit the survey entirely.
+:::
+
+
+## Measuring Change Over Time
+**"If you want to measure change, don't change the measure."**
+
+- To accurately track shifts in opinion, keep question wording, framing, and mode *identical* across time points.
+
+::: {.notes}
+Give an example: If you change "welfare" to "assistance to the poor," support levels will drastically change. If you do this between 2023 and 2024, you won't know if public opinion changed, or if it's just the wording effect.
+:::
+
+## Navigating Sensitive Topics
+Ethical researchers protect respondents from psychological discomfort.
+
+- **Build Rapport:** Start with easy questions. Save demographics and sensitive topics for the end.
+- **Informed Consent:** Disclose sensitive topics early.
+- **Autonomy:** Explicitly allow respondents to skip questions (e.g., provide a "Prefer not to answer" option).
+- **IRB Review:** Consult an Institutional Review Board to mitigate risks.
+
+::: {.notes}
+Emphasize that forcing a respondent to answer a sensitive question just makes them close the browser window. A skipped question is better than a lost respondent. 
+:::
+
+# 5. Data Collection & Quality Control
+
+## Pretesting & Pilot Testing
+Never field a survey without testing it first.
+
+* **Cognitive Interviews:** Sit with 5-10 people from your target audience. Have them think out loud as they take the survey to catch confusing phrasing.
+* **Pilot Test:** A small-scale "dress rehearsal." Test your software programming, recruitment protocols, and data export features.
+
+::: {.notes}
+Tell the students: "You are too close to your own research. What makes perfect sense to you will confuse your respondents. Pretesting is mandatory."
+:::
+
+
+# 6. Analysis & Transparency
+
+## Analyzing the Data
+* **Handling Missing Data:** Code partial responses or "break-offs" accurately. A skipped question should have a different numeric code than "I don't know."
+* **Weighting (Post-Stratification):** Raw samples rarely match the population perfectly. Weighting adjusts the data so that demographic proportions (e.g., age, education, race) mirror the Census or target population.
+* **Margin of Error:** Always calculate and report statistical confidence.
+
+::: {.notes}
+Keep weighting high-level. Explain that if your population is 50% male, but your survey respondents are only 30% male, you apply a statistical weight to give the male responses more influence in the final analysis, correcting the imbalance.
+:::
+
+## The AAPOR Transparency Initiative
+Good data is fully transparent data. Under AAPOR guidelines, researchers must publicly disclose:
+
+1. Exact question wording and response options.
+2. Definition of the population under study.
+3. Description of the sampling frame and selection procedures.
+4. Sample sizes, response rates, and margin of error.
+5. Who sponsored and who conducted the research.
+
+::: {.notes}
+Wrap up the lecture here. If an organization releases a poll but hides their methodology or exact question wording, they should not be trusted. Transparency allows the scientific community to evaluate the rigor of the work.
+:::
+
+## Summary & Questions
+
+1. **Plan Ethically:** Protect respondents and public trust.
+2. **Draft Rigorously:** Use unbiased, pre-tested questions.
+3. **Sample Thoughtfully:** Understand who is in your frame and who is left out.
+4. **Report Transparently:** Share exactly how your data was collected and analyzed.
+
+**Questions?**
+
+::: {.notes}
+Leave the remaining 5 minutes for student Q&A.
+:::

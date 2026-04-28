@@ -808,5 +808,165 @@
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Survey Data Analysis: Weights</span>"
     ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html",
+    "href": "15-reporting-ethics-aapor.html",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "",
+    "text": "10 Introduction to Survey Quality",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#the-philosophy-of-survey-research",
+    "href": "15-reporting-ethics-aapor.html#the-philosophy-of-survey-research",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "10.1 The Philosophy of Survey Research",
+    "text": "10.1 The Philosophy of Survey Research\n\n“The quality of a survey is best judged not by its size, scope, or prominence, but by how much attention is given to preventing, measuring and dealing with the many important problems that can arise.” — American Statistical Association / AAPOR\n\n\nHigh-quality surveys are a balancing act between rigorous methodology and ethical responsibility.\nA large sample size does not fix a biased questionnaire.\nTransparency builds scientific trust.\n\n\nWelcome everyone. Today we are looking at the AAPOR Best Practices and Code of Ethics. Spend about 2 minutes here. Emphasize to the students that in the era of Big Data, people often mistake “large amounts of data” for “good data.” A fundamentally flawed survey of 100,000 people is worse than a perfectly executed survey of 1,000 people because the flawed survey gives a false sense of precision.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#the-aapor-code-of-ethics",
+    "href": "15-reporting-ethics-aapor.html#the-aapor-code-of-ethics",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "11.1 The AAPOR Code of Ethics",
+    "text": "11.1 The AAPOR Code of Ethics\nEthical researchers adhere to strict professional standards. As survey researchers, we have obligations to our respondents, our clients/sponsors, and the public.\n\nIntegrity: Never use surveys to produce predetermined results.\nProtection: Guard respondent privacy, confidentiality, and autonomy.\nTransparency: Fully disclose methods, funding sources, and potential conflicts of interest.\n\n\nAAPOR stands for the American Association for Public Opinion Research. It is the leading professional organization for survey researchers. Mention that ethics aren’t just “nice to have”; they are the foundation that makes the public willing to answer our questions at all. If we break that trust, the entire field suffers.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#anonymity-vs.-confidentiality",
+    "href": "15-reporting-ethics-aapor.html#anonymity-vs.-confidentiality",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "11.2 Anonymity vs. Confidentiality",
+    "text": "11.2 Anonymity vs. Confidentiality\nThese terms are often confused but mean very different things in research ethics.\n\nAnonymity: The researcher cannot link the data back to the specific respondent. (e.g., an un-tracked web link).\nConfidentiality: The researcher knows who the respondent is (or holds PII like an IP address or email) but promises not to reveal this to the public or the client.\n\nBest Practice: Always be clear with respondents about which level of privacy they are receiving.\n\nThis is a critical distinction for IRB (Institutional Review Board) approval. If you are conducting a panel survey where you need to track change over time, you cannot offer anonymity, only confidentiality. You must secure your data accordingly.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#is-a-survey-the-right-tool",
+    "href": "15-reporting-ethics-aapor.html#is-a-survey-the-right-tool",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "12.1 Is a Survey the Right Tool?",
+    "text": "12.1 Is a Survey the Right Tool?\nBefore writing any questions, researchers must ask:\n\nAre the research objectives specific and unambiguous?\nHas this data already been collected? (Can we use administrative data?)\nIs another method more appropriate? (e.g., focus groups for exploratory research, content analysis).\n\n\nSpend 1-2 minutes here. Remind students that surveys measure self-reported attitudes and behaviors. If you want to know how much electricity people use, a survey will give you their perception, but their utility bill (administrative data) will give you the fact.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#choosing-the-right-mode",
+    "href": "15-reporting-ethics-aapor.html#choosing-the-right-mode",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "12.2 Choosing the Right Mode",
+    "text": "12.2 Choosing the Right Mode\nThe choice of mode impacts cost, time, and data quality (mode effects).\n\nOnline: Quick, cost-effective, good for sensitive topics. Risk: Excludes offline populations.\nTelephone: Interviewers build rapport and clarify questions. Risk: High cost, declining response rates.\nFace-to-Face: Highest data quality for complex/long surveys. Risk: Highest cost and time investment.\nMail: Convenient for respondents. Risk: Cannot use complex skip patterns.\n\n\nDiscuss “Mode Effects.” For example, people are more likely to admit to undesirable behaviors (like illegal drug use or not voting) on an online or mail survey than to a live interviewer on the phone. This is called Social Desirability Bias.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#mixed-mode-designs",
+    "href": "15-reporting-ethics-aapor.html#mixed-mode-designs",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "12.3 Mixed-Mode Designs",
+    "text": "12.3 Mixed-Mode Designs\nTo maximize coverage and minimize costs, modern surveys often combine modes.\n\nSequential Mixed-Mode: Send a mail invitation with a web link. Follow up via mail with a paper questionnaire for non-respondents. Finally, call the remaining non-respondents.\nBenefit: Reaches different demographics where they are most comfortable while controlling budget.\n\n\nGive an example: Younger demographics might respond immediately to the web link, while older demographics might wait for the paper mailer. By doing sequential mixed-mode, you get a more representative sample.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#sampling-frames",
+    "href": "15-reporting-ethics-aapor.html#sampling-frames",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "13.1 Sampling Frames",
+    "text": "13.1 Sampling Frames\nYour sample represents the larger population you are studying. The sampling frame is the list from which you draw your sample.\n\nCoverage Error: Occurs when your sampling frame does not match your target population.\n\nExample: Using a landline phone directory to survey college students.\n\n\n\nExplain that a perfect sampling frame rarely exists. Researchers always have to figure out who is left out of their frame and how that might skew the data.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#probability-vs.-non-probability",
+    "href": "15-reporting-ethics-aapor.html#probability-vs.-non-probability",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "13.2 Probability vs. Non-Probability",
+    "text": "13.2 Probability vs. Non-Probability\n\nProbability Samples: Everyone in the frame has a known, non-zero chance of selection (e.g., Random Digit Dialing, Address-Based Sampling). Historically the gold standard.\nNon-Probability Samples: Opt-in online panels, social media recruitment.\n\nReality: Increasingly popular due to cost constraints.\nRequirement: Demands advanced statistical adjustments and extreme transparency regarding recruitment.\n\n\n\nSpend 3 minutes here. The industry is actively debating the future of probability vs. non-probability sampling. If a student does market research, they will likely use opt-in panels. If they work for the Census, they will use probability samples. Both have utility if reported honestly.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#best-practices-for-question-wording",
+    "href": "15-reporting-ethics-aapor.html#best-practices-for-question-wording",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "14.1 Best Practices for Question Wording",
+    "text": "14.1 Best Practices for Question Wording\nPoor questions yield garbage data.\n\nOne concept at a time: Avoid “double-barreled” questions.\nKeep it simple: Write for the general public’s literacy level.\nNeutral language: Avoid loaded or leading phrasing.\nExhaustive & Mutually Exclusive: Response categories must cover all possibilities and not overlap.\n\n\nWalk through the mechanics. Remind them of “cognitive load”—if a question is too hard to understand, respondents will “satisfice” (pick the first okay answer just to move on) or quit the survey entirely.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#measuring-change-over-time",
+    "href": "15-reporting-ethics-aapor.html#measuring-change-over-time",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "14.2 Measuring Change Over Time",
+    "text": "14.2 Measuring Change Over Time\n“If you want to measure change, don’t change the measure.”\n\nTo accurately track shifts in opinion, keep question wording, framing, and mode identical across time points.\n\n\nGive an example: If you change “welfare” to “assistance to the poor,” support levels will drastically change. If you do this between 2023 and 2024, you won’t know if public opinion changed, or if it’s just the wording effect.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#navigating-sensitive-topics",
+    "href": "15-reporting-ethics-aapor.html#navigating-sensitive-topics",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "14.3 Navigating Sensitive Topics",
+    "text": "14.3 Navigating Sensitive Topics\nEthical researchers protect respondents from psychological discomfort.\n\nBuild Rapport: Start with easy questions. Save demographics and sensitive topics for the end.\nInformed Consent: Disclose sensitive topics early.\nAutonomy: Explicitly allow respondents to skip questions (e.g., provide a “Prefer not to answer” option).\nIRB Review: Consult an Institutional Review Board to mitigate risks.\n\n\nEmphasize that forcing a respondent to answer a sensitive question just makes them close the browser window. A skipped question is better than a lost respondent.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#pretesting-pilot-testing",
+    "href": "15-reporting-ethics-aapor.html#pretesting-pilot-testing",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "15.1 Pretesting & Pilot Testing",
+    "text": "15.1 Pretesting & Pilot Testing\nNever field a survey without testing it first.\n\nCognitive Interviews: Sit with 5-10 people from your target audience. Have them think out loud as they take the survey to catch confusing phrasing.\nPilot Test: A small-scale “dress rehearsal.” Test your software programming, recruitment protocols, and data export features.\n\n\nTell the students: “You are too close to your own research. What makes perfect sense to you will confuse your respondents. Pretesting is mandatory.”",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#analyzing-the-data",
+    "href": "15-reporting-ethics-aapor.html#analyzing-the-data",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "16.1 Analyzing the Data",
+    "text": "16.1 Analyzing the Data\n\nHandling Missing Data: Code partial responses or “break-offs” accurately. A skipped question should have a different numeric code than “I don’t know.”\nWeighting (Post-Stratification): Raw samples rarely match the population perfectly. Weighting adjusts the data so that demographic proportions (e.g., age, education, race) mirror the Census or target population.\nMargin of Error: Always calculate and report statistical confidence.\n\n\nKeep weighting high-level. Explain that if your population is 50% male, but your survey respondents are only 30% male, you apply a statistical weight to give the male responses more influence in the final analysis, correcting the imbalance.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#the-aapor-transparency-initiative",
+    "href": "15-reporting-ethics-aapor.html#the-aapor-transparency-initiative",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "16.2 The AAPOR Transparency Initiative",
+    "text": "16.2 The AAPOR Transparency Initiative\nGood data is fully transparent data. Under AAPOR guidelines, researchers must publicly disclose:\n\nExact question wording and response options.\nDefinition of the population under study.\nDescription of the sampling frame and selection procedures.\nSample sizes, response rates, and margin of error.\nWho sponsored and who conducted the research.\n\n\nWrap up the lecture here. If an organization releases a poll but hides their methodology or exact question wording, they should not be trusted. Transparency allows the scientific community to evaluate the rigor of the work.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
+  },
+  {
+    "objectID": "15-reporting-ethics-aapor.html#summary-questions",
+    "href": "15-reporting-ethics-aapor.html#summary-questions",
+    "title": "9  Best Practices and Ethics for Survey Studies",
+    "section": "16.3 Summary & Questions",
+    "text": "16.3 Summary & Questions\n\nPlan Ethically: Protect respondents and public trust.\nDraft Rigorously: Use unbiased, pre-tested questions.\nSample Thoughtfully: Understand who is in your frame and who is left out.\nReport Transparently: Share exactly how your data was collected and analyzed.\n\nQuestions?\n\nLeave the remaining 5 minutes for student Q&A.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Best Practices and Ethics for Survey Studies</span>"
+    ]
   }
 ]
