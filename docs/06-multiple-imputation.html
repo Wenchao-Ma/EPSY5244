@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Multiple Imputation – Survey Data Analysis</title>
+<title>6&nbsp; Multiple Imputation – Survey Data Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./08-survey-weights.html" rel="next">
-<link href="./05-open-ended-question-analysis.html" rel="prev">
+<link href="./04-statistical-analysis.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -140,7 +140,7 @@ window.addEventListener("DOMContentLoaded", function () {
       });
       document.body.appendChild(navToggle);
     }
-    setNavCollapsed(true);
+    setNavCollapsed(false);
   }
 
   var cells = document.querySelectorAll("div.cell");
@@ -271,7 +271,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-multiple-imputation.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Multiple Imputation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06-multiple-imputation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -328,26 +328,20 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-open-ended-question-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Open-Ended Question Analysis</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./06-multiple-imputation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Multiple Imputation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-survey-weights.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Survey Data Analysis: Weights</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey Data Analysis: Weights</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09-survey-weight-II.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Survey Data Analysis: weights II</span></span></a>
+  <a href="./05-open-ended-question-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Open-Ended Question Analysis</span></span></a>
   </div>
 </li>
     </ul>
@@ -360,32 +354,32 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#load-packages" id="toc-load-packages" class="nav-link active" data-scroll-target="#load-packages"><span class="header-section-number">7.1</span> Load Packages</a></li>
-  <li><a href="#the-nhanes-dataset" id="toc-the-nhanes-dataset" class="nav-link" data-scroll-target="#the-nhanes-dataset"><span class="header-section-number">7.2</span> The NHANES Dataset</a></li>
-  <li><a href="#complete-case-analysis" id="toc-complete-case-analysis" class="nav-link" data-scroll-target="#complete-case-analysis"><span class="header-section-number">7.3</span> Complete-Case Analysis</a></li>
-  <li><a href="#understand-missingness" id="toc-understand-missingness" class="nav-link" data-scroll-target="#understand-missingness"><span class="header-section-number">7.4</span> Understand Missingness</a></li>
-  <li><a href="#missing-data-mechanisms" id="toc-missing-data-mechanisms" class="nav-link" data-scroll-target="#missing-data-mechanisms"><span class="header-section-number">7.5</span> Missing-Data Mechanisms</a></li>
-  <li><a href="#multiple-imputation-with-mice" id="toc-multiple-imputation-with-mice" class="nav-link" data-scroll-target="#multiple-imputation-with-mice"><span class="header-section-number">7.6</span> Multiple Imputation with <code>mice</code></a>
+  <li><a href="#load-packages" id="toc-load-packages" class="nav-link active" data-scroll-target="#load-packages"><span class="header-section-number">6.1</span> Load Packages</a></li>
+  <li><a href="#the-nhanes-dataset" id="toc-the-nhanes-dataset" class="nav-link" data-scroll-target="#the-nhanes-dataset"><span class="header-section-number">6.2</span> The NHANES Dataset</a></li>
+  <li><a href="#complete-case-analysis" id="toc-complete-case-analysis" class="nav-link" data-scroll-target="#complete-case-analysis"><span class="header-section-number">6.3</span> Complete-Case Analysis</a></li>
+  <li><a href="#understand-missingness" id="toc-understand-missingness" class="nav-link" data-scroll-target="#understand-missingness"><span class="header-section-number">6.4</span> Understand Missingness</a></li>
+  <li><a href="#missing-data-mechanisms" id="toc-missing-data-mechanisms" class="nav-link" data-scroll-target="#missing-data-mechanisms"><span class="header-section-number">6.5</span> Missing-Data Mechanisms</a></li>
+  <li><a href="#multiple-imputation-with-mice" id="toc-multiple-imputation-with-mice" class="nav-link" data-scroll-target="#multiple-imputation-with-mice"><span class="header-section-number">6.6</span> Multiple Imputation with <code>mice</code></a>
   <ul class="collapse">
-  <li><a href="#best-practices-before-imputing" id="toc-best-practices-before-imputing" class="nav-link" data-scroll-target="#best-practices-before-imputing"><span class="header-section-number">7.6.1</span> Best Practices Before Imputing</a></li>
-  <li><a href="#inspect-the-default-imputation-methods" id="toc-inspect-the-default-imputation-methods" class="nav-link" data-scroll-target="#inspect-the-default-imputation-methods"><span class="header-section-number">7.6.2</span> Inspect the Default Imputation Methods</a></li>
-  <li><a href="#run-the-imputation" id="toc-run-the-imputation" class="nav-link" data-scroll-target="#run-the-imputation"><span class="header-section-number">7.6.3</span> Run the Imputation</a></li>
+  <li><a href="#best-practices-before-imputing" id="toc-best-practices-before-imputing" class="nav-link" data-scroll-target="#best-practices-before-imputing"><span class="header-section-number">6.6.1</span> Best Practices Before Imputing</a></li>
+  <li><a href="#inspect-the-default-imputation-methods" id="toc-inspect-the-default-imputation-methods" class="nav-link" data-scroll-target="#inspect-the-default-imputation-methods"><span class="header-section-number">6.6.2</span> Inspect the Default Imputation Methods</a></li>
+  <li><a href="#run-the-imputation" id="toc-run-the-imputation" class="nav-link" data-scroll-target="#run-the-imputation"><span class="header-section-number">6.6.3</span> Run the Imputation</a></li>
   </ul></li>
-  <li><a href="#diagnose-the-imputation" id="toc-diagnose-the-imputation" class="nav-link" data-scroll-target="#diagnose-the-imputation"><span class="header-section-number">7.7</span> Diagnose the Imputation</a>
+  <li><a href="#diagnose-the-imputation" id="toc-diagnose-the-imputation" class="nav-link" data-scroll-target="#diagnose-the-imputation"><span class="header-section-number">6.7</span> Diagnose the Imputation</a>
   <ul class="collapse">
-  <li><a href="#convergence-trace-plots" id="toc-convergence-trace-plots" class="nav-link" data-scroll-target="#convergence-trace-plots"><span class="header-section-number">7.7.1</span> Convergence — Trace Plots</a></li>
-  <li><a href="#density-plots" id="toc-density-plots" class="nav-link" data-scroll-target="#density-plots"><span class="header-section-number">7.7.2</span> Density Plots</a></li>
-  <li><a href="#strip-plots" id="toc-strip-plots" class="nav-link" data-scroll-target="#strip-plots"><span class="header-section-number">7.7.3</span> Strip Plots</a></li>
-  <li><a href="#box-plots-alternative-for-large-datasets" id="toc-box-plots-alternative-for-large-datasets" class="nav-link" data-scroll-target="#box-plots-alternative-for-large-datasets"><span class="header-section-number">7.7.4</span> Box Plots — Alternative for Large Datasets</a></li>
-  <li><a href="#categorical-variable-distribution-check" id="toc-categorical-variable-distribution-check" class="nav-link" data-scroll-target="#categorical-variable-distribution-check"><span class="header-section-number">7.7.5</span> Categorical Variable Distribution Check</a></li>
+  <li><a href="#convergence-trace-plots" id="toc-convergence-trace-plots" class="nav-link" data-scroll-target="#convergence-trace-plots"><span class="header-section-number">6.7.1</span> Convergence — Trace Plots</a></li>
+  <li><a href="#density-plots" id="toc-density-plots" class="nav-link" data-scroll-target="#density-plots"><span class="header-section-number">6.7.2</span> Density Plots</a></li>
+  <li><a href="#strip-plots" id="toc-strip-plots" class="nav-link" data-scroll-target="#strip-plots"><span class="header-section-number">6.7.3</span> Strip Plots</a></li>
+  <li><a href="#box-plots-alternative-for-large-datasets" id="toc-box-plots-alternative-for-large-datasets" class="nav-link" data-scroll-target="#box-plots-alternative-for-large-datasets"><span class="header-section-number">6.7.4</span> Box Plots — Alternative for Large Datasets</a></li>
+  <li><a href="#categorical-variable-distribution-check" id="toc-categorical-variable-distribution-check" class="nav-link" data-scroll-target="#categorical-variable-distribution-check"><span class="header-section-number">6.7.5</span> Categorical Variable Distribution Check</a></li>
   </ul></li>
-  <li><a href="#analyse-and-pool-results" id="toc-analyse-and-pool-results" class="nav-link" data-scroll-target="#analyse-and-pool-results"><span class="header-section-number">7.8</span> Analyse and Pool Results</a>
+  <li><a href="#analyse-and-pool-results" id="toc-analyse-and-pool-results" class="nav-link" data-scroll-target="#analyse-and-pool-results"><span class="header-section-number">6.8</span> Analyse and Pool Results</a>
   <ul class="collapse">
-  <li><a href="#fit-the-model-on-each-imputed-dataset" id="toc-fit-the-model-on-each-imputed-dataset" class="nav-link" data-scroll-target="#fit-the-model-on-each-imputed-dataset"><span class="header-section-number">7.8.1</span> Fit the Model on Each Imputed Dataset</a></li>
-  <li><a href="#pool-results" id="toc-pool-results" class="nav-link" data-scroll-target="#pool-results"><span class="header-section-number">7.8.2</span> Pool Results</a></li>
+  <li><a href="#fit-the-model-on-each-imputed-dataset" id="toc-fit-the-model-on-each-imputed-dataset" class="nav-link" data-scroll-target="#fit-the-model-on-each-imputed-dataset"><span class="header-section-number">6.8.1</span> Fit the Model on Each Imputed Dataset</a></li>
+  <li><a href="#pool-results" id="toc-pool-results" class="nav-link" data-scroll-target="#pool-results"><span class="header-section-number">6.8.2</span> Pool Results</a></li>
   </ul></li>
-  <li><a href="#compare-complete-case-vs-mi-results" id="toc-compare-complete-case-vs-mi-results" class="nav-link" data-scroll-target="#compare-complete-case-vs-mi-results"><span class="header-section-number">7.9</span> Compare Complete-Case vs MI Results</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7.10</span> References</a></li>
+  <li><a href="#compare-complete-case-vs-mi-results" id="toc-compare-complete-case-vs-mi-results" class="nav-link" data-scroll-target="#compare-complete-case-vs-mi-results"><span class="header-section-number">6.9</span> Compare Complete-Case vs MI Results</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6.10</span> References</a></li>
   </ul>
 </nav>
     </div>
@@ -394,7 +388,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Multiple Imputation</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 </div>
 
 
@@ -415,8 +409,8 @@ window.Quarto = {
 <p>The NHANES is the National Health and Nutrition Examination Survey. It is a national survey that measures the health and nutrition of adults and children in the United States. It is the only national health survey that includes health exams and laboratory tests for participants of all ages.</p>
 <p>Research question: What factors, including age, physical activity, sleep, BMI, and total cholesterol, are associated with a diabetes diagnosis?</p>
 <p>The outcome variable is <code>Diabetes</code> (Yes/No), modeled with binary logistic regression. All missing data are handled with MI.</p>
-<section id="load-packages" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="load-packages"><span class="header-section-number">7.1</span> Load Packages</h2>
+<section id="load-packages" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="load-packages"><span class="header-section-number">6.1</span> Load Packages</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run this block ONCE to install all required packages.</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(c("NHANES", "mice", "naniar", "ggplot2", "dplyr",</span></span>
@@ -434,8 +428,8 @@ window.Quarto = {
 </div>
 <hr>
 </section>
-<section id="the-nhanes-dataset" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="the-nhanes-dataset"><span class="header-section-number">7.2</span> The NHANES Dataset</h2>
+<section id="the-nhanes-dataset" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="the-nhanes-dataset"><span class="header-section-number">6.2</span> The NHANES Dataset</h2>
 <p>The <code>NHANES</code> package provides a 10,000-row teaching subset of the U.S. National Health and Nutrition Examination Survey. We select the variables relevant to the diabetes research question.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select variables for the diabetes research question</span></span>
@@ -467,8 +461,8 @@ $ TotChol       &lt;dbl&gt; 3.49, 3.49, 3.49, NA, 6.70, 4.86, 4.09, 5.82, 5.82, 
 </div>
 <hr>
 </section>
-<section id="complete-case-analysis" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="complete-case-analysis"><span class="header-section-number">7.3</span> Complete-Case Analysis</h2>
+<section id="complete-case-analysis" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="complete-case-analysis"><span class="header-section-number">6.3</span> Complete-Case Analysis</h2>
 <p>Complete-case analysis (CCA) — deleting all rows with any missing value — is the default in most R functions. It is easy but can be biased whenever data are not MCAR.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many complete cases do we have?</span></span>
@@ -518,8 +512,8 @@ Number of Fisher Scoring iterations: 6</code></pre>
 </div>
 <hr>
 </section>
-<section id="understand-missingness" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="understand-missingness"><span class="header-section-number">7.4</span> Understand Missingness</h2>
+<section id="understand-missingness" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="understand-missingness"><span class="header-section-number">6.4</span> Understand Missingness</h2>
 <p>The first step is to quantify how much data are missing. <code>miss_var_summary()</code> from <code>naniar</code> gives the count and percentage of missing values for every variable.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">miss_var_summary</span>(nhanes_sub)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -596,8 +590,8 @@ Number of Fisher Scoring iterations: 6</code></pre>
 </div>
 <hr>
 </section>
-<section id="missing-data-mechanisms" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="missing-data-mechanisms"><span class="header-section-number">7.5</span> Missing-Data Mechanisms</h2>
+<section id="missing-data-mechanisms" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="missing-data-mechanisms"><span class="header-section-number">6.5</span> Missing-Data Mechanisms</h2>
 <p>Understanding <em>why</em> data are missing guides the choice of analysis method.</p>
 <table class="caption-top table">
 <colgroup>
@@ -637,8 +631,8 @@ Number of Fisher Scoring iterations: 6</code></pre>
 </table>
 <p>MCAR is generally unrealistic. MAR is more plausible because it allows for systematic differences as long as those differences are predictable from observed information. Under MAR (plus a technical condition called <em>ignorability</em>), MI produces consistent estimates with correct standard errors. Under MNAR, MI reduces bias relative to CCA but cannot fully eliminate it.</p>
 </section>
-<section id="multiple-imputation-with-mice" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="multiple-imputation-with-mice"><span class="header-section-number">7.6</span> Multiple Imputation with <code>mice</code></h2>
+<section id="multiple-imputation-with-mice" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="multiple-imputation-with-mice"><span class="header-section-number">6.6</span> Multiple Imputation with <code>mice</code></h2>
 <p><code>mice</code> stands for Multivariate Imputation by Chained Equations (van Buuren &amp; Groothuis-Oudshoorn, 2011). Rather than fitting one joint model for all variables simultaneously, it imputes one variable at a time in a chain, using all other variables as predictors. For three variables <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, <span class="math inline">\(Z\)</span>, one iteration of the chain looks like this:</p>
 <ol type="1">
 <li>Randomly impute missing <span class="math inline">\(X\)</span> values using the model <span class="math inline">\(X \sim Y + Z + \text{randomness}\)</span>.</li>
@@ -648,8 +642,8 @@ Number of Fisher Scoring iterations: 6</code></pre>
 </ol>
 <p>The key insight is that adding <em>randomness</em> at each step — rather than substituting the predicted mean — preserves the natural variability in the data. Doing this <span class="math inline">\(m\)</span> times produces <span class="math inline">\(m\)</span> complete datasets that reflect all the uncertainty introduced by the missing values.</p>
 <p>Multiple imputation replaces each missing value with <em>m</em> plausible values drawn from a posterior predictive distribution, creating <em>m</em> complete datasets. Each dataset is analysed separately, and the results are pooled using Rubin’s rules.</p>
-<section id="best-practices-before-imputing" class="level3" data-number="7.6.1">
-<h3 data-number="7.6.1" class="anchored" data-anchor-id="best-practices-before-imputing"><span class="header-section-number">7.6.1</span> Best Practices Before Imputing</h3>
+<section id="best-practices-before-imputing" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="best-practices-before-imputing"><span class="header-section-number">6.6.1</span> Best Practices Before Imputing</h3>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -688,8 +682,8 @@ What to include in the imputation model (Nahhas, 2024)
 </div>
 </div>
 </section>
-<section id="inspect-the-default-imputation-methods" class="level3" data-number="7.6.2">
-<h3 data-number="7.6.2" class="anchored" data-anchor-id="inspect-the-default-imputation-methods"><span class="header-section-number">7.6.2</span> Inspect the Default Imputation Methods</h3>
+<section id="inspect-the-default-imputation-methods" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="inspect-the-default-imputation-methods"><span class="header-section-number">6.6.2</span> Inspect the Default Imputation Methods</h3>
 <p>Before running imputation, call <code>mice()</code> with <code>maxit = 0</code> to preview what method it will use for each variable.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dry run: no actual imputation, just inspect setup</span></span>
@@ -757,8 +751,8 @@ TotChol         1          1        1             1   1       0</code></pre>
 <p>Why <code>pmm</code> by default for continuous variables? Predictive mean matching first fits a linear regression to compute a predicted value for the missing case, then <em>replaces</em> that missing value with a randomly selected <em>observed</em> value whose prediction is closest. This means imputed values are always within the observed range and do not require normality assumptions — making it more robust than standard linear regression imputation (van Buuren, 2018).</p>
 </blockquote>
 </section>
-<section id="run-the-imputation" class="level3" data-number="7.6.3">
-<h3 data-number="7.6.3" class="anchored" data-anchor-id="run-the-imputation"><span class="header-section-number">7.6.3</span> Run the Imputation</h3>
+<section id="run-the-imputation" class="level3" data-number="6.6.3">
+<h3 data-number="6.6.3" class="anchored" data-anchor-id="run-the-imputation"><span class="header-section-number">6.6.3</span> Run the Imputation</h3>
 <p>We generate m = 20 imputed datasets with 50 iterations of the chained-equations algorithm. More imputations reduce Monte Carlo error in the pooled estimates; 20 is adequate for most applied analyses.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)   <span class="co"># for reproducibility</span></span>
@@ -776,10 +770,10 @@ TotChol         1          1        1             1   1       0</code></pre>
 <hr>
 </section>
 </section>
-<section id="diagnose-the-imputation" class="level2" data-number="7.7">
-<h2 data-number="7.7" class="anchored" data-anchor-id="diagnose-the-imputation"><span class="header-section-number">7.7</span> Diagnose the Imputation</h2>
-<section id="convergence-trace-plots" class="level3" data-number="7.7.1">
-<h3 data-number="7.7.1" class="anchored" data-anchor-id="convergence-trace-plots"><span class="header-section-number">7.7.1</span> Convergence — Trace Plots</h3>
+<section id="diagnose-the-imputation" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="diagnose-the-imputation"><span class="header-section-number">6.7</span> Diagnose the Imputation</h2>
+<section id="convergence-trace-plots" class="level3" data-number="6.7.1">
+<h3 data-number="6.7.1" class="anchored" data-anchor-id="convergence-trace-plots"><span class="header-section-number">6.7.1</span> Convergence — Trace Plots</h3>
 <p>Trace plots show how the mean and standard deviation of imputed values evolve across iterations for each variable. Good convergence looks like intermingled, horizontal lines with no obvious trend.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(imputed, <span class="at">layout =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -792,8 +786,8 @@ TotChol         1          1        1             1   1       0</code></pre>
 </div>
 </div>
 </section>
-<section id="density-plots" class="level3" data-number="7.7.2">
-<h3 data-number="7.7.2" class="anchored" data-anchor-id="density-plots"><span class="header-section-number">7.7.2</span> Density Plots</h3>
+<section id="density-plots" class="level3" data-number="6.7.2">
+<h3 data-number="6.7.2" class="anchored" data-anchor-id="density-plots"><span class="header-section-number">6.7.2</span> Density Plots</h3>
 <p>Density plots overlay the distribution of observed values (blue) against each of the <em>m</em> imputed distributions (red). The imputed values should be broadly plausible — they need not match the observed distribution exactly, but gross departures warrant investigation.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">densityplot</span>(imputed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -806,8 +800,8 @@ TotChol         1          1        1             1   1       0</code></pre>
 </div>
 </div>
 </section>
-<section id="strip-plots" class="level3" data-number="7.7.3">
-<h3 data-number="7.7.3" class="anchored" data-anchor-id="strip-plots"><span class="header-section-number">7.7.3</span> Strip Plots</h3>
+<section id="strip-plots" class="level3" data-number="6.7.3">
+<h3 data-number="6.7.3" class="anchored" data-anchor-id="strip-plots"><span class="header-section-number">6.7.3</span> Strip Plots</h3>
 <p>Strip plots display each imputed value as a dot, coloured by whether it is observed (blue) or imputed (red). Imputed values should be scattered throughout the range of observed values.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stripplot</span>(imputed, BMI <span class="sc">+</span> SleepHrsNight <span class="sc">+</span> TotChol <span class="sc">~</span> .imp,</span>
@@ -821,8 +815,8 @@ TotChol         1          1        1             1   1       0</code></pre>
 </div>
 </div>
 </section>
-<section id="box-plots-alternative-for-large-datasets" class="level3" data-number="7.7.4">
-<h3 data-number="7.7.4" class="anchored" data-anchor-id="box-plots-alternative-for-large-datasets"><span class="header-section-number">7.7.4</span> Box Plots — Alternative for Large Datasets</h3>
+<section id="box-plots-alternative-for-large-datasets" class="level3" data-number="6.7.4">
+<h3 data-number="6.7.4" class="anchored" data-anchor-id="box-plots-alternative-for-large-datasets"><span class="header-section-number">6.7.4</span> Box Plots — Alternative for Large Datasets</h3>
 <p>When the fraction of missing data is large, strip plots can become hard to read because imputed points are piled on top of observed ones. <code>bwplot()</code> is a cleaner alternative: imputation 0 is the original data, and boxes 1–<em>m</em> show the distribution of <em>imputed</em> values only.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bwplot</span>(imputed, BMI <span class="sc">~</span> .imp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -835,8 +829,8 @@ TotChol         1          1        1             1   1       0</code></pre>
 </div>
 </div>
 </section>
-<section id="categorical-variable-distribution-check" class="level3" data-number="7.7.5">
-<h3 data-number="7.7.5" class="anchored" data-anchor-id="categorical-variable-distribution-check"><span class="header-section-number">7.7.5</span> Categorical Variable Distribution Check</h3>
+<section id="categorical-variable-distribution-check" class="level3" data-number="6.7.5">
+<h3 data-number="6.7.5" class="anchored" data-anchor-id="categorical-variable-distribution-check"><span class="header-section-number">6.7.5</span> Categorical Variable Distribution Check</h3>
 <p>For categorical variables, compare the distribution of categories between observed and imputed data using a cross-tabulation on the “long” form of the imputed data.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract all imputed datasets in long form (include original data with .imp == 0)</span></span>
@@ -867,10 +861,10 @@ TotChol         1          1        1             1   1       0</code></pre>
 </blockquote>
 </section>
 </section>
-<section id="analyse-and-pool-results" class="level2" data-number="7.8">
-<h2 data-number="7.8" class="anchored" data-anchor-id="analyse-and-pool-results"><span class="header-section-number">7.8</span> Analyse and Pool Results</h2>
-<section id="fit-the-model-on-each-imputed-dataset" class="level3" data-number="7.8.1">
-<h3 data-number="7.8.1" class="anchored" data-anchor-id="fit-the-model-on-each-imputed-dataset"><span class="header-section-number">7.8.1</span> Fit the Model on Each Imputed Dataset</h3>
+<section id="analyse-and-pool-results" class="level2" data-number="6.8">
+<h2 data-number="6.8" class="anchored" data-anchor-id="analyse-and-pool-results"><span class="header-section-number">6.8</span> Analyse and Pool Results</h2>
+<section id="fit-the-model-on-each-imputed-dataset" class="level3" data-number="6.8.1">
+<h3 data-number="6.8.1" class="anchored" data-anchor-id="fit-the-model-on-each-imputed-dataset"><span class="header-section-number">6.8.1</span> Fit the Model on Each Imputed Dataset</h3>
 <p><code>with()</code> applies any analysis function to each of the <em>m</em> completed datasets produced by <code>mice</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the same logistic regression as the complete-case model</span></span>
@@ -882,8 +876,8 @@ TotChol         1          1        1             1   1       0</code></pre>
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="pool-results" class="level3" data-number="7.8.2">
-<h3 data-number="7.8.2" class="anchored" data-anchor-id="pool-results"><span class="header-section-number">7.8.2</span> Pool Results</h3>
+<section id="pool-results" class="level3" data-number="6.8.2">
+<h3 data-number="6.8.2" class="anchored" data-anchor-id="pool-results"><span class="header-section-number">6.8.2</span> Pool Results</h3>
 <p><code>pool()</code> combines the <em>m</em> sets of estimates using Rubin’s rules. <code>summary()</code> displays the pooled log-odds coefficients along with pooled standard errors, <em>t</em>-statistics, and <em>p</em>-values.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>mi_pooled <span class="ot">&lt;-</span> <span class="fu">pool</span>(mi_fit)</span>
@@ -918,8 +912,8 @@ TotChol         1          1        1             1   1       0</code></pre>
 <hr>
 </section>
 </section>
-<section id="compare-complete-case-vs-mi-results" class="level2" data-number="7.9">
-<h2 data-number="7.9" class="anchored" data-anchor-id="compare-complete-case-vs-mi-results"><span class="header-section-number">7.9</span> Compare Complete-Case vs MI Results</h2>
+<section id="compare-complete-case-vs-mi-results" class="level2" data-number="6.9">
+<h2 data-number="6.9" class="anchored" data-anchor-id="compare-complete-case-vs-mi-results"><span class="header-section-number">6.9</span> Compare Complete-Case vs MI Results</h2>
 <p>Side-by-side comparison helps you see whether MI materially changed the conclusions.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Complete-case estimates ---</span></span>
@@ -994,8 +988,8 @@ TotChol         1          1        1             1   1       0</code></pre>
 <p>If the MI confidence intervals are noticeably narrower or if the point estimates shift, that is evidence that CCA was either inefficient or biased. When results are similar, CCA is adequate — but MI is the safer default.</p>
 </blockquote>
 </section>
-<section id="references" class="level2" data-number="7.10">
-<h2 data-number="7.10" class="anchored" data-anchor-id="references"><span class="header-section-number">7.10</span> References</h2>
+<section id="references" class="level2" data-number="6.10">
+<h2 data-number="6.10" class="anchored" data-anchor-id="references"><span class="header-section-number">6.10</span> References</h2>
 <p>van Buuren, S., &amp; Groothuis-Oudshoorn, K. (2011). mice: Multivariate imputation by chained equations in R. <em>Journal of Statistical Software, 45</em>(3), 1–67. <a href="https://doi.org/10.18637/jss.v045.i03" class="uri">https://doi.org/10.18637/jss.v045.i03</a></p>
 <p>van Buuren, S. (2018). <em>Flexible imputation of missing data</em> (2nd ed.). Chapman &amp; Hall/CRC. <a href="https://stefvanbuuren.name/fimd/" class="uri">https://stefvanbuuren.name/fimd/</a></p>
 <p>Little, R. J. A. (1988). A test of missing completely at random for multivariate data with missing values. <em>Journal of the American Statistical Association, 83</em>(404), 1198–1202.</p>
@@ -1482,13 +1476,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./05-open-ended-question-analysis.html" class="pagination-link" aria-label="Open-Ended Question Analysis">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Open-Ended Question Analysis</span></span>
+      <a href="./04-statistical-analysis.html" class="pagination-link" aria-label="Statistical Analysis">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Statistical Analysis</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./08-survey-weights.html" class="pagination-link" aria-label="Survey Data Analysis: Weights">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Survey Data Analysis: Weights</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey Data Analysis: Weights</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
