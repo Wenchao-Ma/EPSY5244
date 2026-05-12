@@ -6,10 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Wenchao Ma">
-<meta name="dcterms.date" content="2026-04-28">
 
-<title>Survey Data Analysis</title>
+<title>EPSY 5244 Survey Design, Sampling, and Implementation – EPsy 5244</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -22,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -66,22 +30,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./01-intro-to-r.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-0de45b8b5f35a93596f1d788d60c4c11.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-40cdf1faf3d15c3a66b3741e3f391da8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-da3e059f0235ad60cc8e87fba471be86.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -103,205 +66,88 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<style>
-.code-result-tabs {
-  margin-top: 0.75rem;
-}
-
-.code-result-tabs .nav-tabs {
-  margin-bottom: 0.75rem;
-}
-
-.code-result-tabs .tab-pane {
-  padding-top: 0.25rem;
-}
-</style>
-
-<script>
-window.addEventListener("DOMContentLoaded", function () {
-  var cells = document.querySelectorAll("div.cell");
-  var counter = 0;
-
-  cells.forEach(function (cell) {
-    var codeNode = cell.querySelector(":scope > .cell-code") || cell.querySelector(":scope > .sourceCode");
-    var outputNodes = Array.from(cell.children).filter(function (child) {
-      return Array.from(child.classList).some(function (cls) {
-        return cls.indexOf("cell-output") === 0;
-      });
-    });
-
-    if (!codeNode || outputNodes.length === 0) {
-      return;
-    }
-
-    counter += 1;
-    var resultId = "result-tab-" + counter;
-    var codeId = "code-tab-" + counter;
-
-    var wrapper = document.createElement("div");
-    wrapper.className = "code-result-tabs";
-
-    var nav = document.createElement("ul");
-    nav.className = "nav nav-tabs";
-    nav.setAttribute("role", "tablist");
-
-    var resultNav = document.createElement("li");
-    resultNav.className = "nav-item";
-    resultNav.setAttribute("role", "presentation");
-    var resultBtn = document.createElement("button");
-    resultBtn.className = "nav-link active";
-    resultBtn.type = "button";
-    resultBtn.setAttribute("data-bs-toggle", "tab");
-    resultBtn.setAttribute("data-bs-target", "#" + resultId);
-    resultBtn.setAttribute("role", "tab");
-    resultBtn.setAttribute("aria-controls", resultId);
-    resultBtn.setAttribute("aria-selected", "true");
-    resultBtn.textContent = "Results";
-    resultNav.appendChild(resultBtn);
-
-    var codeNav = document.createElement("li");
-    codeNav.className = "nav-item";
-    codeNav.setAttribute("role", "presentation");
-    var codeBtn = document.createElement("button");
-    codeBtn.className = "nav-link";
-    codeBtn.type = "button";
-    codeBtn.setAttribute("data-bs-toggle", "tab");
-    codeBtn.setAttribute("data-bs-target", "#" + codeId);
-    codeBtn.setAttribute("role", "tab");
-    codeBtn.setAttribute("aria-controls", codeId);
-    codeBtn.setAttribute("aria-selected", "false");
-    codeBtn.textContent = "Code";
-    codeNav.appendChild(codeBtn);
-
-    nav.appendChild(resultNav);
-    nav.appendChild(codeNav);
-
-    var content = document.createElement("div");
-    content.className = "tab-content";
-
-    var resultPane = document.createElement("div");
-    resultPane.className = "tab-pane fade show active";
-    resultPane.id = resultId;
-    resultPane.setAttribute("role", "tabpanel");
-
-    var codePane = document.createElement("div");
-    codePane.className = "tab-pane fade";
-    codePane.id = codeId;
-    codePane.setAttribute("role", "tabpanel");
-
-    outputNodes.forEach(function (node) {
-      resultPane.appendChild(node);
-    });
-
-    codePane.appendChild(codeNode);
-
-    content.appendChild(resultPane);
-    content.appendChild(codePane);
-
-    wrapper.appendChild(nav);
-    wrapper.appendChild(content);
-
-    cell.insertBefore(wrapper, cell.firstChild);
-  });
-});
-</script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="https://kit.fontawesome.com/e5da75ca36.js" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Fraunces:opsz,wght,SOFT@9..144,500,20&amp;display=swap" rel="stylesheet">
 
 
+<link rel="stylesheet" href="assets/sticky-notes.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">EPsy 5244</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./assignments.html"> 
+<span class="menu-text">Assignments &amp; Grading</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./class-policies.html"> 
+<span class="menu-text">Class Policies</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./instructor.html"> 
+<span class="menu-text">Instructor</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./mission-statements.html"> 
+<span class="menu-text">Mission Statements</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./umn-policies.html"> 
+<span class="menu-text">University Policies</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Survey Data Analysis</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Welcome</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./01-intro-to-r.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Intro to R</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./02-post-survey-data-preparation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Post-Survey Data Preparation</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./03-psychometric-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Psychometric Analysis</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./04-statistical-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Statistical Analysis</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./06-multiple-imputation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Multiple Imputation</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./08-survey-weights.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Survey Data Analysis: Weights</span></span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./05-open-ended-question-analysis.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Open-Ended Question Analysis</span></span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
+    <h2 id="toc-title">Table of Contents</h2>
    
   <ul>
-  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome"><span class="header-section-number">1</span> Welcome</a></li>
+  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a></li>
+  <li><a href="#classroom" id="toc-classroom" class="nav-link" data-scroll-target="#classroom">Classroom</a></li>
+  <li><a href="#instructor" id="toc-instructor" class="nav-link" data-scroll-target="#instructor">Instructor</a></li>
+  <li><a href="#textbooks" id="toc-textbooks" class="nav-link" data-scroll-target="#textbooks">Textbooks</a></li>
+  <li><a href="#statistical-computing" id="toc-statistical-computing" class="nav-link" data-scroll-target="#statistical-computing">Statistical Computing</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a>
+  <ul class="collapse">
+  <li><a href="#a-note-on-inclusion-and-respect" id="toc-a-note-on-inclusion-and-respect" class="nav-link" data-scroll-target="#a-note-on-inclusion-and-respect">A Note on Inclusion and Respect</a></li>
+  </ul></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
   </ul>
 </nav>
     </div>
@@ -310,26 +156,15 @@ window.addEventListener("DOMContentLoaded", function () {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Survey Data Analysis</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<h1 class="title">EPSY 5244 Survey Design, Sampling, and Implementation</h1>
+<p class="subtitle lead">Wenchao Ma</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Wenchao Ma </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">April 28, 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -339,16 +174,121 @@ window.addEventListener("DOMContentLoaded", function () {
 </header>
 
 
-<section id="welcome" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Welcome</h1>
-<p>This Quarto book contains course materials for EPSY 5244. The materials are organized into chapters. The chapters cover various topics related to survey data analysis, including data preparation, psychometric analysis, statistical analysis, and open-ended question analysis.</p>
+<section id="welcome" class="level2">
+<h2 class="anchored" data-anchor-id="welcome">Welcome</h2>
+<p>EPsy 5244 (Survey Design, Sampling, and Implementation) is a 3-credit course.</p>
+<p>In this course you will develop an understanding of basic survey research methods, particularly those that apply to educational settings with research applications in education and the social sciences. You will develop a practical understanding of the principles of survey design and will learn best practices for survey research tasks such as procedures for item writing and revising items, selecting appropriate response formats (including the appropriate number of response categories), selecting an appropriate sample for a survey study, and dealing with missing data.</p>
+<p>This course aims to equip students with foundational skills in survey research methods, including the design of survey instruments, data collection, analysis, and interpretation. Upon completion, students will be able to:</p>
+<ul>
+<li>Evaluate Survey Methods: Assess the suitability of various survey research methods in different research contexts.</li>
+<li>Pretesting: Plan and conduct a pretesting to refine survey instruments.</li>
+<li>Identify Survey Errors: Recognize and address sources of different survey errors.</li>
+<li>Develop Sampling Designs: Create basic sampling designs appropriate for survey research.</li>
+<li>Select Analysis Methods: Choose suitable analysis methods for survey data.</li>
+<li>Write Proposals: Develop a comprehensive proposal for a survey research project.</li>
+</ul>
+<p>It is expected that the academic work required of Graduate School and professional school students will exceed three hours per credit per week (see <a href="https://policy.umn.edu/education/timepercredit">Expected Time per Course Credit Policy</a>). It is typical for students to spend 8–15 hours a week on this course. <br></p>
+</section>
+<section id="classroom" class="level2">
+<h2 class="anchored" data-anchor-id="classroom">Classroom</h2>
+<p><a href="https://campusmaps.umn.edu/appleby-hall">Appleby Hall</a></p>
+</section>
+<section id="instructor" class="level2">
+<h2 class="anchored" data-anchor-id="instructor">Instructor</h2>
+<p><strong>Name:</strong> <a href="https://edpsych.umn.edu/people/quantitative-methods-education-faculty/wenchao-ma">Wenchao Ma</a> <br> <strong>Email:</strong> <a href="mailto://wma@umn.edu">wma@umn.edu</a> <br> <strong>Office:</strong> <a href="https://www.google.com/maps/place/Education+Sciences+Building/@44.9784043,-93.2394586,15z/data=!4m2!3m1!1s0x0:0x45656dac481b9150">Education Sciences Building 167</a> <br> <strong>Office Hours:</strong> Tuesday 9:45 AM–10:45 AM; or by appointment <br> <strong>Virtual Office:</strong> If you want to meet virtually, send me a Google calendar invite with title <strong>Virtual Office hour EPSY 8252 - Your name</strong> and include a Zoom link in the invite.</p>
+</section>
+<section id="textbooks" class="level2">
+<h2 class="anchored" data-anchor-id="textbooks">Textbooks</h2>
+<p>Required texts:</p>
+<ul>
+<li>Dillman, D.A., Smyth, J.D., &amp; Christian, L.M. (2014). Internet, phone, mail, and mixed-mode surveys: The tailored design method (4th ed.). Hoboken, NJ: John Wiley &amp; Sons, Inc.&nbsp;Free available through the University of Minnesota Libraries.</li>
+<li>Ruel, E., Wagner, W., &amp; Gillespie, B. (2016). <a href="https://doi.org/10.4135/9781483391700">The practice of survey research. SAGE Publications, Inc</a> Free available through the University of Minnesota Libraries.</li>
+<li>Litwin, M. S. (2022). <a href="https://methods.sagepub.com/book/mono/how-to-assess-interpret-survey-psychometrics/toc">How to assess and interpret survey psychometrics: A step-by-step guide to survey reliability and validity</a>. SAGE Publications, Inc.&nbsp;Free available through the University of Minnesota Libraries.</li>
+</ul>
+<p>Recommended texts:</p>
+<ul>
+<li>Gideon, L. (2012). Handbook of survey methodology for the social sciences (Vol. 513). New York: Springer.</li>
+<li>Lam, T. C. M., &amp; Green, K. E. (2023). Survey Development: A Theory-Driven Mixed-Method Approach. Routledge.</li>
+<li>Lohr, S. L. (2022). Sampling: Design and analysis (Third edition). CRC Press.</li>
+<li>Nardi, P. M. (2018). Doing survey research: A guide to quantitative methods. Routledge.</li>
+<li>Robinson, S. B., &amp; Leonard, K. F. (2018). Designing quality survey questions. Sage publications.</li>
+</ul>
+<p><br></p>
+</section>
+<section id="statistical-computing" class="level2">
+<h2 class="anchored" data-anchor-id="statistical-computing">Statistical Computing</h2>
+<p>To support your learning in survey data analysis, this course will emphasize the use of R. R is a free software environment for statistical computing and graphics. It compiles and runs on a wide variety of UNIX platforms, Windows and MacOS. It should be noted that while some R syntax and programming is taught during class time, there is also a fair amount that you may need to learn on your own outside of class.</p>
+<ul>
+<li><a href="https://www.r-project.org">Download and install R</a></li>
+<li><a href="https://posit.co/download/rstudio-desktop/">Download and install RStudio</a></li>
+</ul>
+<p>You can install R and RStudio onto your local machine. (There are instructions for how to do this <a href="https://zief0002.github.io/modeling/01-01-r-and-rstudio-installation.html">here</a>.) You are responsible for getting things to work on your computer. While it should be straightforward, each OS and computer has their quirks. I can try to help you with this if you are having trouble.</p>
+<p>While R is popular and widely used, it can be difficult to learn and not everyone needs to know how to use it. As a result, we will also use <a href="https://www.jamovi.org/">Jamovi</a> for some of the data analysis exercises. Jamovi is a free and open statistical software that is built on top of R. It provides a user-friendly interface for conducting various statistical analyses without needing to write code. You can download and install Jamovi from their website. However, Jamovi cannot be used for all the analyses we will cover in this course, so you will still need to learn R for some of the assignments and exercises.</p>
+<p><br></p>
+</section>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<p>This course will use a series of datasets for in-class exercises and assignments. These datasets can be found <a href="https://wenchao-ma.github.io/Data/">here</a>. You are expected to download the datasets and use them for the relevant assignments and exercises.</p>
+<p><br></p>
+<section id="a-note-on-inclusion-and-respect" class="level3 inclusion" role="none">
+<h3 class="anchored" data-anchor-id="a-note-on-inclusion-and-respect">A Note on Inclusion and Respect</h3>
+<p>In this class, we will work together to develop a learning community that is inclusive and respectful, and where every student is supported in the learning process. As a class full of diverse individuals (reflected by differences in race, culture, age, religion, gender identity, sexual orientation, socioeconomic background, abilities, professional goals, and other social identities and life experiences) I expect that different students may need different things to support and promote their learning. I will do everything we can to help with this, but as we only know what we know, we need you to communicate with us if things are not working for you or you need something we are not providing. I hope you all feel comfortable in helping to promote an inclusive classroom through respecting one another’s individual differences, speaking up, and challenging oppressive/problematic ideas. Finally, I look forward to learning from each of you and the experiences you bring to the class.</p>
+</section>
+<p><br></p>
+</section>
+<section id="acknowledgments" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgments">Acknowledgments</h2>
+<ul>
+<li>This course website is built using <a href="https://quarto.org/">Quarto</a>, an open-source scientific and technical publishing system built on Pandoc. The website is hosted on GitHub Pages.</li>
+<li>The course website template is adapted from <a href="https://zief0002.github.io/bespectacled-antelope/">Prof.&nbsp;Andrew Zieffler’s EPSY 8252</a>.</li>
+</ul>
 
-
-<!-- -->
 
 </section>
 
 </main> <!-- /main -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const storageKey = "epsy8252-navbar-hidden";
+  const body = document.body;
+  const header = document.getElementById("quarto-header");
+
+  if (!header) {
+    return;
+  }
+
+  const button = document.createElement("button");
+  button.id = "navbar-visibility-toggle";
+  button.type = "button";
+  button.setAttribute("aria-controls", "quarto-header");
+
+  const syncHeaderOffset = () => {
+    const headerHeight = Math.ceil(header.getBoundingClientRect().height || 0);
+    const hidden = body.classList.contains("navbar-hidden");
+
+    document.documentElement.style.setProperty("--site-header-height", `${headerHeight}px`);
+    document.documentElement.style.setProperty("--site-header-offset", hidden ? "0px" : `${headerHeight}px`);
+    button.textContent = hidden ? "Show Menu" : "Hide Menu";
+    button.setAttribute("aria-expanded", String(!hidden));
+  };
+
+  const savedState = window.localStorage.getItem(storageKey);
+  if (savedState === "true") {
+    body.classList.add("navbar-hidden");
+  }
+
+  button.addEventListener("click", function () {
+    body.classList.toggle("navbar-hidden");
+    window.localStorage.setItem(storageKey, String(body.classList.contains("navbar-hidden")));
+    syncHeaderOffset();
+  });
+
+  document.body.appendChild(button);
+  syncHeaderOffset();
+
+  window.addEventListener("resize", syncHeaderOffset, { passive: true });
+});
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -436,57 +376,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
-  }
-  const viewSource = window.document.getElementById('quarto-view-source') ||
-                     window.document.getElementById('quarto-code-tools-source');
-  if (viewSource) {
-    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
-    viewSource.addEventListener("click", function(e) {
-      if (sourceUrl) {
-        // rstudio viewer pane
-        if (/\bcapabilities=\b/.test(window.location)) {
-          window.open(sourceUrl);
-        } else {
-          window.location.href = sourceUrl;
-        }
-      } else {
-        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
-        modal.show();
-      }
-      return false;
-    });
-  }
-  function toggleCodeHandler(show) {
-    return function(e) {
-      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-      for (let i=0; i<detailsSrc.length; i++) {
-        const details = detailsSrc[i].parentElement;
-        if (show) {
-          details.open = true;
-        } else {
-          details.removeAttribute("open");
-        }
-      }
-      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
-      const fromCls = show ? "hidden" : "unhidden";
-      const toCls = show ? "unhidden" : "hidden";
-      for (let i=0; i<cellCodeDivs.length; i++) {
-        const codeDiv = cellCodeDivs[i];
-        if (codeDiv.classList.contains(fromCls)) {
-          codeDiv.classList.remove(fromCls);
-          codeDiv.classList.add(toCls);
-        } 
-      }
-      return false;
-    }
-  }
-  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
-  if (hideAllCode) {
-    hideAllCode.addEventListener("click", toggleCodeHandler(false));
-  }
-  const showAllCode = window.document.getElementById("quarto-show-all-code");
-  if (showAllCode) {
-    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -817,20 +706,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./01-intro-to-r.html" class="pagination-link" aria-label="Intro to R">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Intro to R</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Welcome</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>This Quarto book contains course materials for EPSY 5244. The materials are organized into chapters. The chapters cover various topics related to survey data analysis, including data preparation, psychometric analysis, statistical analysis, and open-ended question analysis.</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
-</div></div></div></div></div>
 </div> <!-- /content -->
 
 

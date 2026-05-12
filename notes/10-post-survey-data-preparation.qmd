@@ -1,0 +1,235 @@
+---
+title: "Post-Survey Data Preparation"
+format:
+  html:
+    code-copy: true
+    code-fold: false
+    highlight-style: zenburn
+    df-print: paged
+    css: ["../assets/sticky-notes.css"]
+date: "`r format(Sys.Date(), '%B %d %Y')`"
+bibliography: "../assets/epsy8252.bib"
+csl: "../assets/apa.csl"
+---
+
+```{r}
+#| echo: false
+source("../assets/notes-setup.R")
+```
+
+## Data Entry
+
+Suppose you conducted a paper survey and now have a stack of completed questionnaires. The next step is to enter the data into a digital format for analysis. This process is called **data entry**.
+
+Data entry can be done using software like Excel, SPSS, or directly into R. For this course, we will use Excel for data entry and then import the data into R for cleaning and analysis.
+
+You can use the provided [data entry template](worksheets/data%20template.xlsx) to enter your survey responses. Each row represents one respondent, and each column corresponds to a survey item. Follow the instructions in the template for coding responses (e.g., using numeric codes for categorical variables).
+
+::: {.note .fyi}
+you can use validation rules in Excel to restrict data entry to valid codes (e.g., only allowing 1, 2, 3 for a variable with three categories). This can help reduce data entry errors.
+:::
+
+## Codebooks
+
+A **codebook** is a document that describes every variable in your dataset. It typically includes variable names and labels, value codes and their meanings, missing data codes, and any special instructions for using the data. Always keep a codebook alongside your data file.
+
+[Our codebook](https://wenchao-ma.github.io/Data/) documents the following types of variables:
+
+| Variable type | Variables | Values |
+|:-----------------------|:-----------------------|:-----------------------|
+| Single choice | `program`, `Gender`, `NativeSpeaker`, `FutureUse` | Numeric codes (see codebook) |
+| Checkbox (binary) | `StatisticalMethods_*`, `Software_*`, `Experience_*` | 0 = not selected, 1 = selected |
+| Ordinal confidence | `Ability_Confidence1–7`, `Learning_Confidence1–7` | 1–4 scale |
+
+**Missing data codes:** values 7, 8, and 9 indicate "multiple options selected", "other responses", and "no response" respectively. These will be treated as missing (`NA`).
+
+In the analysis below, we will need the following R pacakges. Install these packages first if you haven't already. You only need to install once.
+
+Load the packages at the start of every session:
+
+```{r load-packages, eval=TRUE, message=FALSE}
+# Run this ONCE to install packages
+# #install.packages(c("tidyverse", "janitor", "skimr",
+#                    "psych", "naniar", "readxl", "diffdf"))
+library(tidyverse)    # Data manipulation and visualization
+library(janitor)      # Clean variable names and tabulations
+library(skimr)        # Quick summary statistics
+library(naniar)       # Missing data visualization and analysis
+library(readxl)       # Read Excel files
+library(diffdf)       # Compare two data frames
+```
+
+## Import Your Data
+
+R can read Excel files using the `readxl` package. The EPSY 5244 survey data file has two sheets.
+
+```{r import-data}
+data_url <- "https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Course_survey/course_survey.xlsx"
+data_file <- tempfile(fileext = ".xlsx")
+download.file(data_url, destfile = data_file, mode = "wb", quiet = TRUE)
+
+df <- readxl::read_excel(data_file, sheet = "data")
+```
+
+::: {.note .fyi}
+R can also read csv, SPSS (.sav), Stata (.dta), and SAS (.sas7bdat) files using various packages (e.g., `readr`, `haven`). The choice of format depends on your software preferences and the complexity of your data (e.g., whether you need to preserve value labels). Excel is a common choice for data entry because it is widely available and user-friendly, but be mindful of potential issues with Excel files (e.g., formatting inconsistencies, missing value codes).
+:::
+
+### Comparing Two Data Entry Sheets
+
+This file has two sheets — `data` and `second_entry` — representing data entered by two different people. Before proceeding, check whether the two entries agree.
+
+```{r compare-sheets}
+# Read both sheets
+df  <- readxl::read_excel(data_file, sheet = "data")
+df2 <- readxl::read_excel(data_file, sheet = "second_entry")
+
+```
+
+Use `diffdf::diffdf()` to find what differs, if any:
+
+```{r compare-sheets-diffdf}
+# Reports variables, rows, and cells that differ
+diffdf::diffdf(df, df2)
+```
+
+`diffdf::diffdf()` reports:
+
+- **Variables** present in one sheet but not the other
+- **Rows** present in one sheet but not the other
+- **Cell-level differences**: values that differ between corresponding rows and columns
+
+If no differences are found, the function returns silently (no output). Investigate any differences and resolve them before proceeding.
+
+## Look at Your Data!
+
+Before doing any formal cleaning, always look at your data first. Get familiar with the variables, their types, and their values. Take notes on anything that looks unusual.
+
+### Quick Overview with `skim()`
+
+The `skim()` function from the `skimr` package provides a comprehensive overview in one command:
+
+```{r skim-data}
+skimr::skim(df)
+```
+
+This shows the number of rows and columns, data types, missing values, and basic summary statistics for every variable—a great first step.
+
+### Clean Variable Names (optional)
+
+Variable names from Qualtrics often contain mixed capitalization and special characters. The `clean_names()` function standardizes them to lowercase with underscores:
+
+```{r clean-names}
+# Before cleaning
+names(df)
+
+# Clean all names: lowercase, underscores instead of spaces/special characters
+df <- df %>%
+  janitor::clean_names()
+
+# After cleaning
+names(df)
+# e.g., "StatisticalMethods_ANOVA" becomes "statisticalmethods_anova"
+#       "Gender" becomes "gender"
+```
+
+## Diagnostic Data Cleaning
+
+Diagnostic cleaning detects **substantive problems** in the data—values that are impossible, implausible, or inconsistent.
+
+### Check Unique Identifiers
+
+Every dataset should have a variable that **uniquely identifies** each observation. In this dataset, `id` serves that role (values like "A1", "A2", etc.).
+
+If an ID appears more than once, it may indicate duplicate entries or a data entry error.
+
+```{r check-ids}
+# How many rows vs. how many unique IDs?
+nrow(df)
+dplyr::n_distinct(df$id)
+```
+
+```{r find-duplicates}
+# Find IDs that appear more than once
+df %>%
+  dplyr::count(id) %>%
+  dplyr::filter(n > 1)
+```
+
+If you find duplicates, investigate: Are they true duplicates (same row entered twice)? Decide whether to remove them based on your study design.
+
+### Check for Implausible Values: All Variables
+
+Use a `for` loop with `table()` to quickly scan every variable for unexpected values:
+
+```{r freq-all}
+for (var in names(df)) {
+  cat("\n---", var, "---\n")
+  print(table(df[[var]], useNA = "ifany"))
+}
+```
+
+**What to look for:**
+
+- For single-choice variables (`program`, `gender`, etc.): after factor conversion, any `NA` values came from out-of-range codes (7/8/9). Check whether the number of `NA`s is reasonable.
+- For checkbox binary variables (`statisticalmethods_*`, `software_*`, `experience_*`): only values 0 and 1 are valid.
+- For confidence items (`ability_confidence*`, `learning_confidence*`): only levels 1–4 are valid; others become `NA`.
+
+### Check for Implausible Response Combinations
+
+Some response combinations are logically impossible. The "none of the above" options (`statisticalmethods_noa`, `software_noa`) should be mutually exclusive with the other items in the same group.
+
+```{r implausible-combos}
+# If statisticalmethods_noa = 1, all other StatisticalMethods items should be 0
+table(df$statistical_methods_noa, df$statistical_methods_introstats,
+      dnn = c("None of above", "Intro stats"))
+
+
+```
+
+## Visualize Data for Quality Checks
+
+Visualizations can reveal patterns that numbers alone might miss.
+
+### Bar Charts for Categorical Variables
+
+```{r bar-charts, fig.width=8, fig.height=5}
+# Bar chart for program type
+ggplot2::ggplot(df, ggplot2::aes(x = as.factor(program))) +
+  ggplot2::geom_bar(fill = "steelblue") +
+  ggplot2::labs(x = "Program", y = "Count",
+                title = "Distribution of Program Type") +
+  ggplot2::theme_minimal()
+
+# Bar chart for gender
+ggplot2::ggplot(df, ggplot2::aes(x = as.factor(gender))) +
+  ggplot2::geom_bar(fill = "steelblue") +
+  ggplot2::labs(x = "Gender", y = "Count",
+                title = "Distribution of Gender") +
+  ggplot2::theme_minimal()
+```
+
+### Bar Charts for Ordinal (Confidence) Variables
+
+Since the confidence items are ordered factors (not continuous numbers), bar charts are appropriate:
+
+```{r confidence-charts, fig.width=8, fig.height=5}
+# Distribution of Ability_Confidence1: "Writing good survey questions"
+ggplot2::ggplot(df, ggplot2::aes(x = as.factor(ability_confidence1))) +
+  ggplot2::geom_bar(fill = "steelblue") +
+  ggplot2::labs(x = "Confidence level",
+                y = "Count",
+                title = "Ability Confidence: Writing good survey questions") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 20, hjust = 1))
+```
+
+## Missing Coding
+
+In this dataset, values 7, 8, and 9 indicate "multiple options selected", "other responses", and "no response" respectively. These are not valid responses for analysis and should be treated as missing (`NA`).
+
+```{r missing-coding}
+df_nomissing <- df |> naniar::replace_with_na(replace = list(7, 8, 9))
+```
+
+Note that this only handle missing code in the codebook; however, variables may have invalid values that are not in the codebook (e.g., 2 for a binary variable). You will need to check for those separately and decide how to handle them (e.g., recode to `NA` or investigate further).

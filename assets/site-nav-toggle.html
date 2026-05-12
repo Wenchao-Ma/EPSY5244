@@ -1,0 +1,42 @@
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const storageKey = "epsy8252-navbar-hidden";
+  const body = document.body;
+  const header = document.getElementById("quarto-header");
+
+  if (!header) {
+    return;
+  }
+
+  const button = document.createElement("button");
+  button.id = "navbar-visibility-toggle";
+  button.type = "button";
+  button.setAttribute("aria-controls", "quarto-header");
+
+  const syncHeaderOffset = () => {
+    const headerHeight = Math.ceil(header.getBoundingClientRect().height || 0);
+    const hidden = body.classList.contains("navbar-hidden");
+
+    document.documentElement.style.setProperty("--site-header-height", `${headerHeight}px`);
+    document.documentElement.style.setProperty("--site-header-offset", hidden ? "0px" : `${headerHeight}px`);
+    button.textContent = hidden ? "Show Menu" : "Hide Menu";
+    button.setAttribute("aria-expanded", String(!hidden));
+  };
+
+  const savedState = window.localStorage.getItem(storageKey);
+  if (savedState === "true") {
+    body.classList.add("navbar-hidden");
+  }
+
+  button.addEventListener("click", function () {
+    body.classList.toggle("navbar-hidden");
+    window.localStorage.setItem(storageKey, String(body.classList.contains("navbar-hidden")));
+    syncHeaderOffset();
+  });
+
+  document.body.appendChild(button);
+  syncHeaderOffset();
+
+  window.addEventListener("resize", syncHeaderOffset, { passive: true });
+});
+</script>

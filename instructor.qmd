@@ -1,0 +1,19 @@
+---
+title: "Instructor"
+---
+
+```{r}
+#| echo: false
+#| fig-align: 'center'
+#| layout-ncol: 2
+# knitr::include_graphics(c("img/andy-avatar.png"))
+```
+
+
+**Instructor:** Wenchao Ma <br />
+**Email:** [wma@umn.edu](mailto://wma@umn.edu) <br />
+**Office:** [Education Sciences Building 167](https://www.google.com/maps/place/Education+Sciences+Building/@44.9784043,-93.2394586,15z/data=!4m2!3m1!1s0x0:0x45656dac481b9150)  <br />
+**Office Hours:** Tuesday 9:45 AM&ndash;10:45 AM; or by appointment <br />
+**Virtual Office:** If you want to meet virtually, send me a Google calendar invite and include a Zoom link in the invite. 
+
+<br />

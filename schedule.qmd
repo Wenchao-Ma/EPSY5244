@@ -1,0 +1,29 @@
+---
+title: "Calendar"
+engine: knitr
+---
+
+
+The calendar below lists the tentative weekly course topics. [Updated on `{r} format(Sys.Date(), "%B %d, %Y")`].
+
+
+:::{.column-page}
+| Week | Unit | Topic | Reading Materials |  Handouts | Presentation Slides |
+|---|---|---|---|---|---|
+| 1 | Introduction | Introduction to survey | Chapters 1 and 2 of [Ruel](https://doi.org/10.4135/9781483391700); [What Is a Survey?](readings/1-what-is-a-survey.pdf) |  | [{{< iconify material-symbols:slideshow size=22px title="Week 1 Slides" >}}](slides/01-intro.qmd) |
+| 2 |  | Survey Development Framework and Total Survey Errors | [Total Survey Error](readings/2-An Overlooked Approach in Survey Research - Total Survey Error.pdf) |  | [Survey development framework](slides/2 Total survey errors/lec 3 survey development framework.pdf); [Total survey error](slides/2 Total survey errors/lec 3 Total survey error.pdf) |
+| 3 | Questionnaire design | Survey item writing | Chapters 3 and 4 of [Ruel](https://doi.org/10.4135/9781483391700); Chapters 2, 4 and 5 of Dillman;  |  |  [Concepts and Constructs](slides/3 measurement principles/lec 2 concepts.pdf); [Social Exchange Theory](slides/4 Item writing/lec 4 Social Exchange Theory.pdf); [Item Writing Principles](slides/4 Item writing/lec 4 item writing.pdf) |
+| 4 |  | Survey item writing Lab | Chapters 6 and 7 of Dillman | [Writing demographic questions](readings/3-Hughes, et al 2022.pdf) |  |
+| 5 |  | Pretesting | Chapter 6 of [Ruel](https://doi.org/10.4135/9781483391700); [Beatty and Willis, 2007](readings/6-Beatty and Willis 2007.pdf); | [QAS-99](readings/QAS_99.pdf) |  [Pretesting](slides/6 pretesting/lec 7 Pretesting.pdf) |
+| 6 |  | Measurement principles andPilot testing | Chapter 5 of [Ruel](https://doi.org/10.4135/9781483391700) [Presser et al. 2004](readings/6-Presser et al 2004.pdf)| [An Intro to R](notes/01-intro-to-r.qmd); [Reliability analysis](notes/02-reliability.qmd) | [Reliability](slides/3 measurement principles/lec 2 reliabiilty.pdf); [Validity](slides/3 measurement principles/lec 2 validity.pdf) |
+| 7 | Survey implementation | Survey sampling I | Chapter 7 of [Ruel](https://doi.org/10.4135/9781483391700) |  | [Sampling I](slides/7 survey sampling I/sampling I.pdf) |
+| 8 |  | Survey sampling II | Chapter 8 of [Ruel](https://doi.org/10.4135/9781483391700) | [Sample Size Calculation in R](notes/08-sample_size_tutorial.qmd) | [Sample Size Calculation](slides/8 survey sampling II/lec 7 sample size calculation.pdf); [Sampling II](slides/8 survey sampling II/lec 7 sampling II.pdf) |
+| 9 | Survey data analysis | Postsurvey data preparation | Chapters 12 and 13 of [Ruel](https://doi.org/10.4135/9781483391700) | [Data preparation in R](notes/10-post-survey-data-preparation.qmd); [Data preparation in Jamovi](slides/data_preparation/Data_Preparation_Jamovi.pdf); [Data entry template (.xlsx)](worksheets/data template.xlsx) |  |
+| 10 |  | Psychometric analysis | Chapters 1-4 of [Litwin](https://methods.sagepub.com/book/mono/how-to-assess-interpret-survey-psychometrics/toc) | [Psychometric analysis for survey scales](notes/11-psychometric-analysis.qmd) |  |
+| 11 |  | Statistical analysis | Chapters 14 and 15 of [Ruel](https://doi.org/10.4135/9781483391700) | [Statistical analysis](notes/13a-statistical-analysis.qmd)  |  |
+| 12 |  | Missing data and survey weights | [Schafer and Graham, 2002](readings/missingdata.pdf); [Yansaneh, 2003](readings/Construction and use of sample weights.pdf) | [Multiple imputation](notes/14a-multiple-imputation.qmd); [Analysis with survey weights](notes/14b-survey-weights.qmd); [Survey weights raking](notes/survey-weights-raking.qmd) |  |
+| 13 |  | Results reporting and ethics | [AAPOP guidelines](https://aapor.org/standards-and-ethics/) |  | [{{< iconify simple-icons:quarto size=20px title="Week 15 Slides" >}}](notes/15-reporting-ethics-aapor.qmd) |
+:::
+Note: The schedule is subject to change based on the pace of the course and students' learning needs. Please check the course website regularly for updates. Dillman: Dillman, D.A., Smyth, J.D., & Christian, L.M. (2014). Internet, phone, mail, and mixed-mode surveys: The tailored design method (4th ed.). Hoboken, NJ: John Wiley & Sons, Inc. Ruel: Ruel, E., Wagner, W., & Gillespie, B. (2016).  [The practice of survey research. SAGE Publications, Inc](https://doi.org/10.4135/9781483391700)
+
+

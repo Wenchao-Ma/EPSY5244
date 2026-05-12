@@ -1,0 +1,227 @@
+/* -----------To-Do Note------------- */
+.todo {
+  padding: 1em;
+  margin: 0 0;
+  padding-left: 15px;
+  padding-top: 15px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 120px;
+  color: #2e2a26;
+  background-color: #fff7dc;
+  border: solid 3px #ffcc33;
+  border-radius: 18px;
+  box-shadow: 0 8px 18px rgba(44, 29, 12, 0.14);
+  }
+  
+
+/* -----------Protip Note (Centered)------------- */
+
+.protip {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 15px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  display: table;
+  vertical-align: middle;
+  color: #2e2a26;
+  background-color: #fff7dc;
+  border: solid 3px #ffcc33;
+  box-shadow: 0 12px 24px rgba(31, 19, 19, 0.12);
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border-bottom-right-radius: 225px 15px;
+  border-bottom-left-radius:15px 255px;
+  }
+  
+
+/* -----------FYI Note (Left-Aligned)------------- */
+
+.fyi {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 15px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+  vertical-align: middle;
+  color: #2e2a26;
+  background-color: #fff7dc;
+  border: solid 3px #ffcc33;
+  box-shadow: 0 12px 24px rgba(31, 19, 19, 0.12);
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border-bottom-right-radius: 225px 15px;
+  border-bottom-left-radius:15px 255px;
+  }
+  
+
+/* -----------Grey Math Note------------- */
+
+.mathnote {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 100px;
+  min-height: 120px;
+  color: #2e2a26;
+  background-color: #f2eee9;
+  border: dashed 4px #7a0019;
+  }  
+  
+  
+/* -----------Yellow Interpretation Note------------- */
+
+.interpret {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 100px;
+  background-image: url("../img/interpret.png");
+  background-size: 70px;
+  background-repeat: no-repeat;
+  background-position: 15px 50%;
+  min-height: 120px;
+  color: #2e2a26;
+  background-color: #fff7dc;
+  border: solid 3px #7a0019;
+  border-radius: 25px;
+  }  
+
+.interpret h5{
+  margin-bottom: -20px;
+}
+
+/* -----------Set font size for math ------------- */
+
+.MathJax {
+    font-size: 100% !important;
+}
+
+
+
+/* -----------Syllabus Inclusion Note------------- */
+
+.inclusion {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 100px;
+  background-size: 100px;
+  background-repeat: no-repeat;
+  background-position: 5px 50px;
+  min-height: 120px;
+  box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+  background-color: #dae7ea;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border-bottom-right-radius: 225px 15px;
+  border-bottom-left-radius:15px 255px;
+  border: solid 5px #41403E;
+  }  
+  
+
+/* -----------Syllabus Stress Management Note------------- */
+
+.stress {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 100px;
+  background-size: 80px;
+  background-repeat: no-repeat;
+  background-position: 15px 50px;
+  min-height: 120px;
+  box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+  background-color: #dae7ea;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border-bottom-right-radius: 225px 15px;
+  border-bottom-left-radius:15px 255px;
+  border: solid 5px #41403E;
+  }  
+
+
+/* -----------Syllabus Technology Note------------- */
+
+.technology {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 100px;
+  background-image: url("../img/tech.png");
+  background-size: 70px;
+  background-repeat: no-repeat;
+  background-position: 10px 40px;
+  min-height: 120px;
+  box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+  background-color: #dae7ea;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border-bottom-right-radius: 225px 15px;
+  border-bottom-left-radius:15px 255px;
+  border: solid 5px #41403E;
+  }  
+  
+
+/* -----------Syllabus CEHD Recording Note------------- */
+
+.recording {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 100px;
+  background-image: url("../img/recording.png");
+  background-size: 70px;
+  background-repeat: no-repeat;
+  background-position: 15px 50px;
+  min-height: 120px;
+  box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+  background-color: #f5efe4;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border-bottom-right-radius: 225px 15px;
+  border-bottom-left-radius:15px 255px;
+  border: solid 5px #41403E;
+  }  
+  
+
+/* -----------Syllabus Absence Policy Note------------- */
+
+.absence {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 100px;
+  background-image: url("../img/03_mobile_survey.png");
+  background-size: 100px;
+  background-repeat: no-repeat;
+  background-position: 5px 50px;
+  min-height: 120px;
+  box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+  background-color: #dae7ea;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border-bottom-right-radius: 225px 15px;
+  border-bottom-left-radius:15px 255px;
+  border: solid 5px #41403E;
+  }  
+
+
+/* -----------Syllabus AI Note------------- */
+
+.ai {
+  padding: 1em;
+  margin: 1em 0;
+  padding-left: 100px;
+  background-image: url("../img/08_research_goals.png");
+  background-size: 100px;
+  background-repeat: no-repeat;
+  background-position: 5px 50px;
+  min-height: 120px;
+  box-shadow: 20px 38px 34px -26px hsla(0,0%,0%,.2);
+  background-color: #f5efe4;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  border-bottom-right-radius: 225px 15px;
+  border-bottom-left-radius:15px 255px;
+  border: solid 5px #41403E;
+  }  

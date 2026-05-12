@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-04-29">
+
+<title>Sample Size Determination in Educational Research – EPsy 5244</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-d4394cde7c380170a4469b96acf338b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-27cfc461ff3dfb9e93326f7544c8ee87.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="../site_libs/pagedtable/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable/js/pagedtable.js"></script>
+<script src="https://kit.fontawesome.com/e5da75ca36.js" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Fraunces:opsz,wght,SOFT@9..144,500,20&amp;display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../assets/sticky-notes.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">EPsy 5244</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../assignments.html"> 
+<span class="menu-text">Assignments &amp; Grading</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../class-policies.html"> 
+<span class="menu-text">Class Policies</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../instructor.html"> 
+<span class="menu-text">Instructor</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../mission-statements.html"> 
+<span class="menu-text">Mission Statements</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../umn-policies.html"> 
+<span class="menu-text">University Policies</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of Contents</h2>
+   
+  <ul>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a>
+  <ul class="collapse">
+  <li><a href="#why-does-sample-size-matter" id="toc-why-does-sample-size-matter" class="nav-link" data-scroll-target="#why-does-sample-size-matter">Why does sample size matter?</a></li>
+  <li><a href="#a-quick-refresher-confidence-intervals" id="toc-a-quick-refresher-confidence-intervals" class="nav-link" data-scroll-target="#a-quick-refresher-confidence-intervals">A quick refresher: confidence intervals</a></li>
+  <li><a href="#two-goals-two-approaches" id="toc-two-goals-two-approaches" class="nav-link" data-scroll-target="#two-goals-two-approaches">Two goals, two approaches</a></li>
+  </ul></li>
+  <li><a href="#part-i-sample-size-for-estimation" id="toc-part-i-sample-size-for-estimation" class="nav-link" data-scroll-target="#part-i-sample-size-for-estimation">Part I: Sample size for estimation</a></li>
+  <li><a href="#estimating-a-proportion" id="toc-estimating-a-proportion" class="nav-link" data-scroll-target="#estimating-a-proportion">Estimating a proportion</a>
+  <ul class="collapse">
+  <li><a href="#simple-random-sampling-srs" id="toc-simple-random-sampling-srs" class="nav-link" data-scroll-target="#simple-random-sampling-srs">Simple random sampling (SRS)</a>
+  <ul class="collapse">
+  <li><a href="#the-formula" id="toc-the-formula" class="nav-link" data-scroll-target="#the-formula">The formula</a></li>
+  <li><a href="#r-code" id="toc-r-code" class="nav-link" data-scroll-target="#r-code">R code</a></li>
+  <li><a href="#how-does-margin-of-error-affect-sample-size" id="toc-how-does-margin-of-error-affect-sample-size" class="nav-link" data-scroll-target="#how-does-margin-of-error-affect-sample-size">How does margin of error affect sample size?</a></li>
+  </ul></li>
+  <li><a href="#stratified-sampling" id="toc-stratified-sampling" class="nav-link" data-scroll-target="#stratified-sampling">Stratified sampling</a>
+  <ul class="collapse">
+  <li><a href="#what-is-stratified-sampling" id="toc-what-is-stratified-sampling" class="nav-link" data-scroll-target="#what-is-stratified-sampling">What is stratified sampling?</a></li>
+  <li><a href="#the-scenario-with-strata" id="toc-the-scenario-with-strata" class="nav-link" data-scroll-target="#the-scenario-with-strata">The scenario with strata</a></li>
+  <li><a href="#proportional-allocation" id="toc-proportional-allocation" class="nav-link" data-scroll-target="#proportional-allocation">Proportional allocation</a></li>
+  </ul></li>
+  <li><a href="#adjusting-for-nonresponse" id="toc-adjusting-for-nonresponse" class="nav-link" data-scroll-target="#adjusting-for-nonresponse">Adjusting for nonresponse</a></li>
+  <li><a href="#deff-estimation" id="toc-deff-estimation" class="nav-link" data-scroll-target="#deff-estimation">Adjusting for cluster sampling (design effect)</a>
+  <ul class="collapse">
+  <li><a href="#what-is-cluster-sampling" id="toc-what-is-cluster-sampling" class="nav-link" data-scroll-target="#what-is-cluster-sampling">What is cluster sampling?</a></li>
+  <li><a href="#the-design-effect-deff" id="toc-the-design-effect-deff" class="nav-link" data-scroll-target="#the-design-effect-deff">The design effect (DEFF)</a></li>
+  <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#part-ii-sample-size-for-hypothesis-testing" id="toc-part-ii-sample-size-for-hypothesis-testing" class="nav-link" data-scroll-target="#part-ii-sample-size-for-hypothesis-testing">Part II: Sample size for hypothesis testing</a></li>
+  <li><a href="#key-concepts-for-hypothesis-testing" id="toc-key-concepts-for-hypothesis-testing" class="nav-link" data-scroll-target="#key-concepts-for-hypothesis-testing">Key concepts for hypothesis testing</a>
+  <ul class="collapse">
+  <li><a href="#type-i-error-and-type-ii-error" id="toc-type-i-error-and-type-ii-error" class="nav-link" data-scroll-target="#type-i-error-and-type-ii-error">Type I error and Type II error</a>
+  <ul class="collapse">
+  <li><a href="#visualizing-type-i-and-type-ii-errors" id="toc-visualizing-type-i-and-type-ii-errors" class="nav-link" data-scroll-target="#visualizing-type-i-and-type-ii-errors">Visualizing Type I and Type II errors</a></li>
+  </ul></li>
+  <li><a href="#effect-size" id="toc-effect-size" class="nav-link" data-scroll-target="#effect-size">Effect size</a>
+  <ul class="collapse">
+  <li><a href="#common-effect-size-measures" id="toc-common-effect-size-measures" class="nav-link" data-scroll-target="#common-effect-size-measures">Common effect size measures</a></li>
+  <li><a href="#cohens-benchmarks" id="toc-cohens-benchmarks" class="nav-link" data-scroll-target="#cohens-benchmarks">Cohen’s benchmarks</a></li>
+  </ul></li>
+  <li><a href="#the-four-factors-that-drive-sample-size-for-testing" id="toc-the-four-factors-that-drive-sample-size-for-testing" class="nav-link" data-scroll-target="#the-four-factors-that-drive-sample-size-for-testing">The four factors that drive sample size (for testing)</a></li>
+  <li><a href="#the-pwr-package" id="toc-the-pwr-package" class="nav-link" data-scroll-target="#the-pwr-package">The <code>pwr</code> package</a></li>
+  </ul></li>
+  <li><a href="#one-sample-t-test" id="toc-one-sample-t-test" class="nav-link" data-scroll-target="#one-sample-t-test">One-sample <em>t</em> test</a>
+  <ul class="collapse">
+  <li><a href="#computing-the-effect-size" id="toc-computing-the-effect-size" class="nav-link" data-scroll-target="#computing-the-effect-size">Computing the effect size</a></li>
+  <li><a href="#sample-size-calculation-with-pwr.t.test" id="toc-sample-size-calculation-with-pwr.t.test" class="nav-link" data-scroll-target="#sample-size-calculation-with-pwr.t.test">Sample size calculation with <code>pwr.t.test()</code></a>
+  <ul class="collapse">
+  <li><a href="#adjusting-for-attrition" id="toc-adjusting-for-attrition" class="nav-link" data-scroll-target="#adjusting-for-attrition">Adjusting for attrition</a></li>
+  </ul></li>
+  <li><a href="#power-curve" id="toc-power-curve" class="nav-link" data-scroll-target="#power-curve">Power curve</a></li>
+  </ul></li>
+  <li><a href="#two-sample-t-test" id="toc-two-sample-t-test" class="nav-link" data-scroll-target="#two-sample-t-test">Two-sample <em>t</em> test</a>
+  <ul class="collapse">
+  <li><a href="#effect-size-1" id="toc-effect-size-1" class="nav-link" data-scroll-target="#effect-size-1">Effect size</a></li>
+  <li><a href="#sample-size-calculation-with-pwr.t.test-1" id="toc-sample-size-calculation-with-pwr.t.test-1" class="nav-link" data-scroll-target="#sample-size-calculation-with-pwr.t.test-1">Sample size calculation with <code>pwr.t.test()</code></a></li>
+  <li><a href="#sensitivity-analysis" id="toc-sensitivity-analysis" class="nav-link" data-scroll-target="#sensitivity-analysis">Sensitivity analysis</a></li>
+  </ul></li>
+  <li><a href="#simple-regression" id="toc-simple-regression" class="nav-link" data-scroll-target="#simple-regression">Simple regression</a>
+  <ul class="collapse">
+  <li><a href="#effect-size-for-regression" id="toc-effect-size-for-regression" class="nav-link" data-scroll-target="#effect-size-for-regression">Effect size for regression</a></li>
+  <li><a href="#sample-size-calculation-with-pwr.f2.test" id="toc-sample-size-calculation-with-pwr.f2.test" class="nav-link" data-scroll-target="#sample-size-calculation-with-pwr.f2.test">Sample size calculation with <code>pwr.f2.test()</code></a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Sample Size Determination in Educational Research</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 29, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell" data-layout-align="center">
+<details class="code-fold">
+<summary>Setup code (click to expand)</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pwr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">20260303</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>z_value <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">conf_level =</span> <span class="fl">0.95</span>) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> conf_level) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<section id="overview" class="level1">
+<h1>Overview</h1>
+<p>This tutorial introduces the logic of sample size determination and shows how to do common calculations in R. The examples use education settings so that students can see how design choices connect to real studies.</p>
+<p>The tutorial is organized into <strong>two parts</strong> that mirror two distinct research goals:</p>
+<ul>
+<li><strong>Part I — Estimation:</strong> “How many people do I need to survey so that my estimate is precise enough?”</li>
+<li><strong>Part II — Hypothesis testing:</strong> “How many people do I need so that I have a good chance of detecting an effect that matters?”</li>
+</ul>
+<section id="why-does-sample-size-matter" class="level2">
+<h2 class="anchored" data-anchor-id="why-does-sample-size-matter">Why does sample size matter?</h2>
+<p>Imagine you want to know how students in your school district feel about school safety. You could ask every single student, but that’s usually too expensive and time-consuming. So you ask a sample — a smaller group chosen to represent the whole population.</p>
+<p>The question is: how many students do you need to ask?</p>
+<ul>
+<li>Too few, and your results will be unreliable — like trying to judge a movie by watching only the first 30 seconds.</li>
+<li>Too many, and you waste time and money collecting data you didn’t need.</li>
+</ul>
+<p>Sample size determination is the process of finding the “sweet spot” where your sample is large enough to give trustworthy answers but not larger than necessary.</p>
+</section>
+<section id="a-quick-refresher-confidence-intervals" class="level2">
+<h2 class="anchored" data-anchor-id="a-quick-refresher-confidence-intervals">A quick refresher: confidence intervals</h2>
+<p>When you survey a sample, you compute a sample statistic (e.g., “62% of students feel safe at school”). But you know this number might be a little off from the true population value. A confidence interval gives you a range of plausible values for the true population value.</p>
+<p>For example, a 95% confidence interval of [58%, 66%] means: “We are 95% confident that the true proportion of students who feel safe is somewhere between 58% and 66%.”</p>
+<p>The <strong>margin of error</strong> is half the width of the confidence interval. In this example, the margin of error is 4 percentage points (62% <span class="math inline">\(\pm\)</span> 4%).</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key intuition
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A larger sample gives a narrower confidence interval (smaller margin of error), which means a more precise estimate.</p>
+</div>
+</div>
+</section>
+<section id="two-goals-two-approaches" class="level2">
+<h2 class="anchored" data-anchor-id="two-goals-two-approaches">Two goals, two approaches</h2>
+<p>Two common goals lead to different sample size calculations:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 26%">
+<col style="width: 20%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Goal</th>
+<th>Question you’re asking</th>
+<th>What you specify</th>
+<th>Sampling design matters?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Estimation</td>
+<td>“How precise does my estimate need to be?”</td>
+<td>Margin of error, confidence level</td>
+<td>Yes — SRS, stratified, and cluster designs each have their own formula</td>
+</tr>
+<tr class="even">
+<td>Hypothesis testing</td>
+<td>“Can I detect an effect that matters?”</td>
+<td>Alpha, power, effect size</td>
+<td>Yes — cluster designs inflate required <span class="math inline">\(n\)</span> via the design effect</td>
+</tr>
+</tbody>
+</table>
+<p>We cover estimation in Part I and hypothesis testing in Part II.</p>
+</section>
+</section>
+<section id="part-i-sample-size-for-estimation" class="level1 unnumbered">
+<h1 class="unnumbered">Part I: Sample size for estimation</h1>
+<p>In estimation problems, the goal is to produce a sufficiently <strong>precise</strong> estimate of a population quantity. The key input you control is the <strong>margin of error</strong> — how close you want your sample estimate to be to the true value.</p>
+</section>
+<section id="estimating-a-proportion" class="level1">
+<h1>Estimating a proportion</h1>
+<p>A school district wants to estimate the proportion of Grade 8 students who report a strong sense of <strong>school belonging</strong>. The district wants:</p>
+<ul>
+<li>a 95% confidence interval,</li>
+<li>margin of error no larger than 0.03 (i.e., <span class="math inline">\(\pm\)</span> 3 percentage points),</li>
+<li>to consider several possible sampling designs.</li>
+</ul>
+<p>We will work through the sample size calculation under three designs: simple random sampling, stratified sampling, and we’ll discuss the adjustment needed for cluster sampling.</p>
+<section id="simple-random-sampling-srs" class="level2">
+<h2 class="anchored" data-anchor-id="simple-random-sampling-srs">Simple random sampling (SRS)</h2>
+<section id="the-formula" class="level3">
+<h3 class="anchored" data-anchor-id="the-formula">The formula</h3>
+<p>Under SRS, the required sample size for a proportion (without finite population correction) is:</p>
+<p><span class="math display">\[
+n = \frac{z^2 \; p(1-p)}{E^2}
+\]</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 34%">
+<col style="width: 34%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(z\)</span></td>
+<td>Critical value from the normal distribution for your confidence level. For 95% confidence, <span class="math inline">\(z = 1.96\)</span>.</td>
+<td>Higher confidence → larger <span class="math inline">\(z\)</span> → larger <span class="math inline">\(n\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(p\)</span></td>
+<td>Your best guess at the true proportion.</td>
+<td>If you expect about 50% of students feel belonging, <span class="math inline">\(p = 0.50\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(E\)</span></td>
+<td>The <strong>margin of error</strong> — how precise you want your estimate to be.</td>
+<td><span class="math inline">\(E = 0.03\)</span> means you want to be within <span class="math inline">\(\pm\)</span> 3 percentage points</td>
+</tr>
+</tbody>
+</table>
+<p>Why use <span class="math inline">\(p = 0.50\)</span> when you don’t know the true proportion? Because <span class="math inline">\(p(1-p)\)</span> is largest when <span class="math inline">\(p = 0.50\)</span>. This gives the <em>most conservative</em> (largest) sample size, so you’re safe no matter what the true value turns out to be.</p>
+</section>
+<section id="r-code" class="level3">
+<h3 class="anchored" data-anchor-id="r-code">R code</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>moe <span class="ot">&lt;-</span> <span class="fl">0.03</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>n_prop_srs <span class="ot">&lt;-</span> <span class="cf">function</span>(moe, <span class="at">conf_level =</span> <span class="fl">0.95</span>, <span class="at">p =</span> <span class="fl">0.5</span>) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">z_value</span>(conf_level)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ceiling</span>(z<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> p <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p) <span class="sc">/</span> moe<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>n_srs_conservative <span class="ot">&lt;-</span> <span class="fu">n_prop_srs</span>(<span class="at">moe =</span> moe, <span class="at">conf_level =</span> <span class="fl">0.95</span>, <span class="at">p =</span> <span class="fl">0.50</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>n_srs_prior30 <span class="ot">&lt;-</span> <span class="fu">n_prop_srs</span>(<span class="at">moe =</span> moe, <span class="at">conf_level =</span> <span class="fl">0.95</span>, <span class="at">p =</span> <span class="fl">0.30</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">assumption_for_p =</span> <span class="fu">c</span>(<span class="fl">0.50</span>, <span class="fl">0.30</span>),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">required_n =</span> <span class="fu">c</span>(n_srs_conservative, n_srs_prior30)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["assumption_for_p"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["required_n"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.5","2":"1068"},{"1":"0.3","2":"897"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<ul>
+<li>With no prior information, a target of about 1068 students is appropriate.</li>
+<li>If prior evidence suggests the true proportion is closer to 0.30, the required sample can be smaller.</li>
+</ul>
+</section>
+<section id="how-does-margin-of-error-affect-sample-size" class="level3">
+<h3 class="anchored" data-anchor-id="how-does-margin-of-error-affect-sample-size">How does margin of error affect sample size?</h3>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-sample_size_tutorial_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="stratified-sampling" class="level2">
+<h2 class="anchored" data-anchor-id="stratified-sampling">Stratified sampling</h2>
+<section id="what-is-stratified-sampling" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-stratified-sampling">What is stratified sampling?</h3>
+<p>In <strong>stratified sampling</strong>, you divide the population into non-overlapping subgroups called <strong>strata</strong> (e.g., school levels: elementary, middle, high school) and sample separately from each stratum.</p>
+<p>Why bother? Because if the strata differ from each other but are relatively homogeneous <em>within</em>, stratification can give you a <strong>more precise estimate</strong> (smaller margin of error) for the <strong>same total sample size</strong> — or equivalently, the <strong>same precision</strong> with a <strong>smaller sample</strong>.</p>
+</section>
+<section id="the-scenario-with-strata" class="level3">
+<h3 class="anchored" data-anchor-id="the-scenario-with-strata">The scenario with strata</h3>
+<p>Suppose the school district has three school levels and some prior information:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 20%">
+<col style="width: 38%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stratum</th>
+<th>School level</th>
+<th>Population share (<span class="math inline">\(W_h\)</span>)</th>
+<th>Anticipated <span class="math inline">\(p_h\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Elementary</td>
+<td>0.45</td>
+<td>0.65</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Middle</td>
+<td>0.30</td>
+<td>0.50</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>High</td>
+<td>0.25</td>
+<td>0.40</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><span class="math inline">\(W_h\)</span> is the proportion of the total student population in stratum <span class="math inline">\(h\)</span> (the strata weights must sum to 1).</li>
+<li><span class="math inline">\(p_h\)</span> is the anticipated proportion who report school belonging in stratum <span class="math inline">\(h\)</span>.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>W   <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.45</span>, <span class="fl">0.30</span>, <span class="fl">0.25</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p_h <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.65</span>, <span class="fl">0.50</span>, <span class="fl">0.40</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="proportional-allocation" class="level3">
+<h3 class="anchored" data-anchor-id="proportional-allocation">Proportional allocation</h3>
+<p>With <strong>proportional allocation</strong>, you sample from each stratum in proportion to its population share. The formula is:</p>
+<p><span class="math display">\[
+n_{\text{prop}} = \frac{z^2 \sum_{h=1}^{H} W_h \, p_h(1-p_h)}{E^2}
+\]</span></p>
+<p>The key difference from the SRS formula is inside the numerator: instead of using a single <span class="math inline">\(p(1-p)\)</span>, we take a <strong>weighted average of the within-stratum variances</strong> <span class="math inline">\(p_h(1-p_h)\)</span>. When strata differ in their proportions, this weighted average is smaller than the conservative <span class="math inline">\(0.5 \times 0.5 = 0.25\)</span> used in SRS, which is why stratification can reduce the required sample size.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>n_prop_stratified_prop <span class="ot">&lt;-</span> <span class="cf">function</span>(moe, <span class="at">conf_level =</span> <span class="fl">0.95</span>, W, p_h) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">z_value</span>(conf_level)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ceiling</span>(z<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">sum</span>(W <span class="sc">*</span> p_h <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> p_h)) <span class="sc">/</span> moe<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>n_strat_prop <span class="ot">&lt;-</span> <span class="fu">n_prop_stratified_prop</span>(<span class="at">moe =</span> <span class="fl">0.03</span>, <span class="at">W =</span> W, <span class="at">p_h =</span> p_h)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>n_strat_prop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1014</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why does stratification help?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Under SRS with no prior information, we assume the worst case (<span class="math inline">\(p = 0.50\)</span>). When we have prior information about stratum-level proportions, the weighted average variance is typically <strong>smaller</strong> than the worst-case value, so stratification reduces the required <span class="math inline">\(n\)</span>. The more the strata differ from each other, the bigger the savings.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="adjusting-for-nonresponse" class="level2">
+<h2 class="anchored" data-anchor-id="adjusting-for-nonresponse">Adjusting for nonresponse</h2>
+<p>In a perfect world, everyone you invite would respond. In reality, not everyone does. If you expect only 70% of invited students to actually complete the survey, inflate the invitation count:</p>
+<p><span class="math display">\[
+n_{\text{invite}} = \frac{n}{\text{response rate}}
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>response_rate <span class="ot">&lt;-</span> <span class="fl">0.70</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>invited_srs <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(n_srs_conservative <span class="sc">/</span> response_rate)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">design =</span> <span class="st">"SRS (conservative)"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">required_completions =</span> n_srs_conservative,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">expected_response_rate =</span> response_rate,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">students_to_invite =</span> invited_srs</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["design"],"name":[1],"type":["chr"],"align":["left"]},{"label":["required_completions"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["expected_response_rate"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["students_to_invite"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"SRS (conservative)","2":"1068","3":"0.7","4":"1526"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="deff-estimation" class="level2">
+<h2 class="anchored" data-anchor-id="deff-estimation">Adjusting for cluster sampling (design effect)</h2>
+<section id="what-is-cluster-sampling" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-cluster-sampling">What is cluster sampling?</h3>
+<p>In <strong>cluster sampling</strong>, you don’t sample individual students directly. Instead, you sample <em>groups</em> (clusters) — such as entire classrooms or entire schools — and then survey everyone (or a random subset) within the selected clusters.</p>
+<p><strong>Why use cluster sampling?</strong> It’s often more practical and cheaper. Getting a list of every student in a district may be hard, but getting a list of schools is easy. You can then visit a handful of schools and survey all students there.</p>
+<p><strong>The catch:</strong> students within the same classroom or school tend to be more similar to each other than students picked at random from the whole district. This similarity <em>reduces the effective information</em> per student, which means you need a <strong>larger total sample</strong> to achieve the same precision as SRS.</p>
+</section>
+<section id="the-design-effect-deff" class="level3">
+<h3 class="anchored" data-anchor-id="the-design-effect-deff">The design effect (DEFF)</h3>
+<p>The <strong>design effect</strong> (DEFF) quantifies how much cluster sampling inflates the required sample size. More formally, it is calculated as the ratio of the variance of an estimator based on a sample from an (often) complex sampling design, to the variance of an alternative estimator based on a simple random sample (SRS) of the same number of elements:</p>
+<p><span class="math display">\[
+\text{DEFF} = 1 + (m - 1) \times \rho
+\]</span></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(m\)</span></td>
+<td>Average cluster size (e.g., number of students per classroom)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\rho\)</span> (rho)</td>
+<td><strong>Intraclass correlation coefficient (ICC)</strong> — how similar individuals within a cluster are. Ranges from 0 (no similarity) to 1 (identical).</td>
+</tr>
+</tbody>
+</table>
+<p>The adjusted sample size is simply:</p>
+<p><span class="math display">\[
+n_{\text{cluster}} = n_{\text{SRS}} \times \text{DEFF}
+\]</span></p>
+</section>
+<section id="example" class="level3">
+<h3 class="anchored" data-anchor-id="example">Example</h3>
+<p>Suppose the district samples whole classrooms (average size <span class="math inline">\(m = 25\)</span>) and the ICC for school belonging is <span class="math inline">\(\rho = 0.05\)</span>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>m   <span class="ot">&lt;-</span> <span class="dv">25</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">&lt;-</span> <span class="fl">0.05</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>deff <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> (m <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> rho</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>deff</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>n_cluster <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(n_srs_conservative <span class="sc">*</span> deff)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>n_cluster</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2350</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-sample_size_tutorial_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Cluster sampling always costs more (in sample size)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Even a small ICC (<span class="math inline">\(\rho = 0.05\)</span>) combined with a moderate cluster size (<span class="math inline">\(m = 25\)</span>) gives a DEFF of 2.2, meaning you need <strong>120% more</strong> students than under SRS. Larger clusters or higher ICCs push the DEFF even higher.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Typical ICCs in education research
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For student-level outcomes (test scores, attitudes), ICCs at the classroom level are often between 0.05 and 0.25. At the school level, ICCs are typically between 0.05 and 0.15. Always check the literature for your specific outcome and context.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="part-ii-sample-size-for-hypothesis-testing" class="level1 unnumbered">
+<h1 class="unnumbered">Part II: Sample size for hypothesis testing</h1>
+<p>In hypothesis testing problems, the goal is to have a good chance of <strong>detecting an effect</strong> if one exists. Here we don’t talk about margin of error. Instead, the key concepts are <strong>alpha</strong>, <strong>power</strong>, and <strong>effect size</strong>.</p>
+</section>
+<section id="key-concepts-for-hypothesis-testing" class="level1">
+<h1>Key concepts for hypothesis testing</h1>
+<section id="type-i-error-and-type-ii-error" class="level2">
+<h2 class="anchored" data-anchor-id="type-i-error-and-type-ii-error">Type I error and Type II error</h2>
+<p>When we run a hypothesis test, we can make two kinds of mistakes. An everyday analogy helps:</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Analogy: fire alarms
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Think of a hypothesis test like a fire alarm:</p>
+<ul>
+<li><strong>Type I error (false alarm):</strong> The alarm goes off, but there is no fire. You evacuate for nothing.</li>
+<li><strong>Type II error (missed fire):</strong> There <em>is</em> a fire, but the alarm stays silent. You miss a real danger.</li>
+</ul>
+<p>A good alarm system (and a good study!) keeps <em>both</em> error rates low.</p>
+</div>
+</div>
+<p>More formally:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Null is actually true</th>
+<th>Alternative is actually true</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>We reject the null</strong></td>
+<td>Type I error (<span class="math inline">\(\alpha\)</span>)</td>
+<td>Correct decision (Power = <span class="math inline">\(1 - \beta\)</span>)</td>
+</tr>
+<tr class="even">
+<td><strong>We fail to reject the null</strong></td>
+<td>Correct decision</td>
+<td>Type II error (<span class="math inline">\(\beta\)</span>)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The probability of a Type I error is denoted <strong>alpha</strong> (<span class="math inline">\(\alpha\)</span>). In most studies, <span class="math inline">\(\alpha = .05\)</span>, meaning we accept a 5% risk of a false alarm.</li>
+<li>The probability of a Type II error is denoted <strong>beta</strong> (<span class="math inline">\(\beta\)</span>).</li>
+<li><strong>Power</strong> = <span class="math inline">\(1 - \beta\)</span> is the probability of correctly detecting a real effect. A common target is power = .80 (80% chance of finding a real effect).</li>
+</ul>
+<section id="visualizing-type-i-and-type-ii-errors" class="level3">
+<h3 class="anchored" data-anchor-id="visualizing-type-i-and-type-ii-errors">Visualizing Type I and Type II errors</h3>
+<p>The figure below shows two sampling distributions: one when the null hypothesis is true (left, blue) and one when the alternative is true (right, orange). The shaded areas illustrate the two types of errors.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-sample_size_tutorial_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the figure:</p>
+<ul>
+<li>The <strong>blue shaded area</strong> to the right of the critical value under the null curve is <strong>alpha</strong> — the probability of rejecting the null when it’s actually true (false alarm).</li>
+<li>The <strong>orange shaded area</strong> to the left of the critical value under the alternative curve is <strong>beta</strong> — the probability of failing to detect a real effect (missed detection).</li>
+<li><strong>Power</strong> is the remaining (unshaded) area under the orange curve to the right of the critical value.</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key insight for sample size
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When we increase the sample size, the two distributions become <em>narrower</em> and <em>further apart</em> relative to each other. This makes it easier to tell them apart, which means <strong>higher power</strong> (less overlap, fewer missed detections).</p>
+</div>
+</div>
+</section>
+</section>
+<section id="effect-size" class="level2">
+<h2 class="anchored" data-anchor-id="effect-size">Effect size</h2>
+<p><strong>Effect size</strong> tells us <em>how big</em> the phenomenon is, on a standardized scale. Think of it this way: a difference of 5 points on a test could be huge or trivial — it depends on how spread out the scores are. Effect sizes put everything on a common yardstick so we can talk about “small,” “medium,” or “large” effects.</p>
+<section id="common-effect-size-measures" class="level3">
+<h3 class="anchored" data-anchor-id="common-effect-size-measures">Common effect size measures</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 48%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Analysis</th>
+<th>Effect size measure</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>One- or two-sample <em>t</em> test</td>
+<td>Cohen’s <em>d</em></td>
+<td><span class="math inline">\(d = \frac{\text{mean difference}}{\text{standard deviation}}\)</span></td>
+</tr>
+<tr class="even">
+<td>Regression</td>
+<td>Cohen’s <span class="math inline">\(f^2\)</span></td>
+<td><span class="math inline">\(f^2 = \frac{R^2}{1 - R^2}\)</span></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cohens-benchmarks" class="level3">
+<h3 class="anchored" data-anchor-id="cohens-benchmarks">Cohen’s benchmarks</h3>
+<p>Jacob Cohen (1988) proposed rough benchmarks that are widely used as starting points:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Cohen’s (1988) conventional benchmarks for effect sizes</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Size</th>
+<th style="text-align: center;">Cohen’s d</th>
+<th style="text-align: center;">Cohen’s f²</th>
+<th style="text-align: center;">R²</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Small</td>
+<td style="text-align: center;">0.2</td>
+<td style="text-align: center;">0.02</td>
+<td style="text-align: center;">~2%</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Medium</td>
+<td style="text-align: center;">0.5</td>
+<td style="text-align: center;">0.15</td>
+<td style="text-align: center;">~13%</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Large</td>
+<td style="text-align: center;">0.8</td>
+<td style="text-align: center;">0.35</td>
+<td style="text-align: center;">~26%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Use benchmarks with caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These are <em>rough guides</em>, not rigid rules. In education research, a “small” effect can still be practically important (e.g., an intervention that raises reading scores by 0.2 SD across an entire state). Always think about what size of effect would be <strong>meaningful in your context</strong> rather than relying solely on these labels.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="the-four-factors-that-drive-sample-size-for-testing" class="level2">
+<h2 class="anchored" data-anchor-id="the-four-factors-that-drive-sample-size-for-testing">The four factors that drive sample size (for testing)</h2>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-sample_size_tutorial_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="the-pwr-package" class="level2">
+<h2 class="anchored" data-anchor-id="the-pwr-package">The <code>pwr</code> package</h2>
+<p>For all sample size and power calculations in Part II, we use the <a href="https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html"><code>pwr</code> package</a> (Cohen, 1988). The basic idea is simple: <strong>leave out the argument you want to calculate</strong>, and the function solves for it.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 23%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Test</th>
+<th>Key arguments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>pwr.t.test()</code></td>
+<td>One-sample, two-sample, or paired <em>t</em> test</td>
+<td><code>d</code>, <code>n</code>, <code>sig.level</code>, <code>power</code>, <code>type</code></td>
+</tr>
+<tr class="even">
+<td><code>pwr.f2.test()</code></td>
+<td>General linear model (regression, ANOVA)</td>
+<td><code>u</code> (numerator df), <code>v</code> (denominator df), <code>f2</code>, <code>sig.level</code>, <code>power</code></td>
+</tr>
+<tr class="odd">
+<td><code>pwr.r.test()</code></td>
+<td>Correlation test</td>
+<td><code>r</code>, <code>n</code>, <code>sig.level</code>, <code>power</code></td>
+</tr>
+<tr class="even">
+<td><code>pwr.chisq.test()</code></td>
+<td>Chi-squared test</td>
+<td><code>w</code>, <code>N</code>, <code>df</code>, <code>sig.level</code>, <code>power</code></td>
+</tr>
+</tbody>
+</table>
+<p>In each case, you supply the effect size on the appropriate scale (Cohen’s <em>d</em> for <em>t</em> tests, <span class="math inline">\(f^2\)</span> for regression, etc.) and leave out one of <code>n</code>/<code>power</code>/<code>sig.level</code> — the function solves for whichever you omit.</p>
+</section>
+</section>
+<section id="one-sample-t-test" class="level1">
+<h1>One-sample <em>t</em> test</h1>
+<p>A college of education wants to know whether a new writing support module raises average writing self-efficacy above a historical benchmark of 70 points.</p>
+<p><strong>In plain language:</strong> “After the new module, will students’ average self-efficacy be higher than 70?”</p>
+<p>The planning values are:</p>
+<ul>
+<li><strong>Null hypothesis mean (</strong><span class="math inline">\(\mu_0\)</span>): 70 (the historical benchmark),</li>
+<li><strong>Meaningful improvement (</strong><span class="math inline">\(\delta\)</span>): 3 points — the smallest gain the college considers worth detecting,</li>
+<li><strong>Standard deviation (</strong><span class="math inline">\(\sigma\)</span>): 10 — based on previous data about how spread out self-efficacy scores tend to be,</li>
+<li><strong>Alpha (</strong><span class="math inline">\(\alpha\)</span>): .05,</li>
+<li><strong>Null hypothesis mean (<span class="math inline">\(\mu_0\)</span>):</strong> 70 (the historical benchmark),</li>
+<li><strong>Meaningful improvement (<span class="math inline">\(\delta\)</span>):</strong> 3 points — the smallest gain the college considers worth detecting,</li>
+<li><strong>Standard deviation (<span class="math inline">\(\sigma\)</span>):</strong> 10 — based on previous data about how spread out self-efficacy scores tend to be,</li>
+<li><strong>Alpha (<span class="math inline">\(\alpha\)</span>):</strong> .05,</li>
+<li><strong>Desired power:</strong> .80.</li>
+</ul>
+<section id="computing-the-effect-size" class="level2">
+<h2 class="anchored" data-anchor-id="computing-the-effect-size">Computing the effect size</h2>
+<p>To use a power analysis, we need to express the improvement in standard-deviation units. That’s Cohen’s <em>d</em>:</p>
+<p><span class="math display">\[
+d = \frac{\mu_1 - \mu_0}{\sigma} = \frac{\text{meaningful difference}}{\text{standard deviation}}
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>delta_one_sample <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sd_one_sample <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>d_one_sample <span class="ot">&lt;-</span> delta_one_sample <span class="sc">/</span> sd_one_sample</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>d_one_sample</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3</code></pre>
+</div>
+</div>
+<p>A Cohen’s <em>d</em> of 0.3 is considered <em>small</em> by Cohen’s benchmarks (<span class="math inline">\(d = 0.2\)</span> is small, <span class="math inline">\(d = 0.5\)</span> is medium). This means we’re looking for a subtle effect, so we’ll need a reasonably large sample to detect it.</p>
+</section>
+<section id="sample-size-calculation-with-pwr.t.test" class="level2">
+<h2 class="anchored" data-anchor-id="sample-size-calculation-with-pwr.t.test">Sample size calculation with <code>pwr.t.test()</code></h2>
+<p>We pass our effect size <code>d</code> to <code>pwr.t.test()</code> and <strong>leave out <code>n</code></strong> — the function solves for the sample size:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>one_sample_result <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> d_one_sample,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.80</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"one.sample"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>one_sample_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     One-sample t test power calculation 
+
+              n = 89.1
+              d = 0.3
+      sig.level = 0.05
+          power = 0.8
+    alternative = two.sided</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ceiling</span>(one_sample_result<span class="sc">$</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 90</code></pre>
+</div>
+</div>
+<ul>
+<li>The required sample size is about 90 students.</li>
+<li>The <code>ceiling()</code> function rounds up because we can’t recruit a fraction of a person.</li>
+</ul>
+<section id="adjusting-for-attrition" class="level3">
+<h3 class="anchored" data-anchor-id="adjusting-for-attrition">Adjusting for attrition</h3>
+<p>If you expect 15% of students to drop out before completing the study:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>attrition_rate <span class="ot">&lt;-</span> <span class="fl">0.15</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ceiling</span>(one_sample_result<span class="sc">$</span>n <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> attrition_rate))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 105</code></pre>
+</div>
+</div>
+<p>So you should recruit 105 students to end up with about 90 completers.</p>
+</section>
+</section>
+<section id="power-curve" class="level2">
+<h2 class="anchored" data-anchor-id="power-curve">Power curve</h2>
+<p>A <strong>power curve</strong> shows how power increases as sample size grows. The <code>pwr</code> package provides a convenient built-in <code>plot()</code> method:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(one_sample_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-sample_size_tutorial_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>How to read this plot:</strong> Find 0.80 on the y-axis. The point where the power curve crosses that line tells you the minimum sample size needed. Notice that the curve flattens out at larger sample sizes — going from 80% to 90% power requires a noticeable increase in <span class="math inline">\(n\)</span>.</p>
+</section>
+</section>
+<section id="two-sample-t-test" class="level1">
+<h1>Two-sample <em>t</em> test</h1>
+<p>A district is comparing a tutoring program with business-as-usual instruction. The outcome is end-of-term mathematics score.</p>
+<p>Do students who receive tutoring score higher in math than students who don’t?</p>
+<p>The planning values are:</p>
+<ul>
+<li><strong>Meaningful difference between groups (</strong><span class="math inline">\(\delta\)</span>): 5 points — the minimum improvement worth the cost of the tutoring program,</li>
+<li><strong>Common standard deviation (</strong><span class="math inline">\(\sigma\)</span>): 12 — based on prior test score data,</li>
+<li><strong>Alpha (</strong><span class="math inline">\(\alpha\)</span>): .05,</li>
+<li><strong>Meaningful difference between groups (<span class="math inline">\(\delta\)</span>):</strong> 5 points — the minimum improvement worth the cost of the tutoring program,</li>
+<li><strong>Common standard deviation (<span class="math inline">\(\sigma\)</span>):</strong> 12 — based on prior test score data,</li>
+<li><strong>Alpha (<span class="math inline">\(\alpha\)</span>):</strong> .05,</li>
+<li><strong>Desired power:</strong> .80,</li>
+<li><strong>Equal group sizes</strong> (same number of students in each condition).</li>
+</ul>
+<section id="effect-size-1" class="level2">
+<h2 class="anchored" data-anchor-id="effect-size-1">Effect size</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>delta_two_sample <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>sd_two_sample <span class="ot">&lt;-</span> <span class="dv">12</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>d_two_sample <span class="ot">&lt;-</span> delta_two_sample <span class="sc">/</span> sd_two_sample</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>d_two_sample</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.417</code></pre>
+</div>
+</div>
+<p>A Cohen’s <em>d</em> of 0.42 is between the <em>small</em> (0.2) and <em>medium</em> (0.5) benchmarks.</p>
+</section>
+<section id="sample-size-calculation-with-pwr.t.test-1" class="level2">
+<h2 class="anchored" data-anchor-id="sample-size-calculation-with-pwr.t.test-1">Sample size calculation with <code>pwr.t.test()</code></h2>
+<p>We pass Cohen’s <em>d</em> directly and leave out <code>n</code>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>two_sample_result <span class="ot">&lt;-</span> <span class="fu">pwr.t.test</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> d_two_sample,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.80</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"two.sample"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative =</span> <span class="st">"two.sided"</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>two_sample_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Two-sample t test power calculation 
+
+              n = 91.4
+              d = 0.417
+      sig.level = 0.05
+          power = 0.8
+    alternative = two.sided
+
+NOTE: n is number in *each* group</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ceiling</span>(two_sample_result<span class="sc">$</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 92</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Per group vs.&nbsp;total
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>pwr.t.test()</code> reports the required sample size <strong>per group</strong>, not the total. Don’t forget to multiply by 2!</p>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>per_group_n <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(two_sample_result<span class="sc">$</span>n)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>total_n <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> per_group_n</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">per_group_n =</span> per_group_n, <span class="at">total_n =</span> total_n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["per_group_n"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["total_n"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"92","2":"184"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>If you expect 10% loss to follow-up in each group, recruit more per group:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ceiling</span>(per_group_n <span class="sc">/</span> <span class="fl">0.90</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 103</code></pre>
+</div>
+</div>
+</section>
+<section id="sensitivity-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="sensitivity-analysis">Sensitivity analysis</h2>
+<p>A sensitivity analysis checks how the required sample size changes under different assumptions. It’s good practice because our initial effect size guess may be wrong. For example, we could consider different delta values:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["delta"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["d"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["per_group_n"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"6","2":"0.50","3":"64"},{"1":"5","2":"0.42","3":"92"},{"1":"4","2":"0.33","3":"143"},{"1":"3","2":"0.25","3":"253"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="08-sample_size_tutorial_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Detecting a 3-point difference requires roughly four times as many students per group as detecting a 6-point difference. This is why it’s so important to think carefully about what effect size is realistic <em>before</em> collecting data.</p>
+</section>
+</section>
+<section id="simple-regression" class="level1">
+<h1>Simple regression</h1>
+<p>A researcher wants to study whether weekly independent reading time predicts reading comprehension score among middle school students.</p>
+<p>Do students who read more on their own also tend to have better reading comprehension?</p>
+<p>Suppose the researcher expects the simple regression to explain about 9% of the variance in reading comprehension:</p>
+<p><span class="math display">\[
+R^2 = 0.09
+\]</span></p>
+<p><strong>What does</strong> <span class="math inline">\(R^2 = 0.09\)</span> mean? It means that 9% of the differences in reading comprehension scores across students can be “explained” (or predicted) by knowing how much they read independently. The other 91% is due to other factors.</p>
+<p>The design goals are:</p>
+<ul>
+<li>alpha = .05,</li>
+<li>power = .80,</li>
+<li>one predictor (reading time).</li>
+</ul>
+<section id="effect-size-for-regression" class="level2">
+<h2 class="anchored" data-anchor-id="effect-size-for-regression">Effect size for regression</h2>
+<p>For regression, the effect size measure is <strong>Cohen’s</strong> <span class="math inline">\(f^2\)</span>, which rescales <span class="math inline">\(R^2\)</span>:</p>
+<p><span class="math display">\[
+f^2 = \frac{R^2}{1-R^2}
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>r2_reg <span class="ot">&lt;-</span> <span class="fl">0.09</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>f2_reg <span class="ot">&lt;-</span> r2_reg <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> r2_reg)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>f2_reg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.0989</code></pre>
+</div>
+</div>
+<p>An <span class="math inline">\(f^2\)</span> of 0.099 falls between the <em>small</em> (0.02) and <em>medium</em> (0.15) benchmarks — so this is a modest but meaningful effect.</p>
+</section>
+<section id="sample-size-calculation-with-pwr.f2.test" class="level2">
+<h2 class="anchored" data-anchor-id="sample-size-calculation-with-pwr.f2.test">Sample size calculation with <code>pwr.f2.test()</code></h2>
+<p>The <code>pwr.f2.test()</code> function handles regression (and general linear model) power analysis. It uses:</p>
+<ul>
+<li><code>u</code> = numerator degrees of freedom = number of predictors,</li>
+<li><code>v</code> = denominator degrees of freedom (left out — this is what we solve for),</li>
+<li><code>f2</code> = Cohen’s <span class="math inline">\(f^2\)</span> effect size.</li>
+</ul>
+<p>The total sample size is <span class="math inline">\(n = v + u + 1\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>regression_result <span class="ot">&lt;-</span> <span class="fu">pwr.f2.test</span>(</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">u =</span> <span class="dv">1</span>,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">f2 =</span> f2_reg,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sig.level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">power =</span> <span class="fl">0.80</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>regression_result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Multiple regression power calculation 
+
+              u = 1
+              v = 79.3
+             f2 = 0.0989
+      sig.level = 0.05
+          power = 0.8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>n_regression <span class="ot">&lt;-</span> <span class="fu">ceiling</span>(regression_result<span class="sc">$</span>v) <span class="sc">+</span> regression_result<span class="sc">$</span>u <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>n_regression</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 82</code></pre>
+</div>
+</div>
+<ul>
+<li>The required sample size is about 82 students.</li>
+<li>This is for testing whether the slope (the relationship between reading time and comprehension) differs from zero.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+How to read <code>pwr.f2.test()</code> output
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The function returns <code>v</code> (denominator degrees of freedom), not <code>n</code> directly. To get <span class="math inline">\(n\)</span>, compute: <span class="math inline">\(n = \lceil v \rceil + u + 1\)</span>, where <span class="math inline">\(u\)</span> is the number of predictors.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="exercises" class="level1">
+<h1>Exercises</h1>
+<p>Try these on your own to build intuition. Each one changes just one input — notice how the required sample size responds.</p>
+<p><strong>Estimation exercises:</strong></p>
+<ol type="1">
+<li><p>Recalculate the SRS proportion example with a margin of error of <strong>0.02</strong> instead of 0.03. How much does <span class="math inline">\(n\)</span> increase?</p></li>
+<li><p>Suppose a fourth stratum (vocational schools) is added with <span class="math inline">\(W_4 = 0.10\)</span> and <span class="math inline">\(p_4 = 0.35\)</span>. Adjust the other weights proportionally (multiply each by 0.90) and recalculate the stratified sample sizes. Does adding a stratum help or hurt?</p></li>
+<li><p>Recalculate the cluster-adjusted sample size with an ICC of <span class="math inline">\(\rho = 0.10\)</span> instead of 0.05. What if the average cluster size is <span class="math inline">\(m = 30\)</span> instead of 25?</p></li>
+</ol>
+<p><strong>Hypothesis-testing exercises:</strong></p>
+<ol start="4" type="1">
+<li><p>Recalculate the one-sample <em>t</em> test for power = <strong>0.90</strong> instead of 0.80. What’s the cost of wanting to be “more sure”?</p></li>
+<li><p>Recalculate the two-sample <em>t</em> test if the meaningful difference is only <strong>4 points</strong> instead of 5. How does this affect per-group <span class="math inline">\(n\)</span>?</p></li>
+<li><p>Recalculate the regression example for <span class="math inline">\(R^2 = 0.04\)</span> and discuss why the required sample increases so dramatically.</p></li>
+<li><p>Take the two-sample <em>t</em> test result and apply a DEFF for a cluster-randomized design with <span class="math inline">\(m = 20\)</span> and <span class="math inline">\(\rho = 0.08\)</span>. How many students per group do you need now?</p></li>
+</ol>
+</section>
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>Sample size determination is ultimately a <strong>planning argument</strong>: you specify what you want to estimate or detect, how much uncertainty you can tolerate, and what assumptions are plausible. There is no single “right” answer — but there are well-reasoned answers and poorly-reasoned ones.</p>
+<p>R makes these assumptions transparent and easy to explore, which is one reason it is so useful for teaching research design. When you write a sample size justification for a grant proposal or IRB application, you can include your R code so reviewers can see exactly what you assumed and why.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const storageKey = "epsy8252-navbar-hidden";
+  const body = document.body;
+  const header = document.getElementById("quarto-header");
+
+  if (!header) {
+    return;
+  }
+
+  const button = document.createElement("button");
+  button.id = "navbar-visibility-toggle";
+  button.type = "button";
+  button.setAttribute("aria-controls", "quarto-header");
+
+  const syncHeaderOffset = () => {
+    const headerHeight = Math.ceil(header.getBoundingClientRect().height || 0);
+    const hidden = body.classList.contains("navbar-hidden");
+
+    document.documentElement.style.setProperty("--site-header-height", `${headerHeight}px`);
+    document.documentElement.style.setProperty("--site-header-offset", hidden ? "0px" : `${headerHeight}px`);
+    button.textContent = hidden ? "Show Menu" : "Hide Menu";
+    button.setAttribute("aria-expanded", String(!hidden));
+  };
+
+  const savedState = window.localStorage.getItem(storageKey);
+  if (savedState === "true") {
+    body.classList.add("navbar-hidden");
+  }
+
+  button.addEventListener("click", function () {
+    body.classList.toggle("navbar-hidden");
+    window.localStorage.setItem(storageKey, String(body.classList.contains("navbar-hidden")));
+    syncHeaderOffset();
+  });
+
+  document.body.appendChild(button);
+  syncHeaderOffset();
+
+  window.addEventListener("resize", syncHeaderOffset, { passive: true });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,408 @@
+/*-- scss:defaults --*/
+
+// UMN-inspired palette
+$umn-maroon: #7a0019;
+$umn-gold: #ffcc33;
+$umn-maroon-deep: #5a0013;
+$umn-stone: #f8f6f3;
+$umn-charcoal: #2e2a26;
+$umn-slate: #66605a;
+
+// Bootstrap variables
+$font-family-sans-serif: "Source Sans 3", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+$font-weight-base: 400 !default;
+$headings-font-family: "Fraunces", Georgia, serif;
+$headings-font-weight: 500;
+
+$body-color: $umn-charcoal;
+$body-bg: #ffffff;
+
+$primary: $umn-maroon;
+$secondary: #8f877f;
+
+$link-color: $umn-maroon;
+$link-hover-color: $umn-maroon-deep;
+
+$toc-color: $umn-maroon;
+
+// Top Navigation
+$navbar-bg: $umn-maroon;
+$navbar-fg: #ffffff;
+$navbar-hl: $umn-gold;
+
+// Inline code
+$code-bg: #2f2626;
+$code-color: $umn-gold;
+
+$body-secondary: $umn-charcoal;
+
+
+/*-- scss:rules --*/
+
+:root {
+  --umn-maroon: #7a0019;
+  --umn-maroon-deep: #5a0013;
+  --umn-gold: #ffcc33;
+  --umn-gold-soft: #ffe7a1;
+  --umn-stone: #f8f6f3;
+  --umn-paper: #ffffff;
+  --umn-border: #d9d0c5;
+  --umn-ink: #2e2a26;
+  --umn-muted: #66605a;
+  --site-header-height: 82px;
+  --site-header-offset: 82px;
+}
+
+html {
+  scroll-padding-top: calc(var(--site-header-offset) + 1.5rem);
+}
+
+body {
+  background: #ffffff;
+  color: var(--umn-ink);
+  font-size: 1.18rem;
+  line-height: 1.85;
+  padding-top: calc(var(--site-header-offset) + 1rem) !important;
+}
+
+body.navbar-hidden {
+  padding-top: 1.25rem !important;
+}
+
+.quarto-title-banner {
+  background: linear-gradient(130deg, var(--umn-maroon) 0%, var(--umn-maroon-deep) 60%, #3f0010 100%);
+  color: #fff;
+  border-bottom: 4px solid var(--umn-gold);
+}
+
+.quarto-title .title {
+  letter-spacing: 0.2px;
+}
+
+#quarto-content {
+  max-width: 1500px;
+  width: min(96vw, 1500px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#quarto-document-content,
+.content,
+main.content {
+  width: 100%;
+  max-width: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 1200px) {
+  #quarto-content.page-columns:not(:has(#quarto-margin-sidebar)) {
+    grid-template-columns:
+      [screen-start] minmax(2rem, 1fr)
+      [screen-start-inset page-start page-start-inset body-start-outset body-start body-content-start] minmax(0, 1180px)
+      [body-content-end body-end body-end-outset page-end-inset page-end screen-end-inset] minmax(2rem, 1fr)
+      [screen-end];
+  }
+
+  #quarto-content.page-columns:has(#quarto-margin-sidebar) {
+    grid-template-columns:
+      [screen-start] minmax(1.5rem, 1fr)
+      [screen-start-inset page-start page-start-inset body-start-outset body-start] minmax(0, 1.5rem)
+      [body-content-start] minmax(0, 1040px)
+      [body-content-end] minmax(2rem, 4rem)
+      [body-end body-end-outset page-end-inset] minmax(230px, 290px)
+      [page-end screen-end-inset] minmax(1.5rem, 1fr)
+      [screen-end];
+  }
+
+  #quarto-margin-sidebar {
+    width: 100%;
+    max-width: 290px;
+  }
+}
+
+.navbar {
+  box-shadow: 0 10px 25px rgba(35, 8, 13, 0.2);
+  border-bottom: 3px solid var(--umn-gold);
+}
+
+#quarto-header {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+body.navbar-hidden #quarto-header {
+  transform: translateY(-110%);
+  box-shadow: none;
+}
+
+.navbar .nav-link,
+.navbar-brand {
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+  color: var(--umn-gold) !important;
+}
+
+// Headings
+h1, h2, h3, h4, h5, h6 {
+  color: var(--umn-maroon-deep);
+  letter-spacing: 0.1px;
+  scroll-margin-top: calc(var(--site-header-offset) + 1.5rem);
+}
+
+.header-section-number {
+  color: var(--umn-maroon);
+}
+
+/* Make th of texreg table normal font weight
+.texreg th {
+  font-weight: normal;
+} */
+
+
+p {
+  line-height: 1.9;
+  margin-top: 1.1rem;
+  margin-bottom: 1.1rem;
+}
+
+// List elements
+li {
+  line-height: 1.85;
+  margin-bottom: 0.35rem;
+}
+
+li > p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+// Mouse over link
+a:hover {
+  color: var(--umn-maroon-deep);
+}
+
+a {
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+
+
+// Figure caption
+.figure-caption {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--umn-muted);
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+figure figcaption{
+  font-size: 0.95rem;
+  color: var(--umn-muted);
+  line-height: 1.4;
+}
+
+.answerkey {
+  color: var(--umn-muted);
+  margin-left: 35px;
+  font-style: italic;
+}
+
+// TOC
+#TOC,
+.sidebar nav[role="doc-toc"] {
+  background: var(--umn-stone);
+  border: 1px solid var(--umn-border);
+  border-radius: 12px;
+  padding: 0.8rem 0.9rem;
+}
+
+.sidebar nav[role="doc-toc"] .active {
+  border-left: 3px solid var(--umn-maroon);
+  padding-left: 0.55rem;
+  font-weight: 600;
+}
+
+// Tables
+.table {
+  border: 1px solid var(--umn-border);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.table thead {
+  background: linear-gradient(90deg, rgba(122, 0, 25, 0.96), rgba(90, 0, 19, 0.95));
+  color: #fff;
+}
+
+.table th,
+.table td {
+  border-color: var(--umn-border);
+  vertical-align: middle;
+}
+
+// Callouts
+.callout {
+  border-radius: 12px;
+  border-left-width: 6px;
+  box-shadow: 0 8px 20px rgba(26, 21, 16, 0.08);
+}
+
+.callout.callout-style-default > .callout-header {
+  background: #fff;
+}
+
+// Code blocks
+pre,
+.sourceCode {
+  border-radius: 10px;
+  border: 1px solid #4e4242;
+  box-shadow: 0 8px 16px rgba(33, 24, 24, 0.2);
+}
+
+code {
+  padding: 0.1rem 0.35rem;
+  border-radius: 6px;
+}
+
+// Buttons
+.btn-primary,
+.quarto-listing .btn {
+  background: var(--umn-maroon);
+  border-color: var(--umn-maroon);
+}
+
+.btn-primary:hover,
+.quarto-listing .btn:hover {
+  background: var(--umn-maroon-deep);
+  border-color: var(--umn-maroon-deep);
+}
+
+#navbar-visibility-toggle {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 1100;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, var(--umn-maroon), var(--umn-maroon-deep));
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  box-shadow: 0 12px 28px rgba(34, 13, 16, 0.28);
+}
+
+#navbar-visibility-toggle:hover {
+  background: linear-gradient(135deg, var(--umn-maroon-deep), #3f0010);
+}
+
+// Responsive polish
+@media (max-width: 992px) {
+  .navbar-brand {
+    max-width: 80vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .quarto-title-banner {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+  }
+}
+
+h1 {
+  font-size: 2.25rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+h3 {
+  font-size: 1.4rem;
+}
+
+
+
+
+/*-----boxes-------*/
+/* Base style for all note boxes */
+.note-box {
+  padding: 1em 1.2em;
+  margin: 1.5em auto;
+  width: 90%;
+  border-left: 6px solid;
+  border-radius: 12px;
+  box-shadow: 2px 3px 10px rgba(0,0,0,0.08);
+  font-size: 0.95rem;
+}
+
+/* Specific note types with UMN color palette */
+.note {
+  background-color: #FFF7D1; /* soft UMN gold */
+  border-color: #7A0019;     /* UMN maroon */
+  color: #000;
+}
+
+.warning {
+  background-color: #FBEAEA; /* very light red */
+  border-color: #7A0019;
+  color: #000;
+}
+
+.example {
+  background-color: #E0FBF4; /* soft green */
+  border-color: #7A0019;
+  color: #000;
+}
+
+.activities {
+  background-color: #F3EAFF; /* soft violet */
+  border-color: #7A0019;
+  color: #000;
+}
+.standards {
+  background-color: #F3EAFF; /* soft violet */
+  border-color: #7A0019;
+  color: #000;
+}
+.question {
+  background-color: #FFF3E6; /* soft orange */
+  border-color: #7A0019;
+  color: #000;
+}
+
+.exercise {
+  background-color: #FFEBCC; /* muted UMN gold */
+  border-color: #7A0019;
+  color: #000;
+}
+
+/* Emoji + label before content */
+.note-box::before {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 0.3em;
+}
+
+.note::before     { content: "📝 Note:"; }
+.standards::before     { content: "📘 Testing Standards:"; }
+.warning::before  { content: "❗ Warning:"; }
+.example::before  { content: "📘 Example:"; }
+.activities::before { content: "🧮 Class Activities/Assignments:"; }
+.question::before { content: "❓ Question:";}
+.exercise::before { content: "️ Exercise:"; }
+

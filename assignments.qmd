@@ -1,0 +1,187 @@
+---
+title: "Assignments and Grading"
+---
+
+
+Students will need to complete homework assignments. The homework assignments and due dates are posted on Canvas. These assignments include problems that will help you learn the course material through reflection and practice. The due dates may change at the instructor's discretion. Any revised due dates will be announced in class and posted to the website. 
+
+All assignments must be submitted on Canvas. Please do not send them via email or submit hard copies unless you are instructed to do so. 
+
+## Homework Assignments (5 @ 4 points each = 20 points)
+
+There will be five assignments in this course. 
+
+Each assignment will include several questions for which students should submit a response. Students may be asked to analyze some survey data and interpret their findings. 
+
+## Exam (20 points)
+
+There will be an exam that assesses your understanding of various survey concepts discussed in this course. The exam will consist of questions of various types, including multiple-choice, fill-in-the-blank, and data analysis, etc. Students are expected to complete the exam on their own. The use of generative AI tools is prohibited. 
+
+## Research Proposal (60 points)
+
+The Research proposal should be written as a report with the following components:
+
+### Cover Page
+
+- Should contain the title of the questionnaire, your name and affiliation, any partners, clients, or sponsors associated with the project, and even their logos if available.
+- Consider adding those partner/sponsor logos to the first page of the survey as well.
+
+### Introduction 
+
+This section should answer the following questions:
+
+- Why is such a survey needed? You need to conduct a literature review for this.
+- What’s the purpose of the survey? 
+
+### Research Questions
+
+List your research questions in this section.
+
+### Survey Design
+
+- Describe the concepts or constructs that will be measured in the survey.
+- Describe the variables that will be generated from the survey and on what scale of measurements they will be.
+- Describe how you plan to measure those concepts or constructs? Will you develop new instruments or use existing ones? Provide a table listing which questions in the survey are used to measure which concept or construct. 
+- What type of survey will you use, and why do you choose this type of survey? Mail survey, internet survey, phone survey, in-person survey, etc. 
+- If you plan to develop an online questionnaire, identify the online tool you will use to develop/administer the questionnaire. 
+
+### Sampling plan 
+
+- What is your target population?
+- Explain your procedures for securing the sampling frame if you use a probability sampling.
+- Specify the sampling plan 
+- Completely describe sampling/selection procedures 
+- Discuss why other sampling methods are not feasible or as good as the plan you chose
+- Estimate or justify sample size
+
+### Survey Pretesting
+
+- Describe pretesting procedures you plan to use.
+- Conduct either a cognitive interview (CI) or an expert review. IRB is not required when this is for a class project only. 
+- Summarize results (frequencies of responses & major or helpful/useful comments from CI). 
+- Describe any revisions made to the questionnaire based on results. 
+
+### Pilot Study Plan
+
+- Describe the pilot study plan
+- Describe any psychometric analyses you plan to do, if applicable.
+- Do you have any additional recommendations for implementation based on your experience from the pilot? 
+
+### Data analysis plan 
+
+- Describe your sample in terms of the sampling design and what this means for analysis (what are your actual analysis options given the sampling design). 
+- Explain the options you have for presenting descriptive results (graphical displays, tables of frequencies, etc.). 
+- Describe the analysis procedures for each major evaluation or research question. 
+  - Specify the statistic or statistical test used 
+  - Why is this appropriate? 
+  - How will you interpret the results? What about generalizability? 
+
+The data analysis plan should be organized by research question.
+
+
+### Appendix: Survey Questionnaire
+
+- A pre-notice letter 
+- A consent form 
+- The questionnaire or a link to the questionnaire
+
+
+<!-- <br /> -->
+
+## Working on the Assignments
+
+You can work individually on the assignments, but to foster cooperation and collaboration, you are permitted to form groups of no larger than three to work on the homework, unless otherwise stated for an assignment. Submit only one assignment per group, and list the names of each group member on the assignment. Each assignment will be scored and this score will be given to all individuals in the group. student collaborations work most fluidly when everyone in the group has chosen the same grading option for the course (e.g., A/F, S/N, etc.).
+
+
+
+:::stress
+### Stress Management
+
+Stress management is an important piece of the skill set needed for success in graduate school. Pet Away Worry & Stress (PAWS) is one of the many resources available to students. Find out more at [https://boynton.umn.edu/paws](https://boynton.umn.edu/paws). 
+
+<p style="font-size:70%;">You can follow Tilly the Therapy Chicken on Twitter (@TherapyChicken).</p>
+:::
+
+<br />
+
+
+## Evaluation of Student Performance
+
+Course grades will be based entirely on performance on the homework assignments. The total points from the six homework assignment will be converted to a final course grade using:
+
+Cutoff    | Grade | Definition for Graduate Credit |
+--------- | ----- | ------------------------------ |
+93%--100% | A     | For exceptional work, well above the minimum criteria | 
+90%--92%  | A--   | For outstanding work, well above the minimum criteria | 
+87%--89%  | B+    | For excellent work, significant above the minimum criteria | 
+83%--86%  | B     | For work above the minimum criteria |
+80%--82%  | B--   | |
+77%--79%  | C+    | |
+73%--76%  | C     | For work which meets the course requirements in every respect |
+70%--72%  | C--   | |
+63%--69%  | D     | Worthy of credit even though it fails to meet the course requirements |
+0%--62%   | F     | Failed to meet minimum course requirements |
+
+If you are taking the course S/N, the minimum criterion to receive an S is 80% (the equivalent of a B-- letter grade). The S grade does not carry grade points and is not part of the GPA calculation, but the credits will count toward the student's degree program if allowed by the college, campus, or program.
+
+*Any student who does not complete all homework assignments without making prior arrangements with the instructor will receive a grade of F/N.*
+
+<br />
+
+
+### Incomplete
+
+Instructors may assign the registration symbol "I" for Incomplete if, at the time the incomplete is requested: (1) the student has successfully completed a substantial portion of the work of the course; and (2) due to extraordinary circumstances (*as determined by the instructor*), the student was prevented from completing the work of the course on time. The assignment of an "I" requires a written agreement with the student specifying the time and manner in which the student will complete the course requirements. For more information see [Grading and Transcripts](https://policy.umn.edu/education/gradingtranscripts).
+
+<br />
+
+
+### Accessing Course Grades
+
+Shortly after the course, you may access your grades online at [myU](http://myu.umn.edu). 
+
+<br />
+
+
+
+
+## Assignment FAQs
+
+**How do I submit the assignment?**
+
+Create PDF of your responses, as well as your script or QMD file and submit those to Canvas. Before you submit the assignment check that:
+
+- [ ] All group members' names are on the assignment.
+- [ ] All tables are numbered and have a caption.
+- [ ] All figures are numbered and have a caption.
+- [ ] All figures are re-sized to not take up more page space than is necessary to read them.
+- [ ] No R syntax is included in your response document unless the question specifically asked for the syntax to be included. If there is R syntax included, be sure that it is typeset in a monospaced font (e.g., Courier, Inconsolata). 
+
+
+
+**Do I need to turn in the script file?**
+
+Yes and they will count as part of the assignment score. One of the foci of the class is reproducible research. The script file needs to be commented and clean (e.g., newline after pipes). Alternatively, if you choose to do your assignments in Quarto, you can include the QMD document. 
+
+
+
+**Will you provide answer keys to the assignments?**
+
+No. You will get back several comments on your assignments that address what you did wrong. The educational research is pretty clear that feedback is more helpful to student learning than providing correct answers. If you have further questions or need additional clarification, you are welcome to come to office hours or make an appointment with the instructor.
+
+
+**Will you go over the answers in class?**
+
+No. I will address broad concepts if several students/groups made the same mistake, but otherwise, since each student/group makes unique mistakes going over the assignments more broadly is not a good use of our limited class time. The feedback should be helpful in understanding any mistakes you made, but if it isn't, you are welcome to come to office hours or make an appointment with the instructor.
+
+
+**Will you look at our assignment prior to us submitting it?**
+
+The instructor will not "pre-grade" your assignment. If there is a "Preparation" part of the assignment we can ensure that you did that part correctly, and we can also give you feedback about syntax, but we will not tell you if an answer is correct or not. We can also answer clarifying questions (e.g., 'I know Question 8 is asking about […], but I’m not sure what this question is looking for. Is there another way to restate this question?'). If you completed the assignment without any trouble, then be confident in your work and simply submit the assignment! 😄 If you are unsure about something specific, then ask about that specific thing rather than a general 'did I do this right'! 
+
+
+**Will we be able to re-do the assignment?**
+
+Generally no. Since you have the opportunity to work in groups on the assignments, you should be able offset any of the issues that come up that would necessitate a re-submission. The exception to this is that we may allow you to re-do Assignment 1. If we do this, we will send you an email requesting that you resubmit part, or all of Assignment 1. You will not receive much feedback on your assignment prior to your re-submission. This is because during the first assignment you are learning not only content, but also expectations around how to respond to the questions we ask.
+
+

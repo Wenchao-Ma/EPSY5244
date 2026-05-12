@@ -1,0 +1,741 @@
+---
+title: "Sample Size Determination in Educational Research"
+format:
+  html:
+    code-copy: true
+    code-fold: false
+    highlight-style: zenburn
+    df-print: paged
+    css: ["../assets/sticky-notes.css"]
+date: "`r format(Sys.Date(), '%B %d %Y')`"
+bibliography: "../assets/epsy8252.bib"
+csl: "../assets/apa.csl"
+---
+
+```{r}
+#| echo: false
+source("../assets/notes-setup.R")
+```
+
+```{r}
+#| code-fold: true
+#| code-summary: "Setup code (click to expand)"
+library(pwr)
+options(digits = 3)
+set.seed(20260303)
+z_value <- function(conf_level = 0.95) {
+  qnorm(1 - (1 - conf_level) / 2)
+}
+```
+
+# Overview
+
+This tutorial introduces the logic of sample size determination and shows how to do common calculations in R. The examples use education settings so that students can see how design choices connect to real studies.
+
+The tutorial is organized into **two parts** that mirror two distinct research goals:
+
+-   **Part I — Estimation:** "How many people do I need to survey so that my estimate is precise enough?"
+-   **Part II — Hypothesis testing:** "How many people do I need so that I have a good chance of detecting an effect that matters?"
+
+
+## Why does sample size matter?
+
+Imagine you want to know how students in your school district feel about school safety. You could ask every single student, but that's usually too expensive and time-consuming. So you ask a sample — a smaller group chosen to represent the whole population.
+
+The question is: how many students do you need to ask?
+
+-   Too few, and your results will be unreliable — like trying to judge a movie by watching only the first 30 seconds.
+-   Too many, and you waste time and money collecting data you didn't need.
+
+Sample size determination is the process of finding the "sweet spot" where your sample is large enough to give trustworthy answers but not larger than necessary.
+
+## A quick refresher: confidence intervals
+
+When you survey a sample, you compute a sample statistic (e.g., "62% of students feel safe at school"). But you know this number might be a little off from the true population value. A confidence interval gives you a range of plausible values for the true population value.
+
+For example, a 95% confidence interval of \[58%, 66%\] means: "We are 95% confident that the true proportion of students who feel safe is somewhere between 58% and 66%."
+
+The **margin of error** is half the width of the confidence interval. In this example, the margin of error is 4 percentage points (62% $\pm$ 4%).
+
+::: callout-tip
+## Key intuition
+
+A larger sample gives a narrower confidence interval (smaller margin of error), which means a more precise estimate.
+:::
+
+## Two goals, two approaches
+
+Two common goals lead to different sample size calculations:
+
+| Goal | Question you're asking | What you specify | Sampling design matters? |
+|---------------|-------------------|---------------|-----------------------|
+| Estimation | "How precise does my estimate need to be?" | Margin of error, confidence level | Yes — SRS, stratified, and cluster designs each have their own formula |
+| Hypothesis testing | "Can I detect an effect that matters?" | Alpha, power, effect size | Yes — cluster designs inflate required $n$ via the design effect |
+
+We cover estimation in Part I and hypothesis testing in Part II.
+
+
+# Part I: Sample size for estimation {.unnumbered}
+
+In estimation problems, the goal is to produce a sufficiently **precise** estimate of a population quantity. The key input you control is the **margin of error** — how close you want your sample estimate to be to the true value.
+
+# Estimating a proportion
+
+A school district wants to estimate the proportion of Grade 8 students who report a strong sense of **school belonging**. The district wants:
+
+-   a 95% confidence interval,
+-   margin of error no larger than 0.03 (i.e., $\pm$ 3 percentage points),
+-   to consider several possible sampling designs.
+
+We will work through the sample size calculation under three designs: simple random sampling, stratified sampling, and we'll discuss the adjustment needed for cluster sampling.
+
+## Simple random sampling (SRS)
+
+### The formula
+
+Under SRS, the required sample size for a proportion (without finite population correction) is:
+
+$$
+n = \frac{z^2 \; p(1-p)}{E^2}
+$$
+
+| Symbol | Meaning | Example |
+|----------------------|-------------------------|-------------------------|
+| $z$ | Critical value from the normal distribution for your confidence level. For 95% confidence, $z = 1.96$. | Higher confidence → larger $z$ → larger $n$ |
+| $p$ | Your best guess at the true proportion. | If you expect about 50% of students feel belonging, $p = 0.50$ |
+| $E$ | The **margin of error** — how precise you want your estimate to be. | $E = 0.03$ means you want to be within $\pm$ 3 percentage points |
+
+Why use $p = 0.50$ when you don't know the true proportion? Because $p(1-p)$ is largest when $p = 0.50$. This gives the *most conservative* (largest) sample size, so you're safe no matter what the true value turns out to be.
+
+### R code
+
+```{r}
+moe <- 0.03
+n_prop_srs <- function(moe, conf_level = 0.95, p = 0.5) {
+  z <- z_value(conf_level)
+  ceiling(z^2 * p * (1 - p) / moe^2)
+}
+n_srs_conservative <- n_prop_srs(moe = moe, conf_level = 0.95, p = 0.50)
+n_srs_prior30 <- n_prop_srs(moe = moe, conf_level = 0.95, p = 0.30)
+
+data.frame(
+  assumption_for_p = c(0.50, 0.30),
+  required_n = c(n_srs_conservative, n_srs_prior30)
+)
+```
+
+-   With no prior information, a target of about `r n_srs_conservative` students is appropriate.
+-   If prior evidence suggests the true proportion is closer to 0.30, the required sample can be smaller.
+
+### How does margin of error affect sample size?
+
+```{r}
+#| echo: false
+#| fig-height: 4.5
+#| fig-width: 7
+
+moe_grid <- seq(0.01, 0.10, by = 0.005)
+n_grid_prop <- sapply(moe_grid, function(e) n_prop_srs(moe = e, p = 0.50))
+
+plot(moe_grid, n_grid_prop, type = "l", lwd = 2, col = "steelblue",
+     xlab = "Desired margin of error",
+     ylab = "Required sample size",
+     main = "Sample size vs. margin of error (SRS)\n(95% CI, conservative p = 0.50)")
+points(0.03, n_srs_conservative, pch = 19, col = "firebrick", cex = 1.5)
+text(0.05, n_srs_conservative + 300,
+     paste0("n = ", n_srs_conservative, " (MOE = 0.03)"),
+     col = "firebrick", cex = 0.8)
+grid()
+```
+
+## Stratified sampling
+
+### What is stratified sampling?
+
+In **stratified sampling**, you divide the population into non-overlapping subgroups called **strata** (e.g., school levels: elementary, middle, high school) and sample separately from each stratum.
+
+Why bother? Because if the strata differ from each other but are relatively homogeneous *within*, stratification can give you a **more precise estimate** (smaller margin of error) for the **same total sample size** — or equivalently, the **same precision** with a **smaller sample**.
+
+### The scenario with strata
+
+Suppose the school district has three school levels and some prior information:
+
+| Stratum | School level | Population share ($W_h$) | Anticipated $p_h$ |
+|---------|--------------|--------------------------|-------------------|
+| 1       | Elementary   | 0.45                     | 0.65              |
+| 2       | Middle       | 0.30                     | 0.50              |
+| 3       | High         | 0.25                     | 0.40              |
+
+-   $W_h$ is the proportion of the total student population in stratum $h$ (the strata weights must sum to 1).
+-   $p_h$ is the anticipated proportion who report school belonging in stratum $h$.
+
+```{r}
+W   <- c(0.45, 0.30, 0.25)
+p_h <- c(0.65, 0.50, 0.40)
+```
+
+### Proportional allocation
+
+With **proportional allocation**, you sample from each stratum in proportion to its population share. The formula is:
+
+$$
+n_{\text{prop}} = \frac{z^2 \sum_{h=1}^{H} W_h \, p_h(1-p_h)}{E^2}
+$$
+
+The key difference from the SRS formula is inside the numerator: instead of using a single $p(1-p)$, we take a **weighted average of the within-stratum variances** $p_h(1-p_h)$. When strata differ in their proportions, this weighted average is smaller than the conservative $0.5 \times 0.5 = 0.25$ used in SRS, which is why stratification can reduce the required sample size.
+
+```{r}
+n_prop_stratified_prop <- function(moe, conf_level = 0.95, W, p_h) {
+  z <- z_value(conf_level)
+  ceiling(z^2 * sum(W * p_h * (1 - p_h)) / moe^2)
+}
+n_strat_prop <- n_prop_stratified_prop(moe = 0.03, W = W, p_h = p_h)
+n_strat_prop
+```
+
+::: callout-tip
+## Why does stratification help?
+
+Under SRS with no prior information, we assume the worst case ($p = 0.50$). When we have prior information about stratum-level proportions, the weighted average variance is typically **smaller** than the worst-case value, so stratification reduces the required $n$. The more the strata differ from each other, the bigger the savings.
+:::
+
+## Adjusting for nonresponse
+
+In a perfect world, everyone you invite would respond. In reality, not everyone does. If you expect only 70% of invited students to actually complete the survey, inflate the invitation count:
+
+$$
+n_{\text{invite}} = \frac{n}{\text{response rate}}
+$$
+
+```{r}
+response_rate <- 0.70
+invited_srs <- ceiling(n_srs_conservative / response_rate)
+data.frame(
+  design = "SRS (conservative)",
+  required_completions = n_srs_conservative,
+  expected_response_rate = response_rate,
+  students_to_invite = invited_srs
+)
+```
+
+## Adjusting for cluster sampling (design effect) {#deff-estimation}
+
+### What is cluster sampling?
+
+In **cluster sampling**, you don't sample individual students directly. Instead, you sample *groups* (clusters) — such as entire classrooms or entire schools — and then survey everyone (or a random subset) within the selected clusters.
+
+**Why use cluster sampling?** It's often more practical and cheaper. Getting a list of every student in a district may be hard, but getting a list of schools is easy. You can then visit a handful of schools and survey all students there.
+
+**The catch:** students within the same classroom or school tend to be more similar to each other than students picked at random from the whole district. This similarity *reduces the effective information* per student, which means you need a **larger total sample** to achieve the same precision as SRS.
+
+### The design effect (DEFF)
+
+The **design effect** (DEFF) quantifies how much cluster sampling inflates the required sample size. More formally, it is calculated as the ratio of the variance of an estimator based on a sample from an (often) complex sampling design, to the variance of an alternative estimator based on a simple random sample (SRS) of the same number of elements:
+
+$$
+\text{DEFF} = 1 + (m - 1) \times \rho
+$$
+
+| Symbol | Meaning |
+|----------------------------------|--------------------------------------|
+| $m$ | Average cluster size (e.g., number of students per classroom) |
+| $\rho$ (rho) | **Intraclass correlation coefficient (ICC)** — how similar individuals within a cluster are. Ranges from 0 (no similarity) to 1 (identical). |
+
+The adjusted sample size is simply:
+
+$$
+n_{\text{cluster}} = n_{\text{SRS}} \times \text{DEFF}
+$$
+
+### Example
+
+Suppose the district samples whole classrooms (average size $m = 25$) and the ICC for school belonging is $\rho = 0.05$:
+
+```{r}
+m   <- 25
+rho <- 0.05
+deff <- 1 + (m - 1) * rho
+deff
+
+n_cluster <- ceiling(n_srs_conservative * deff)
+n_cluster
+```
+
+```{r}
+#| echo: false
+#| fig-height: 4
+#| fig-width: 7
+
+rho_grid <- seq(0, 0.15, by = 0.01)
+deff_grid <- 1 + (m - 1) * rho_grid
+n_cluster_grid <- ceiling(n_srs_conservative * deff_grid)
+
+plot(rho_grid, n_cluster_grid, type = "l", lwd = 2.5, col = "steelblue",
+     xlab = expression(paste("Intraclass correlation (", rho, ")")),
+     ylab = "Required sample size",
+     main = paste0("Impact of clustering on sample size\n(m = ", m, " students per classroom, SRS n = ", n_srs_conservative, ")"))
+points(rho, n_cluster, pch = 19, col = "firebrick", cex = 1.5)
+text(rho + 0.008, n_cluster + 30,
+     paste0("DEFF = ", round(deff, 1), ", n = ", n_cluster),
+     col = "firebrick", cex = 0.8, adj = 0)
+abline(h = n_srs_conservative, lty = 2, col = "gray50")
+text(0.12, n_srs_conservative - 30, paste0("SRS baseline (n = ", n_srs_conservative, ")"),
+     col = "gray50", cex = 0.75)
+grid()
+```
+
+::: callout-important
+## Cluster sampling always costs more (in sample size)
+
+Even a small ICC ($\rho = 0.05$) combined with a moderate cluster size ($m = 25$) gives a DEFF of `r round(deff, 1)`, meaning you need **`r round((deff - 1) * 100)`% more** students than under SRS. Larger clusters or higher ICCs push the DEFF even higher.
+:::
+
+::: callout-tip
+## Typical ICCs in education research
+
+For student-level outcomes (test scores, attitudes), ICCs at the classroom level are often between 0.05 and 0.25. At the school level, ICCs are typically between 0.05 and 0.15. Always check the literature for your specific outcome and context.
+:::
+
+# Part II: Sample size for hypothesis testing {.unnumbered}
+
+In hypothesis testing problems, the goal is to have a good chance of **detecting an effect** if one exists. Here we don't talk about margin of error. Instead, the key concepts are **alpha**, **power**, and **effect size**.
+
+# Key concepts for hypothesis testing
+
+## Type I error and Type II error
+
+When we run a hypothesis test, we can make two kinds of mistakes. An everyday analogy helps:
+
+::: callout-note
+## Analogy: fire alarms
+
+Think of a hypothesis test like a fire alarm:
+
+-   **Type I error (false alarm):** The alarm goes off, but there is no fire. You evacuate for nothing.
+-   **Type II error (missed fire):** There *is* a fire, but the alarm stays silent. You miss a real danger.
+
+A good alarm system (and a good study!) keeps *both* error rates low.
+:::
+
+More formally:
+
+|   | Null is actually true | Alternative is actually true |
+|------------------------|------------------------|------------------------|
+| **We reject the null** | Type I error ($\alpha$) | Correct decision (Power = $1 - \beta$) |
+| **We fail to reject the null** | Correct decision | Type II error ($\beta$) |
+
+-   The probability of a Type I error is denoted **alpha** ($\alpha$). In most studies, $\alpha = .05$, meaning we accept a 5% risk of a false alarm.
+-   The probability of a Type II error is denoted **beta** ($\beta$).
+-   **Power** = $1 - \beta$ is the probability of correctly detecting a real effect. A common target is power = .80 (80% chance of finding a real effect).
+
+### Visualizing Type I and Type II errors
+
+The figure below shows two sampling distributions: one when the null hypothesis is true (left, blue) and one when the alternative is true (right, orange). The shaded areas illustrate the two types of errors.
+
+```{r}
+#| echo: false
+#| fig-height: 4.5
+#| fig-width: 8
+
+mu0 <- 0
+mu1 <- 2.5
+se  <- 1
+crit <- qnorm(0.975, mean = mu0, sd = se)
+
+x <- seq(-4, 7, length.out = 400)
+y_null <- dnorm(x, mean = mu0, sd = se)
+y_alt  <- dnorm(x, mean = mu1, sd = se)
+
+plot(x, y_null, type = "l", lwd = 2, col = "steelblue",
+     xlab = "Test statistic", ylab = "Density",
+     main = "Two types of errors in hypothesis testing",
+     ylim = c(0, max(y_null) * 1.15))
+lines(x, y_alt, lwd = 2, col = "darkorange")
+
+x_t1 <- x[x >= crit]
+polygon(c(x_t1, rev(x_t1)),
+        c(dnorm(x_t1, mu0, se), rep(0, length(x_t1))),
+        col = rgb(0.2, 0.4, 0.8, 0.35), border = NA)
+
+x_t2 <- x[x <= crit & x >= mu1 - 4 * se]
+polygon(c(x_t2, rev(x_t2)),
+        c(dnorm(x_t2, mu1, se), rep(0, length(x_t2))),
+        col = rgb(1, 0.6, 0, 0.35), border = NA)
+
+abline(v = crit, lty = 2, col = "gray40")
+text(crit + 0.15, max(y_null) * 1.10, "critical\nvalue", cex = 0.75, adj = 0)
+
+legend("topright",
+       legend = c("Null distribution", "Alternative distribution",
+                  expression(paste("Type I error (", alpha, ")")),
+                  expression(paste("Type II error (", beta, ")"))),
+       col = c("steelblue", "darkorange",
+               rgb(0.2, 0.4, 0.8, 0.6), rgb(1, 0.6, 0, 0.6)),
+       lwd = c(2, 2, 8, 8), cex = 0.75)
+```
+
+In the figure:
+
+-   The **blue shaded area** to the right of the critical value under the null curve is **alpha** — the probability of rejecting the null when it's actually true (false alarm).
+-   The **orange shaded area** to the left of the critical value under the alternative curve is **beta** — the probability of failing to detect a real effect (missed detection).
+-   **Power** is the remaining (unshaded) area under the orange curve to the right of the critical value.
+
+::: callout-tip
+## Key insight for sample size
+
+When we increase the sample size, the two distributions become *narrower* and *further apart* relative to each other. This makes it easier to tell them apart, which means **higher power** (less overlap, fewer missed detections).
+:::
+
+## Effect size
+
+**Effect size** tells us *how big* the phenomenon is, on a standardized scale. Think of it this way: a difference of 5 points on a test could be huge or trivial — it depends on how spread out the scores are. Effect sizes put everything on a common yardstick so we can talk about "small," "medium," or "large" effects.
+
+### Common effect size measures
+
+| Analysis | Effect size measure | Formula |
+|-------------------|-----------------------------------|------------------|
+| One- or two-sample *t* test | Cohen's *d* | $d = \frac{\text{mean difference}}{\text{standard deviation}}$ |
+| Regression | Cohen's $f^2$ | $f^2 = \frac{R^2}{1 - R^2}$ |
+
+### Cohen's benchmarks
+
+Jacob Cohen (1988) proposed rough benchmarks that are widely used as starting points:
+
+```{r}
+#| echo: false
+benchmarks <- data.frame(
+  Size = c("Small", "Medium", "Large"),
+  `Cohen's d` = c(0.2, 0.5, 0.8),
+  `Cohen's f²` = c(0.02, 0.15, 0.35),
+  `R²` = c("~2%", "~13%", "~26%"),
+  check.names = FALSE
+)
+knitr::kable(benchmarks, align = "lccc",
+             caption = "Cohen's (1988) conventional benchmarks for effect sizes")
+```
+
+::: callout-warning
+## Use benchmarks with caution
+
+These are *rough guides*, not rigid rules. In education research, a "small" effect can still be practically important (e.g., an intervention that raises reading scores by 0.2 SD across an entire state). Always think about what size of effect would be **meaningful in your context** rather than relying solely on these labels.
+:::
+
+## The four factors that drive sample size (for testing)
+
+```{r}
+#| echo: false
+#| fig-height: 3.5
+#| fig-width: 7
+
+par(mar = c(1, 1, 2, 1))
+factors <- c("Smaller alpha\n(stricter false-alarm\nthreshold)",
+             "Higher power\n(better chance\nof detection)",
+             "Smaller effect size\n(subtler\nphenomenon)",
+             "More variability\n(noisier\ndata)")
+colors <- c("#4E79A7", "#F28E2B", "#E15759", "#76B7B2")
+
+plot(0, 0, type = "n", xlim = c(0, 10), ylim = c(0, 5),
+     axes = FALSE, xlab = "", ylab = "",
+     main = "Four factors that increase required sample size for hypothesis testing")
+
+for (i in seq_along(factors)) {
+  x_center <- (i - 1) * 2.5 + 1.25
+  rect(x_center - 1.1, 1, x_center + 1.1, 4,
+       col = adjustcolor(colors[i], 0.25), border = colors[i], lwd = 2)
+  text(x_center, 2.5, factors[i], cex = 0.65, font = 2)
+}
+arrows(1.25, 0.5, 8.75, 0.5, lwd = 3, col = "gray40", length = 0.15)
+text(5, 0.15, "All push required n upward", cex = 0.8, col = "gray30")
+```
+
+## The `pwr` package
+
+For all sample size and power calculations in Part II, we use the [`pwr` package](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html) (Cohen, 1988). The basic idea is simple: **leave out the argument you want to calculate**, and the function solves for it.
+
+| Function | Test | Key arguments |
+|----------------------|-----------------|---------------------------------|
+| `pwr.t.test()` | One-sample, two-sample, or paired *t* test | `d`, `n`, `sig.level`, `power`, `type` |
+| `pwr.f2.test()` | General linear model (regression, ANOVA) | `u` (numerator df), `v` (denominator df), `f2`, `sig.level`, `power` |
+| `pwr.r.test()` | Correlation test | `r`, `n`, `sig.level`, `power` |
+| `pwr.chisq.test()` | Chi-squared test | `w`, `N`, `df`, `sig.level`, `power` |
+
+In each case, you supply the effect size on the appropriate scale (Cohen's *d* for *t* tests, $f^2$ for regression, etc.) and leave out one of `n`/`power`/`sig.level` — the function solves for whichever you omit.
+
+# One-sample *t* test
+
+A college of education wants to know whether a new writing support module raises average writing self-efficacy above a historical benchmark of 70 points.
+
+**In plain language:** "After the new module, will students' average self-efficacy be higher than 70?"
+
+The planning values are:
+
+-   **Null hypothesis mean (**$\mu_0$): 70 (the historical benchmark),
+-   **Meaningful improvement (**$\delta$): 3 points — the smallest gain the college considers worth detecting,
+-   **Standard deviation (**$\sigma$): 10 — based on previous data about how spread out self-efficacy scores tend to be,
+-   **Alpha (**$\alpha$): .05,
+-   **Null hypothesis mean ($\mu_0$):** 70 (the historical benchmark),
+-   **Meaningful improvement ($\delta$):** 3 points — the smallest gain the college considers worth detecting,
+-   **Standard deviation ($\sigma$):** 10 — based on previous data about how spread out self-efficacy scores tend to be,
+-   **Alpha ($\alpha$):** .05,
+-   **Desired power:** .80.
+
+## Computing the effect size
+
+To use a power analysis, we need to express the improvement in standard-deviation units. That's Cohen's *d*:
+
+$$
+d = \frac{\mu_1 - \mu_0}{\sigma} = \frac{\text{meaningful difference}}{\text{standard deviation}}
+$$
+
+```{r}
+delta_one_sample <- 3
+sd_one_sample <- 10
+d_one_sample <- delta_one_sample / sd_one_sample
+d_one_sample
+```
+
+A Cohen's *d* of `r d_one_sample` is considered *small* by Cohen's benchmarks ($d = 0.2$ is small, $d = 0.5$ is medium). This means we're looking for a subtle effect, so we'll need a reasonably large sample to detect it.
+
+## Sample size calculation with `pwr.t.test()`
+
+We pass our effect size `d` to `pwr.t.test()` and **leave out `n`** — the function solves for the sample size:
+
+```{r}
+one_sample_result <- pwr.t.test(
+  d = d_one_sample,
+  sig.level = 0.05,
+  power = 0.80,
+  type = "one.sample",
+  alternative = "two.sided"
+)
+
+one_sample_result
+ceiling(one_sample_result$n)
+```
+
+-   The required sample size is about `r ceiling(one_sample_result$n)` students.
+-   The `ceiling()` function rounds up because we can't recruit a fraction of a person.
+
+### Adjusting for attrition
+
+If you expect 15% of students to drop out before completing the study:
+
+```{r}
+attrition_rate <- 0.15
+ceiling(one_sample_result$n / (1 - attrition_rate))
+```
+
+So you should recruit `r ceiling(one_sample_result$n / (1 - attrition_rate))` students to end up with about `r ceiling(one_sample_result$n)` completers.
+
+## Power curve
+
+A **power curve** shows how power increases as sample size grows. The `pwr` package provides a convenient built-in `plot()` method:
+
+```{r}
+#| fig-width: 7
+#| fig-height: 4.5
+
+plot(one_sample_result)
+```
+
+**How to read this plot:** Find 0.80 on the y-axis. The point where the power curve crosses that line tells you the minimum sample size needed. Notice that the curve flattens out at larger sample sizes — going from 80% to 90% power requires a noticeable increase in $n$.
+
+# Two-sample *t* test
+
+A district is comparing a tutoring program with business-as-usual instruction. The outcome is end-of-term mathematics score.
+
+Do students who receive tutoring score higher in math than students who don't?
+
+The planning values are:
+
+-   **Meaningful difference between groups (**$\delta$): 5 points — the minimum improvement worth the cost of the tutoring program,
+-   **Common standard deviation (**$\sigma$): 12 — based on prior test score data,
+-   **Alpha (**$\alpha$): .05,
+-   **Meaningful difference between groups ($\delta$):** 5 points — the minimum improvement worth the cost of the tutoring program,
+-   **Common standard deviation ($\sigma$):** 12 — based on prior test score data,
+-   **Alpha ($\alpha$):** .05,
+-   **Desired power:** .80,
+-   **Equal group sizes** (same number of students in each condition).
+
+## Effect size
+
+```{r}
+delta_two_sample <- 5
+sd_two_sample <- 12
+d_two_sample <- delta_two_sample / sd_two_sample
+d_two_sample
+```
+
+A Cohen's *d* of `r round(d_two_sample, 2)` is between the *small* (0.2) and *medium* (0.5) benchmarks.
+
+## Sample size calculation with `pwr.t.test()`
+
+We pass Cohen's *d* directly and leave out `n`:
+
+```{r}
+two_sample_result <- pwr.t.test(
+  d = d_two_sample,
+  sig.level = 0.05,
+  power = 0.80,
+  type = "two.sample",
+  alternative = "two.sided"
+)
+
+two_sample_result
+ceiling(two_sample_result$n)
+```
+
+::: callout-important
+## Per group vs. total
+
+`pwr.t.test()` reports the required sample size **per group**, not the total. Don't forget to multiply by 2!
+:::
+
+```{r}
+per_group_n <- ceiling(two_sample_result$n)
+total_n <- 2 * per_group_n
+data.frame(per_group_n = per_group_n, total_n = total_n)
+```
+
+If you expect 10% loss to follow-up in each group, recruit more per group:
+
+```{r}
+ceiling(per_group_n / 0.90)
+```
+
+## Sensitivity analysis
+
+A sensitivity analysis checks how the required sample size changes under different assumptions. It's good practice because our initial effect size guess may be wrong. For example, we could consider different delta values:
+
+```{r}
+#| echo: false
+delta_values <- c(6, 5, 4, 3)
+d_values <- delta_values / sd_two_sample
+
+two_sample_sensitivity <- data.frame(
+  delta = delta_values,
+  d = round(d_values, 2),
+  per_group_n = sapply(d_values, function(d) {
+    ceiling(pwr.t.test(d = d, sig.level = 0.05, power = 0.80,
+                       type = "two.sample")$n)
+  })
+)
+
+two_sample_sensitivity
+```
+
+```{r}
+#| echo: false
+#| fig-height: 4.5
+#| fig-width: 7
+
+barplot(
+  two_sample_sensitivity$per_group_n,
+  names.arg = paste0("d = ", two_sample_sensitivity$d,
+                     "\n(", two_sample_sensitivity$delta, " pts)"),
+  col = c("#76B7B2", "#4E79A7", "#F28E2B", "#E15759"),
+  ylab = "Required sample size per group",
+  main = "Sensitivity analysis: two-sample t test\n(how effect size affects required n)",
+  border = NA
+)
+grid(nx = NA, ny = NULL)
+```
+
+Detecting a 3-point difference requires roughly four times as many students per group as detecting a 6-point difference. This is why it's so important to think carefully about what effect size is realistic *before* collecting data.
+
+# Simple regression
+
+A researcher wants to study whether weekly independent reading time predicts reading comprehension score among middle school students.
+
+Do students who read more on their own also tend to have better reading comprehension?
+
+Suppose the researcher expects the simple regression to explain about 9% of the variance in reading comprehension:
+
+$$
+R^2 = 0.09
+$$
+
+**What does** $R^2 = 0.09$ mean? It means that 9% of the differences in reading comprehension scores across students can be "explained" (or predicted) by knowing how much they read independently. The other 91% is due to other factors.
+
+The design goals are:
+
+-   alpha = .05,
+-   power = .80,
+-   one predictor (reading time).
+
+## Effect size for regression
+
+For regression, the effect size measure is **Cohen's** $f^2$, which rescales $R^2$:
+
+$$
+f^2 = \frac{R^2}{1-R^2}
+$$
+
+```{r}
+r2_reg <- 0.09
+f2_reg <- r2_reg / (1 - r2_reg)
+f2_reg
+```
+
+An $f^2$ of `r round(f2_reg, 3)` falls between the *small* (0.02) and *medium* (0.15) benchmarks — so this is a modest but meaningful effect.
+
+## Sample size calculation with `pwr.f2.test()`
+
+The `pwr.f2.test()` function handles regression (and general linear model) power analysis. It uses:
+
+-   `u` = numerator degrees of freedom = number of predictors,
+-   `v` = denominator degrees of freedom (left out — this is what we solve for),
+-   `f2` = Cohen's $f^2$ effect size.
+
+The total sample size is $n = v + u + 1$.
+
+```{r}
+regression_result <- pwr.f2.test(
+  u = 1,
+  f2 = f2_reg,
+  sig.level = 0.05,
+  power = 0.80
+)
+
+regression_result
+
+n_regression <- ceiling(regression_result$v) + regression_result$u + 1
+n_regression
+```
+
+-   The required sample size is about `r n_regression` students.
+-   This is for testing whether the slope (the relationship between reading time and comprehension) differs from zero.
+
+::: callout-note
+## How to read `pwr.f2.test()` output
+
+The function returns `v` (denominator degrees of freedom), not `n` directly. To get $n$, compute: $n = \lceil v \rceil + u + 1$, where $u$ is the number of predictors.
+:::
+
+# Exercises
+
+Try these on your own to build intuition. Each one changes just one input — notice how the required sample size responds.
+
+**Estimation exercises:**
+
+1.  Recalculate the SRS proportion example with a margin of error of **0.02** instead of 0.03. How much does $n$ increase?
+
+2.  Suppose a fourth stratum (vocational schools) is added with $W_4 = 0.10$ and $p_4 = 0.35$. Adjust the other weights proportionally (multiply each by 0.90) and recalculate the stratified sample sizes. Does adding a stratum help or hurt?
+
+3.  Recalculate the cluster-adjusted sample size with an ICC of $\rho = 0.10$ instead of 0.05. What if the average cluster size is $m = 30$ instead of 25?
+
+**Hypothesis-testing exercises:**
+
+4.  Recalculate the one-sample *t* test for power = **0.90** instead of 0.80. What's the cost of wanting to be "more sure"?
+
+5.  Recalculate the two-sample *t* test if the meaningful difference is only **4 points** instead of 5. How does this affect per-group $n$?
+
+6.  Recalculate the regression example for $R^2 = 0.04$ and discuss why the required sample increases so dramatically.
+
+7.  Take the two-sample *t* test result and apply a DEFF for a cluster-randomized design with $m = 20$ and $\rho = 0.08$. How many students per group do you need now?
+
+# Summary
+
+Sample size determination is ultimately a **planning argument**: you specify what you want to estimate or detect, how much uncertainty you can tolerate, and what assumptions are plausible. There is no single "right" answer — but there are well-reasoned answers and poorly-reasoned ones.
+
+R makes these assumptions transparent and easy to explore, which is one reason it is so useful for teaching research design. When you write a sample size justification for a grant proposal or IRB application, you can include your R code so reviewers can see exactly what you assumed and why.

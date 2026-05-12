@@ -1,0 +1,30 @@
+<button id="back-to-site-button" type="button" aria-label="Return to course website">
+  Back to Site
+</button>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const button = document.getElementById("back-to-site-button");
+
+  if (!button) {
+    return;
+  }
+
+  button.addEventListener("click", function () {
+    const sameOriginReferrer = document.referrer && (() => {
+      try {
+        return new URL(document.referrer).origin === window.location.origin;
+      } catch {
+        return false;
+      }
+    })();
+
+    if (sameOriginReferrer && window.history.length > 1) {
+      window.history.back();
+      return;
+    }
+
+    window.location.href = "../schedule.html";
+  });
+});
+</script>

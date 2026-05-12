@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-04-29">
+
+<title>Post-Survey Data Preparation – EPsy 5244</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-d4394cde7c380170a4469b96acf338b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-3f8bc3ba95bd16fef3e58789199b86bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="../site_libs/pagedtable/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable/js/pagedtable.js"></script>
+<script src="https://kit.fontawesome.com/e5da75ca36.js" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Fraunces:opsz,wght,SOFT@9..144,500,20&amp;display=swap" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../assets/sticky-notes.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">EPsy 5244</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../assignments.html"> 
+<span class="menu-text">Assignments &amp; Grading</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../class-policies.html"> 
+<span class="menu-text">Class Policies</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../instructor.html"> 
+<span class="menu-text">Instructor</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../mission-statements.html"> 
+<span class="menu-text">Mission Statements</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../umn-policies.html"> 
+<span class="menu-text">University Policies</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of Contents</h2>
+   
+  <ul>
+  <li><a href="#data-entry" id="toc-data-entry" class="nav-link active" data-scroll-target="#data-entry">Data Entry</a></li>
+  <li><a href="#codebooks" id="toc-codebooks" class="nav-link" data-scroll-target="#codebooks">Codebooks</a></li>
+  <li><a href="#import-your-data" id="toc-import-your-data" class="nav-link" data-scroll-target="#import-your-data">Import Your Data</a>
+  <ul class="collapse">
+  <li><a href="#comparing-two-data-entry-sheets" id="toc-comparing-two-data-entry-sheets" class="nav-link" data-scroll-target="#comparing-two-data-entry-sheets">Comparing Two Data Entry Sheets</a></li>
+  </ul></li>
+  <li><a href="#look-at-your-data" id="toc-look-at-your-data" class="nav-link" data-scroll-target="#look-at-your-data">Look at Your Data!</a>
+  <ul class="collapse">
+  <li><a href="#quick-overview-with-skim" id="toc-quick-overview-with-skim" class="nav-link" data-scroll-target="#quick-overview-with-skim">Quick Overview with <code>skim()</code></a></li>
+  <li><a href="#clean-variable-names-optional" id="toc-clean-variable-names-optional" class="nav-link" data-scroll-target="#clean-variable-names-optional">Clean Variable Names (optional)</a></li>
+  </ul></li>
+  <li><a href="#diagnostic-data-cleaning" id="toc-diagnostic-data-cleaning" class="nav-link" data-scroll-target="#diagnostic-data-cleaning">Diagnostic Data Cleaning</a>
+  <ul class="collapse">
+  <li><a href="#check-unique-identifiers" id="toc-check-unique-identifiers" class="nav-link" data-scroll-target="#check-unique-identifiers">Check Unique Identifiers</a></li>
+  <li><a href="#check-for-implausible-values-all-variables" id="toc-check-for-implausible-values-all-variables" class="nav-link" data-scroll-target="#check-for-implausible-values-all-variables">Check for Implausible Values: All Variables</a></li>
+  <li><a href="#check-for-implausible-response-combinations" id="toc-check-for-implausible-response-combinations" class="nav-link" data-scroll-target="#check-for-implausible-response-combinations">Check for Implausible Response Combinations</a></li>
+  </ul></li>
+  <li><a href="#visualize-data-for-quality-checks" id="toc-visualize-data-for-quality-checks" class="nav-link" data-scroll-target="#visualize-data-for-quality-checks">Visualize Data for Quality Checks</a>
+  <ul class="collapse">
+  <li><a href="#bar-charts-for-categorical-variables" id="toc-bar-charts-for-categorical-variables" class="nav-link" data-scroll-target="#bar-charts-for-categorical-variables">Bar Charts for Categorical Variables</a></li>
+  <li><a href="#bar-charts-for-ordinal-confidence-variables" id="toc-bar-charts-for-ordinal-confidence-variables" class="nav-link" data-scroll-target="#bar-charts-for-ordinal-confidence-variables">Bar Charts for Ordinal (Confidence) Variables</a></li>
+  </ul></li>
+  <li><a href="#missing-coding" id="toc-missing-coding" class="nav-link" data-scroll-target="#missing-coding">Missing Coding</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Post-Survey Data Preparation</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 29, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="data-entry" class="level2">
+<h2 class="anchored" data-anchor-id="data-entry">Data Entry</h2>
+<p>Suppose you conducted a paper survey and now have a stack of completed questionnaires. The next step is to enter the data into a digital format for analysis. This process is called <strong>data entry</strong>.</p>
+<p>Data entry can be done using software like Excel, SPSS, or directly into R. For this course, we will use Excel for data entry and then import the data into R for cleaning and analysis.</p>
+<p>You can use the provided <a href="worksheets/data template.xlsx">data entry template</a> to enter your survey responses. Each row represents one respondent, and each column corresponds to a survey item. Follow the instructions in the template for coding responses (e.g., using numeric codes for categorical variables).</p>
+<div class="note fyi">
+<p>you can use validation rules in Excel to restrict data entry to valid codes (e.g., only allowing 1, 2, 3 for a variable with three categories). This can help reduce data entry errors.</p>
+</div>
+</section>
+<section id="codebooks" class="level2">
+<h2 class="anchored" data-anchor-id="codebooks">Codebooks</h2>
+<p>A <strong>codebook</strong> is a document that describes every variable in your dataset. It typically includes variable names and labels, value codes and their meanings, missing data codes, and any special instructions for using the data. Always keep a codebook alongside your data file.</p>
+<p><a href="https://wenchao-ma.github.io/Data/">Our codebook</a> documents the following types of variables:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable type</th>
+<th style="text-align: left;">Variables</th>
+<th style="text-align: left;">Values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Single choice</td>
+<td style="text-align: left;"><code>program</code>, <code>Gender</code>, <code>NativeSpeaker</code>, <code>FutureUse</code></td>
+<td style="text-align: left;">Numeric codes (see codebook)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Checkbox (binary)</td>
+<td style="text-align: left;"><code>StatisticalMethods_*</code>, <code>Software_*</code>, <code>Experience_*</code></td>
+<td style="text-align: left;">0 = not selected, 1 = selected</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ordinal confidence</td>
+<td style="text-align: left;"><code>Ability_Confidence1–7</code>, <code>Learning_Confidence1–7</code></td>
+<td style="text-align: left;">1–4 scale</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Missing data codes:</strong> values 7, 8, and 9 indicate “multiple options selected”, “other responses”, and “no response” respectively. These will be treated as missing (<code>NA</code>).</p>
+<p>In the analysis below, we will need the following R pacakges. Install these packages first if you haven’t already. You only need to install once.</p>
+<p>Load the packages at the start of every session:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run this ONCE to install packages</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># #install.packages(c("tidyverse", "janitor", "skimr",</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                    "psych", "naniar", "readxl", "diffdf"))</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)    <span class="co"># Data manipulation and visualization</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)      <span class="co"># Clean variable names and tabulations</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(skimr)        <span class="co"># Quick summary statistics</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)       <span class="co"># Missing data visualization and analysis</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)       <span class="co"># Read Excel files</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(diffdf)       <span class="co"># Compare two data frames</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="import-your-data" class="level2">
+<h2 class="anchored" data-anchor-id="import-your-data">Import Your Data</h2>
+<p>R can read Excel files using the <code>readxl</code> package. The EPSY 5244 survey data file has two sheets.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/Wenchao-Ma/Data/main/Course_survey/course_survey.xlsx"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">".xlsx"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(data_url, <span class="at">destfile =</span> data_file, <span class="at">mode =</span> <span class="st">"wb"</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(data_file, <span class="at">sheet =</span> <span class="st">"data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="note fyi">
+<p>R can also read csv, SPSS (.sav), Stata (.dta), and SAS (.sas7bdat) files using various packages (e.g., <code>readr</code>, <code>haven</code>). The choice of format depends on your software preferences and the complexity of your data (e.g., whether you need to preserve value labels). Excel is a common choice for data entry because it is widely available and user-friendly, but be mindful of potential issues with Excel files (e.g., formatting inconsistencies, missing value codes).</p>
+</div>
+<section id="comparing-two-data-entry-sheets" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-two-data-entry-sheets">Comparing Two Data Entry Sheets</h3>
+<p>This file has two sheets — <code>data</code> and <code>second_entry</code> — representing data entered by two different people. Before proceeding, check whether the two entries agree.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read both sheets</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df  <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(data_file, <span class="at">sheet =</span> <span class="st">"data"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_excel</span>(data_file, <span class="at">sheet =</span> <span class="st">"second_entry"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use <code>diffdf::diffdf()</code> to find what differs, if any:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reports variables, rows, and cells that differ</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>diffdf<span class="sc">::</span><span class="fu">diffdf</span>(df, df2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Differences found between the objects!
+
+Summary of BASE and COMPARE
+  ==================================================================
+    PROPERTY             BASE                       COMP            
+  ------------------------------------------------------------------
+      Name                df                         df2            
+     Class     "tbl_df, tbl, data.frame"  "tbl_df, tbl, data.frame" 
+    Rows(#)               50                         50             
+   Columns(#)             39                         39             
+  ------------------------------------------------------------------
+
+
+Not all Values Compared Equal
+First 10 of 20 rows are shown in table below
+  ==================================================
+             Variable             No of Differences 
+  --------------------------------------------------
+   StatisticalMethods_introstats          1         
+     StatisticalMethods_ANOVA             2         
+     StatisticalMethods_Chisq             2         
+     StatisticalMethods_Psych             1         
+      StatisticalMethods_Qual             1         
+    StatisticalMethods_Sampling           1         
+       StatisticalMethods_ML              1         
+      StatisticalMethods_NOA              1         
+           Software_SPSS                  1         
+          Software_Nvivo                  1         
+  --------------------------------------------------
+
+
+  =============================================================
+             VARIABLE             ..ROWNUMBER..  BASE  COMPARE 
+  -------------------------------------------------------------
+   StatisticalMethods_introstats       21         9       0    
+  -------------------------------------------------------------
+
+
+  ========================================================
+           VARIABLE          ..ROWNUMBER..  BASE  COMPARE 
+  --------------------------------------------------------
+   StatisticalMethods_ANOVA       21          9      0    
+   StatisticalMethods_ANOVA       23         11      1    
+  --------------------------------------------------------
+
+
+  ========================================================
+           VARIABLE          ..ROWNUMBER..  BASE  COMPARE 
+  --------------------------------------------------------
+   StatisticalMethods_Chisq       21         9       0    
+   StatisticalMethods_Chisq       33         0       1    
+  --------------------------------------------------------
+
+
+  ========================================================
+           VARIABLE          ..ROWNUMBER..  BASE  COMPARE 
+  --------------------------------------------------------
+   StatisticalMethods_Psych       21         9       0    
+  --------------------------------------------------------
+
+
+  =======================================================
+          VARIABLE          ..ROWNUMBER..  BASE  COMPARE 
+  -------------------------------------------------------
+   StatisticalMethods_Qual       21         9       0    
+  -------------------------------------------------------
+
+
+  ===========================================================
+            VARIABLE            ..ROWNUMBER..  BASE  COMPARE 
+  -----------------------------------------------------------
+   StatisticalMethods_Sampling       21         9       0    
+  -----------------------------------------------------------
+
+
+  =====================================================
+         VARIABLE         ..ROWNUMBER..  BASE  COMPARE 
+  -----------------------------------------------------
+   StatisticalMethods_ML       21         9       0    
+  -----------------------------------------------------
+
+
+  ======================================================
+          VARIABLE         ..ROWNUMBER..  BASE  COMPARE 
+  ------------------------------------------------------
+   StatisticalMethods_NOA       21         9       0    
+  ------------------------------------------------------
+
+
+  =============================================
+     VARIABLE     ..ROWNUMBER..  BASE  COMPARE 
+  ---------------------------------------------
+   Software_SPSS       21         9       0    
+  ---------------------------------------------
+
+
+  ==============================================
+      VARIABLE     ..ROWNUMBER..  BASE  COMPARE 
+  ----------------------------------------------
+   Software_Nvivo       21         9       0    
+  ----------------------------------------------
+
+
+  ===============================================
+      VARIABLE      ..ROWNUMBER..  BASE  COMPARE 
+  -----------------------------------------------
+   Software_Jomovi       21         9       0    
+  -----------------------------------------------
+
+
+  ==========================================
+    VARIABLE   ..ROWNUMBER..  BASE  COMPARE 
+  ------------------------------------------
+   Software_R       21         9       0    
+  ------------------------------------------
+
+
+  ===============================================
+      VARIABLE      ..ROWNUMBER..  BASE  COMPARE 
+  -----------------------------------------------
+   Software_Python       21         9       0    
+  -----------------------------------------------
+
+
+  ==================================================
+        VARIABLE       ..ROWNUMBER..  BASE  COMPARE 
+  --------------------------------------------------
+   Software_Qualtrics       21         9       0    
+  --------------------------------------------------
+
+
+  ============================================
+     VARIABLE    ..ROWNUMBER..  BASE  COMPARE 
+  --------------------------------------------
+   Software_NOA       21         9       0    
+  --------------------------------------------
+
+
+  ===============================================
+      VARIABLE      ..ROWNUMBER..  BASE  COMPARE 
+  -----------------------------------------------
+   Experience_help       21         9       0    
+  -----------------------------------------------
+
+
+  =================================================
+       VARIABLE       ..ROWNUMBER..  BASE  COMPARE 
+  -------------------------------------------------
+   Experience_design       21         9       0    
+  -------------------------------------------------
+
+
+  ==================================================
+        VARIABLE       ..ROWNUMBER..  BASE  COMPARE 
+  --------------------------------------------------
+   Experience_collect       21         9       0    
+  --------------------------------------------------
+
+
+  ==================================================
+        VARIABLE       ..ROWNUMBER..  BASE  COMPARE 
+  --------------------------------------------------
+   Experience_analyze       21         9       0    
+  --------------------------------------------------
+
+
+  ==================================================
+        VARIABLE       ..ROWNUMBER..  BASE  COMPARE 
+  --------------------------------------------------
+   Experience_publish       21         9       0    
+  --------------------------------------------------</code></pre>
+</div>
+</div>
+<p><code>diffdf::diffdf()</code> reports:</p>
+<ul>
+<li><strong>Variables</strong> present in one sheet but not the other</li>
+<li><strong>Rows</strong> present in one sheet but not the other</li>
+<li><strong>Cell-level differences</strong>: values that differ between corresponding rows and columns</li>
+</ul>
+<p>If no differences are found, the function returns silently (no output). Investigate any differences and resolve them before proceeding.</p>
+</section>
+</section>
+<section id="look-at-your-data" class="level2">
+<h2 class="anchored" data-anchor-id="look-at-your-data">Look at Your Data!</h2>
+<p>Before doing any formal cleaning, always look at your data first. Get familiar with the variables, their types, and their values. Take notes on anything that looks unusual.</p>
+<section id="quick-overview-with-skim" class="level3">
+<h3 class="anchored" data-anchor-id="quick-overview-with-skim">Quick Overview with <code>skim()</code></h3>
+<p>The <code>skim()</code> function from the <code>skimr</code> package provides a comprehensive overview in one command:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>skimr<span class="sc">::</span><span class="fu">skim</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Name</td>
+<td style="text-align: left;">df</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Number of rows</td>
+<td style="text-align: left;">50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Number of columns</td>
+<td style="text-align: left;">39</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">_______________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Column type frequency:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">character</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">numeric</td>
+<td style="text-align: left;">38</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">________________________</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group variables</td>
+<td style="text-align: left;">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 13%">
+<col style="width: 19%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 12%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">min</th>
+<th style="text-align: right;">max</th>
+<th style="text-align: right;">empty</th>
+<th style="text-align: right;">n_unique</th>
+<th style="text-align: right;">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ID</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">skim_variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">complete_rate</th>
+<th style="text-align: right;">mean</th>
+<th style="text-align: right;">sd</th>
+<th style="text-align: right;">p0</th>
+<th style="text-align: right;">p25</th>
+<th style="text-align: right;">p50</th>
+<th style="text-align: right;">p75</th>
+<th style="text-align: right;">p100</th>
+<th style="text-align: left;">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">program</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.06</td>
+<td style="text-align: right;">1.63</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">StatisticalMethods_introstats</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">1.24</td>
+<td style="text-align: right;">1.85</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">StatisticalMethods_ANOVA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">1.12</td>
+<td style="text-align: right;">1.89</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">StatisticalMethods_Chisq</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.68</td>
+<td style="text-align: right;">1.32</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">StatisticalMethods_Psych</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">StatisticalMethods_Qual</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.70</td>
+<td style="text-align: right;">1.30</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">StatisticalMethods_Sampling</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">StatisticalMethods_ML</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">StatisticalMethods_NOA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.29</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Software_SPSS</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Software_Nvivo</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">1.32</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Software_Jomovi</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">1.85</td>
+<td style="text-align: right;">-9</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▁▁▇▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Software_R</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">1.23</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Software_Python</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.48</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Software_Qualtrics</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.54</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Software_NOA</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.34</td>
+<td style="text-align: right;">1.45</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Experience_help</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">1.29</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Experience_design</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.60</td>
+<td style="text-align: right;">1.31</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Experience_collect</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.80</td>
+<td style="text-align: right;">1.29</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Experience_analyze</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">1.76</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Experience_publish</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.38</td>
+<td style="text-align: right;">1.32</td>
+<td style="text-align: right;">-1</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ability_Confidence1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.42</td>
+<td style="text-align: right;">1.57</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▅▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ability_Confidence2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.58</td>
+<td style="text-align: right;">1.97</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▃▇▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ability_Confidence3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.60</td>
+<td style="text-align: right;">1.83</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▃▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ability_Confidence4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.26</td>
+<td style="text-align: right;">1.84</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▇▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ability_Confidence5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.66</td>
+<td style="text-align: right;">2.18</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ability_Confidence6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.94</td>
+<td style="text-align: right;">1.63</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▇▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Ability_Confidence7</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">3.04</td>
+<td style="text-align: right;">1.93</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">2.5</td>
+<td style="text-align: right;">3.75</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▇▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Learning_Confidence1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">3.32</td>
+<td style="text-align: right;">1.50</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▂▇▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Learning_Confidence2</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">3.18</td>
+<td style="text-align: right;">1.84</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▃▇▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Learning_Confidence3</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">3.28</td>
+<td style="text-align: right;">1.55</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▃▇▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Learning_Confidence4</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">3.46</td>
+<td style="text-align: right;">1.79</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▂▇▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Learning_Confidence5</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">3.40</td>
+<td style="text-align: right;">1.85</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.25</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▃▇▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Learning_Confidence6</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">3.56</td>
+<td style="text-align: right;">1.51</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▂▇▁▁▁</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Learning_Confidence7</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">3.62</td>
+<td style="text-align: right;">1.65</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.00</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">4.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▂▇▁▁▁</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Gender</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">3.40</td>
+<td style="text-align: right;">2.96</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">3.75</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▃▇▁▁▃</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">NativeSpeaker</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">3.40</td>
+<td style="text-align: right;">3.22</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">5.75</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▇▁▁▁▂</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">FutureUse</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">2.14</td>
+<td style="text-align: right;">1.28</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">2.0</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: left;">▁▇▁▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>This shows the number of rows and columns, data types, missing values, and basic summary statistics for every variable—a great first step.</p>
+</section>
+<section id="clean-variable-names-optional" class="level3">
+<h3 class="anchored" data-anchor-id="clean-variable-names-optional">Clean Variable Names (optional)</h3>
+<p>Variable names from Qualtrics often contain mixed capitalization and special characters. The <code>clean_names()</code> function standardizes them to lowercase with underscores:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Before cleaning</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ID"                            "program"                      
+ [3] "StatisticalMethods_introstats" "StatisticalMethods_ANOVA"     
+ [5] "StatisticalMethods_Chisq"      "StatisticalMethods_Psych"     
+ [7] "StatisticalMethods_Qual"       "StatisticalMethods_Sampling"  
+ [9] "StatisticalMethods_ML"         "StatisticalMethods_NOA"       
+[11] "Software_SPSS"                 "Software_Nvivo"               
+[13] "Software_Jomovi"               "Software_R"                   
+[15] "Software_Python"               "Software_Qualtrics"           
+[17] "Software_NOA"                  "Experience_help"              
+[19] "Experience_design"             "Experience_collect"           
+[21] "Experience_analyze"            "Experience_publish"           
+[23] "Ability_Confidence1"           "Ability_Confidence2"          
+[25] "Ability_Confidence3"           "Ability_Confidence4"          
+[27] "Ability_Confidence5"           "Ability_Confidence6"          
+[29] "Ability_Confidence7"           "Learning_Confidence1"         
+[31] "Learning_Confidence2"          "Learning_Confidence3"         
+[33] "Learning_Confidence4"          "Learning_Confidence5"         
+[35] "Learning_Confidence6"          "Learning_Confidence7"         
+[37] "Gender"                        "NativeSpeaker"                
+[39] "FutureUse"                    </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean all names: lowercase, underscores instead of spaces/special characters</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  janitor<span class="sc">::</span><span class="fu">clean_names</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># After cleaning</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "id"                             "program"                       
+ [3] "statistical_methods_introstats" "statistical_methods_anova"     
+ [5] "statistical_methods_chisq"      "statistical_methods_psych"     
+ [7] "statistical_methods_qual"       "statistical_methods_sampling"  
+ [9] "statistical_methods_ml"         "statistical_methods_noa"       
+[11] "software_spss"                  "software_nvivo"                
+[13] "software_jomovi"                "software_r"                    
+[15] "software_python"                "software_qualtrics"            
+[17] "software_noa"                   "experience_help"               
+[19] "experience_design"              "experience_collect"            
+[21] "experience_analyze"             "experience_publish"            
+[23] "ability_confidence1"            "ability_confidence2"           
+[25] "ability_confidence3"            "ability_confidence4"           
+[27] "ability_confidence5"            "ability_confidence6"           
+[29] "ability_confidence7"            "learning_confidence1"          
+[31] "learning_confidence2"           "learning_confidence3"          
+[33] "learning_confidence4"           "learning_confidence5"          
+[35] "learning_confidence6"           "learning_confidence7"          
+[37] "gender"                         "native_speaker"                
+[39] "future_use"                    </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># e.g., "StatisticalMethods_ANOVA" becomes "statisticalmethods_anova"</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#       "Gender" becomes "gender"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="diagnostic-data-cleaning" class="level2">
+<h2 class="anchored" data-anchor-id="diagnostic-data-cleaning">Diagnostic Data Cleaning</h2>
+<p>Diagnostic cleaning detects <strong>substantive problems</strong> in the data—values that are impossible, implausible, or inconsistent.</p>
+<section id="check-unique-identifiers" class="level3">
+<h3 class="anchored" data-anchor-id="check-unique-identifiers">Check Unique Identifiers</h3>
+<p>Every dataset should have a variable that <strong>uniquely identifies</strong> each observation. In this dataset, <code>id</code> serves that role (values like “A1”, “A2”, etc.).</p>
+<p>If an ID appears more than once, it may indicate duplicate entries or a data entry error.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># How many rows vs. how many unique IDs?</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 50</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dplyr<span class="sc">::</span><span class="fu">n_distinct</span>(df<span class="sc">$</span>id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 50</code></pre>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Find IDs that appear more than once</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(id) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(n <span class="sc">&gt;</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["id"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>If you find duplicates, investigate: Are they true duplicates (same row entered twice)? Decide whether to remove them based on your study design.</p>
+</section>
+<section id="check-for-implausible-values-all-variables" class="level3">
+<h3 class="anchored" data-anchor-id="check-for-implausible-values-all-variables">Check for Implausible Values: All Variables</h3>
+<p>Use a <code>for</code> loop with <code>table()</code> to quickly scan every variable for unexpected values:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (var <span class="cf">in</span> <span class="fu">names</span>(df)) {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">---"</span>, var, <span class="st">"---</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">table</span>(df[[var]], <span class="at">useNA =</span> <span class="st">"ifany"</span>))</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+--- id ---
+
+ A1 A10 A11 A12 A13 A14 A15 A16 A17 A18 A19  A2  A3  A4  A5  A6  A7  A8  A9  B1 
+  1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1 
+B10 B11 B12 B13 B14 B15 B16 B17 B18 B19  B2 B20 B21 B22 B23 B24 B25 B26 B27 B28 
+  1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1   1 
+B29  B3 B30 B31  B4  B5  B6  B7  B8  B9 
+  1   1   1   1   1   1   1   1   1   1 
+
+--- program ---
+
+ 1  2  3  7  8  9 
+18 26  3  1  1  1 
+
+--- statistical_methods_introstats ---
+
+ 0  1  9 11 
+ 6 42  1  1 
+
+--- statistical_methods_anova ---
+
+ 0  1  9 11 
+12 36  1  1 
+
+--- statistical_methods_chisq ---
+
+ 0  1  2  9 
+25 23  1  1 
+
+--- statistical_methods_psych ---
+
+ 0  1  9 
+27 22  1 
+
+--- statistical_methods_qual ---
+
+ 0  1  9 
+23 26  1 
+
+--- statistical_methods_sampling ---
+
+ 0  1  9 
+34 15  1 
+
+--- statistical_methods_ml ---
+
+ 0  1  9 
+40  9  1 
+
+--- statistical_methods_noa ---
+
+   0    1    9 &lt;NA&gt; 
+  43    5    1    1 
+
+--- software_spss ---
+
+ 0  1  9 
+27 22  1 
+
+--- software_nvivo ---
+
+ 0  1  2  9 
+40  8  1  1 
+
+--- software_jomovi ---
+
+-9  0  1  9 
+ 1 42  6  1 
+
+--- software_r ---
+
+ 0  1  9 
+10 39  1 
+
+--- software_python ---
+
+ 0  1  9 
+34 15  1 
+
+--- software_qualtrics ---
+
+ 0  1  9 
+31 18  1 
+
+--- software_noa ---
+
+ 0  1  5  9 
+45  3  1  1 
+
+--- experience_help ---
+
+ 0  1  9 
+21 28  1 
+
+--- experience_design ---
+
+ 0  1  9 
+28 21  1 
+
+--- experience_collect ---
+
+ 0  1  2  9 
+19 29  1  1 
+
+--- experience_analyze ---
+
+ 0  1  9 
+25 23  2 
+
+--- experience_publish ---
+
+-1  0  1  9 
+ 1 37 11  1 
+
+--- ability_confidence1 ---
+
+ 1  2  3  4  9 
+11 20 16  1  2 
+
+--- ability_confidence2 ---
+
+ 0  1  2  3  4  7  9 
+ 1 10 23  9  3  1  3 
+
+--- ability_confidence3 ---
+
+ 1  2  3  4  6  8  9 
+10 23 10  3  1  1  2 
+
+--- ability_confidence4 ---
+
+ 0  1  2  3  4  7  9 
+ 1 20 13 10  3  1  2 
+
+--- ability_confidence5 ---
+
+ 1  2  3  4  8  9 11 
+15 15 13  3  1  2  1 
+
+--- ability_confidence6 ---
+
+ 1  2  3  4  7  9 
+ 3 22 13  9  1  2 
+
+--- ability_confidence7 ---
+
+ 1  2  3  4  8  9 
+ 5 20 12  9  1  3 
+
+--- learning_confidence1 ---
+
+ 1  2  3  4  7  9 
+ 3  5 28 11  1  2 
+
+--- learning_confidence2 ---
+
+ 1  2  3  4  8  9 
+ 5  9 27  5  1  3 
+
+--- learning_confidence3 ---
+
+ 1  2  3  4  7  9 
+ 3  9 22 13  1  2 
+
+--- learning_confidence4 ---
+
+ 1  2  3  4  8  9 
+ 4  5 24 13  1  3 
+
+--- learning_confidence5 ---
+
+ 1  2  3  4  7  9 
+ 7  6 15 18  1  3 
+
+--- learning_confidence6 ---
+
+ 1  2  3  4  8  9 
+ 1  7 19 20  1  2 
+
+--- learning_confidence7 ---
+
+ 1  2  3  4  7  9 
+ 1  7 20 18  1  3 
+
+--- gender ---
+
+ 0  1  2  3  4  7  8  9 
+ 1  9 24  3  2  1  1  9 
+
+--- native_speaker ---
+
+ 1  2  7  9 
+17 20  2 11 
+
+--- future_use ---
+
+ 0  1  2  7  9 
+ 1  3 44  1  1 </code></pre>
+</div>
+</div>
+<p><strong>What to look for:</strong></p>
+<ul>
+<li>For single-choice variables (<code>program</code>, <code>gender</code>, etc.): after factor conversion, any <code>NA</code> values came from out-of-range codes (7/8/9). Check whether the number of <code>NA</code>s is reasonable.</li>
+<li>For checkbox binary variables (<code>statisticalmethods_*</code>, <code>software_*</code>, <code>experience_*</code>): only values 0 and 1 are valid.</li>
+<li>For confidence items (<code>ability_confidence*</code>, <code>learning_confidence*</code>): only levels 1–4 are valid; others become <code>NA</code>.</li>
+</ul>
+</section>
+<section id="check-for-implausible-response-combinations" class="level3">
+<h3 class="anchored" data-anchor-id="check-for-implausible-response-combinations">Check for Implausible Response Combinations</h3>
+<p>Some response combinations are logically impossible. The “none of the above” options (<code>statisticalmethods_noa</code>, <code>software_noa</code>) should be mutually exclusive with the other items in the same group.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If statisticalmethods_noa = 1, all other StatisticalMethods items should be 0</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(df<span class="sc">$</span>statistical_methods_noa, df<span class="sc">$</span>statistical_methods_introstats,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">dnn =</span> <span class="fu">c</span>(<span class="st">"None of above"</span>, <span class="st">"Intro stats"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             Intro stats
+None of above  0  1  9 11
+            0  5 38  0  0
+            1  1  3  0  1
+            9  0  0  1  0</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="visualize-data-for-quality-checks" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-data-for-quality-checks">Visualize Data for Quality Checks</h2>
+<p>Visualizations can reveal patterns that numbers alone might miss.</p>
+<section id="bar-charts-for-categorical-variables" class="level3">
+<h3 class="anchored" data-anchor-id="bar-charts-for-categorical-variables">Bar Charts for Categorical Variables</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar chart for program type</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(df, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(program))) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Program"</span>, <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">title =</span> <span class="st">"Distribution of Program Type"</span>) <span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-post-survey-data-preparation_files/figure-html/bar-charts-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bar chart for gender</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(df, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(gender))) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Gender"</span>, <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">title =</span> <span class="st">"Distribution of Gender"</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-post-survey-data-preparation_files/figure-html/bar-charts-2.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="bar-charts-for-ordinal-confidence-variables" class="level3">
+<h3 class="anchored" data-anchor-id="bar-charts-for-ordinal-confidence-variables">Bar Charts for Ordinal (Confidence) Variables</h3>
+<p>Since the confidence items are ordered factors (not continuous numbers), bar charts are appropriate:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribution of Ability_Confidence1: "Writing good survey questions"</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(df, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.factor</span>(ability_confidence1))) <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Confidence level"</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">y =</span> <span class="st">"Count"</span>,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">title =</span> <span class="st">"Ability Confidence: Writing good survey questions"</span>) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme</span>(<span class="at">axis.text.x =</span> ggplot2<span class="sc">::</span><span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">20</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-post-survey-data-preparation_files/figure-html/confidence-charts-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:60.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="missing-coding" class="level2">
+<h2 class="anchored" data-anchor-id="missing-coding">Missing Coding</h2>
+<p>In this dataset, values 7, 8, and 9 indicate “multiple options selected”, “other responses”, and “no response” respectively. These are not valid responses for analysis and should be treated as missing (<code>NA</code>).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_nomissing <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> naniar<span class="sc">::</span><span class="fu">replace_with_na</span>(<span class="at">replace =</span> <span class="fu">list</span>(<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that this only handle missing code in the codebook; however, variables may have invalid values that are not in the codebook (e.g., 2 for a binary variable). You will need to check for those separately and decide how to handle them (e.g., recode to <code>NA</code> or investigate further).</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const storageKey = "epsy8252-navbar-hidden";
+  const body = document.body;
+  const header = document.getElementById("quarto-header");
+
+  if (!header) {
+    return;
+  }
+
+  const button = document.createElement("button");
+  button.id = "navbar-visibility-toggle";
+  button.type = "button";
+  button.setAttribute("aria-controls", "quarto-header");
+
+  const syncHeaderOffset = () => {
+    const headerHeight = Math.ceil(header.getBoundingClientRect().height || 0);
+    const hidden = body.classList.contains("navbar-hidden");
+
+    document.documentElement.style.setProperty("--site-header-height", `${headerHeight}px`);
+    document.documentElement.style.setProperty("--site-header-offset", hidden ? "0px" : `${headerHeight}px`);
+    button.textContent = hidden ? "Show Menu" : "Hide Menu";
+    button.setAttribute("aria-expanded", String(!hidden));
+  };
+
+  const savedState = window.localStorage.getItem(storageKey);
+  if (savedState === "true") {
+    body.classList.add("navbar-hidden");
+  }
+
+  button.addEventListener("click", function () {
+    body.classList.toggle("navbar-hidden");
+    window.localStorage.setItem(storageKey, String(body.classList.contains("navbar-hidden")));
+    syncHeaderOffset();
+  });
+
+  document.body.appendChild(button);
+  syncHeaderOffset();
+
+  window.addEventListener("resize", syncHeaderOffset, { passive: true });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

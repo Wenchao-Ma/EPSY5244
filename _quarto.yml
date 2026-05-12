@@ -1,41 +1,76 @@
 project:
-  type: book
+  type: website
   output-dir: docs
-  resources:
-    - "Begin-semester survey EPSY 5244_Qualtrics data.xlsx"
-    - "EPSY5244_survey_codebook.xlsx"
+  render:
+    - "*.qmd"
+    - "files/"
+    - "slides/"
+    - "handouts/"
+    - "scripts/"
+    - "!admin/"
+    - "!archive/"
+    - "!answer-keys/"
+    - "!assignments/assignment-01-introduction-to-quarto-ak.qmd"
 
-book:
-  title: "Survey Data Analysis"
-  author: "Wenchao Ma"
-  date: today
-  chapters:
-    - index.qmd
-    - 01-intro-to-r.qmd
-    - 02-post-survey-data-preparation.qmd
-    - 03-psychometric-analysis.qmd
-    - 04-statistical-analysis.qmd
-    - 06-multiple-imputation.qmd
-    - 08-survey-weights.qmd
-    - 05-open-ended-question-analysis.qmd
-
-csl: csl/apa.csl  
+website:
+  title: "EPsy 5244"
+  navbar:
+    search: true
+    left:
+      - text: "Home"
+        file: index.qmd
+      - text: "Schedule"
+        file: schedule.qmd
+      # - sidebar:assignments
+      - text: "Assignments & Grading"
+        file: assignments.qmd
+      - text: "Class Policies"
+        file: class-policies.qmd
+      - text: "Instructor"
+        file: instructor.qmd
+      - text: "Mission Statements"
+        file: mission-statements.qmd
+      - text: "University Policies"
+        file: umn-policies.qmd
+        
+  # sidebar:
+  #   - id: assignments
+  #     title: "Assignments"
+  #     style: "docked"
+  #     background: light
+  #     collapse-level: 1
+  #     contents: 
+        # - assignments.qmd
+        # - assignments/assignment-01-introduction-to-quarto.qmd
+        # - assignments/assignment-02-polynomial-effects.qmd
+        # - assignments/assignment-03-evidence-and-model-selection.qmd
+        # - assignments/assignment-04-logarithmic-transformations.qmd
+        # - assignments/assignment-05-logistic-regression.qmd
+        # - assignments/assignment-06-lmer-unconditional-longitudinal-models.qmd
+        # - assignments/assignment-07-longitudinal-analysis-ii.qmd
 
 format:
   html:
-    mainfont: Roboto
-    monofont: Fira Code
-    highlight-style: tango
-    monobackgroundcolor: "#F7F7F7"
-    code-tools: true         # enables copy and fold buttons
-    code-fold: false          # all code blocks are foldable
-    code-summary: "Show the code"  # text for folded blocks
     theme: 
-      - theme.css
-      - theme.scss
-      - lumen
-    include-in-header: code-result-tabs.html
+      - cosmo
+      - "assets/theme.scss"
+    css: ["assets/sticky-notes.css"]
+    include-after-body: "assets/site-nav-toggle.html"
+    header-includes: |
+      <script src="https://kit.fontawesome.com/e5da75ca36.js" crossorigin="anonymous"></script>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Fraunces:opsz,wght,SOFT@9..144,500,20&display=swap" rel="stylesheet">
+    sidebar: false
+    mainfont: 'Source Sans 3'
+    fontsize: '1.2em'
+    linestretch: '1.65em'
+    linkcolor: '#900021'
+    toc: true
+    toc-title: "Table of Contents"
+    
 
-execute:
-  warning: false
-  message: false
+output:
+  pdf:
+    output-dir: docs/pdfs 
+  

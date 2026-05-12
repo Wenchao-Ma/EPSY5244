@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-04-29">
+
+<title>Survey Data Analysis: Weights – EPsy 5244</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-d4394cde7c380170a4469b96acf338b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-3f8bc3ba95bd16fef3e58789199b86bb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link href="../site_libs/pagedtable/css/pagedtable.css" rel="stylesheet">
+<script src="../site_libs/pagedtable/js/pagedtable.js"></script>
+<script src="https://kit.fontawesome.com/e5da75ca36.js" crossorigin="anonymous"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&amp;family=Fraunces:opsz,wght,SOFT@9..144,500,20&amp;display=swap" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../assets/sticky-notes.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">EPsy 5244</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../schedule.html"> 
+<span class="menu-text">Schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../assignments.html"> 
+<span class="menu-text">Assignments &amp; Grading</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../class-policies.html"> 
+<span class="menu-text">Class Policies</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../instructor.html"> 
+<span class="menu-text">Instructor</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../mission-statements.html"> 
+<span class="menu-text">Mission Statements</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../umn-policies.html"> 
+<span class="menu-text">University Policies</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of Contents</h2>
+   
+  <ul>
+  <li><a href="#why-do-survey-weights-exist" id="toc-why-do-survey-weights-exist" class="nav-link active" data-scroll-target="#why-do-survey-weights-exist">Why do survey weights exist?</a></li>
+  <li><a href="#a-demonstration-of-survey-weights" id="toc-a-demonstration-of-survey-weights" class="nav-link" data-scroll-target="#a-demonstration-of-survey-weights">A demonstration of survey weights</a></li>
+  <li><a href="#analysis-using-the-survey-package" id="toc-analysis-using-the-survey-package" class="nav-link" data-scroll-target="#analysis-using-the-survey-package">Analysis using the <code>survey</code> package</a></li>
+  <li><a href="#an-analysis-of-california-schools" id="toc-an-analysis-of-california-schools" class="nav-link" data-scroll-target="#an-analysis-of-california-schools">An analysis of California schools</a></li>
+  <li><a href="#simple-random-sampling-with-finite-population" id="toc-simple-random-sampling-with-finite-population" class="nav-link" data-scroll-target="#simple-random-sampling-with-finite-population">Simple random sampling with finite population</a></li>
+  <li><a href="#stratified-sample-analysis" id="toc-stratified-sample-analysis" class="nav-link" data-scroll-target="#stratified-sample-analysis">Stratified sample analysis</a></li>
+  <li><a href="#clustered-sample-analysis" id="toc-clustered-sample-analysis" class="nav-link" data-scroll-target="#clustered-sample-analysis">Clustered sample analysis</a></li>
+  <li><a href="#a-regression-example" id="toc-a-regression-example" class="nav-link" data-scroll-target="#a-regression-example">A regression example</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Survey Data Analysis: Weights</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 29, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="why-do-survey-weights-exist" class="level2">
+<h2 class="anchored" data-anchor-id="why-do-survey-weights-exist">Why do survey weights exist?</h2>
+<p>Imagine that you want to estimate public opinion in a state.</p>
+<p>In the <strong>real population</strong>:</p>
+<ul>
+<li>80% of people live in urban areas</li>
+<li>20% of people live in rural areas</li>
+</ul>
+<p>But in your <strong>sample</strong>:</p>
+<ul>
+<li>50% are urban</li>
+<li>50% are rural</li>
+</ul>
+<p>That sample does <strong>not</strong> match the population. If rural and urban respondents answer differently, the raw sample average may be misleading.</p>
+<p>In practice, weights are often used because of one or more of these reasons:</p>
+<ul>
+<li>Some people had a higher chance of being sampled than others.</li>
+<li>Some groups were less likely to respond, so their responses may be upweighted.</li>
+<li>The sample is adjusted so that it better matches known population totals, such as age, sex, region, or education.</li>
+</ul>
+</section>
+<section id="a-demonstration-of-survey-weights" class="level2">
+<h2 class="anchored" data-anchor-id="a-demonstration-of-survey-weights">A demonstration of survey weights</h2>
+<p>In this first activity, we will create a population where we know the truth, then draw a biased sample. This helps us see why weights matter.</p>
+<p>In the population, we consider two groups: urban (80% population) and rural (20% population). We will make the rural group more supportive of a policy (0.7) than the urban group (0.4).</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">50000</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>population <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="dv">1</span><span class="sc">:</span>N,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">region =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Urban"</span>, <span class="st">"Rural"</span>), N, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.80</span>, <span class="fl">0.20</span>)),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">supports_policy =</span> <span class="fu">rbinom</span>(</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    N,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="dv">1</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">prob =</span> <span class="fu">ifelse</span>(region <span class="sc">==</span> <span class="st">"Urban"</span>, <span class="fl">0.4</span>, <span class="fl">0.70</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(population)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["id"],"name":[1],"type":["int"],"align":["right"]},{"label":["region"],"name":[2],"type":["chr"],"align":["left"]},{"label":["supports_policy"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"1","2":"Urban","3":"0"},{"1":"2","2":"Urban","3":"0"},{"1":"3","2":"Urban","3":"0"},{"1":"4","2":"Rural","3":"1"},{"1":"5","2":"Rural","3":"0"},{"1":"6","2":"Urban","3":"1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>At the population level, the support rate is ________.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>true_support <span class="ot">&lt;-</span> <span class="fu">mean</span>(population<span class="sc">$</span>supports_policy)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>true_support</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.45944</code></pre>
+</div>
+</div>
+<p>This value is the <strong>truth</strong> in our simulated population.</p>
+<p>Now suppose we draw a sample that is 50% urban and 50% rural. That is a biased sample, because it does not reflect the population composition.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">456</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>urban_sample <span class="ot">&lt;-</span> population <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(region <span class="sc">==</span> <span class="st">"Urban"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">500</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>rural_sample <span class="ot">&lt;-</span> population <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(region <span class="sc">==</span> <span class="st">"Rural"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">500</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(urban_sample, rural_sample)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>sample_data <span class="sc">|&gt;</span> <span class="fu">count</span>(region) <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["region"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]},{"label":["prop"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Rural","2":"500","3":"0.5"},{"1":"Urban","2":"500","3":"0.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div class="note-box question">
+<p>Will the support rate estimated from this sample be too high, too low, or about right? Run the code below to find out.</p>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>unweighted_support <span class="ot">&lt;-</span> <span class="fu">mean</span>(sample_data<span class="sc">$</span>supports_policy)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>unweighted_support</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.541</code></pre>
+</div>
+</div>
+<p>Our sample is 50% urban and 50% rural, but the population is 80% urban and 20% rural.</p>
+<p>So we assign weights based on:</p>
+<p><span class="math display">\[
+    {weight} = \frac{\text{population share}}{\text{sample share}}
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> sample_data <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">weight =</span> <span class="fu">case_when</span>(</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      region <span class="sc">==</span> <span class="st">"Urban"</span> <span class="sc">~</span> <span class="fl">0.80</span> <span class="sc">/</span> <span class="fl">0.50</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      region <span class="sc">==</span> <span class="st">"Rural"</span> <span class="sc">~</span> <span class="fl">0.20</span> <span class="sc">/</span> <span class="fl">0.50</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>sample_data <span class="sc">|&gt;</span> <span class="fu">count</span>(region, weight)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["region"],"name":[1],"type":["chr"],"align":["left"]},{"label":["weight"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["n"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"Rural","2":"0.4","3":"500"},{"1":"Urban","2":"1.6","3":"500"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>weighted_support <span class="ot">&lt;-</span> <span class="fu">weighted.mean</span>(sample_data<span class="sc">$</span>supports_policy, <span class="at">w =</span> sample_data<span class="sc">$</span>weight)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>weighted_support</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4588</code></pre>
+</div>
+</div>
+<p>Now we can compare the three results: the true population value, the unweighted sample estimate, and the weighted sample estimate.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>comparison <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="fu">c</span>(<span class="st">"True population"</span>, <span class="st">"Unweighted sample"</span>, <span class="st">"Weighted sample"</span>),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate =</span> <span class="fu">c</span>(true_support, unweighted_support, weighted_support)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>comparison</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["method"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"True population","2":"0.45944"},{"1":"Unweighted sample","2":"0.54100"},{"1":"Weighted sample","2":"0.45880"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</section>
+<section id="analysis-using-the-survey-package" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-using-the-survey-package">Analysis using the <code>survey</code> package</h2>
+<p>So far, we used <code>weighted.mean()</code>. That is useful for intuition, but survey analysis usually needs methods that also handle <strong>standard errors</strong> appropriately.</p>
+<p>The <code>survey</code> package is a standard R package for this purpose.</p>
+<p>When using <code>survey</code> package, we need to specify survey design using <code>svydesign</code> function.</p>
+<ul>
+<li>ids = ~1 means that the sampling units are individual rows and there is no clustering.</li>
+<li>weights = ~weight tells the function to use the specified weights.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>design_w <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> <span class="sc">~</span><span class="dv">1</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> <span class="sc">~</span>weight,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> sample_data</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>design_w</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Independent Sampling design (with replacement)
+svydesign(ids = ~1, weights = ~weight, data = sample_data)</code></pre>
+</div>
+</div>
+<p>To calculate the weighted mean of <code>supports_policy</code> with a survey-aware standard error, we can use <code>svymean()</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">svymean</span>(<span class="sc">~</span>supports_policy, <span class="at">design =</span> design_w)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                  mean     SE
+supports_policy 0.4588 0.0183</code></pre>
+</div>
+</div>
+</section>
+<section id="an-analysis-of-california-schools" class="level2">
+<h2 class="anchored" data-anchor-id="an-analysis-of-california-schools">An analysis of California schools</h2>
+<p>The <code>api</code> data come from the California Academic Performance Index study included with the <code>survey</code> package. The full population data in apipop has 6194 schools.</p>
+<p>The key datasets we will use are:</p>
+<ul>
+<li><code>apipop</code>: population of schools</li>
+<li><code>apistrat</code>: stratified sample of schools</li>
+<li><code>apiclus1</code>: one-stage cluster sample of schools</li>
+<li><code>apisrs</code>: simple random sample of schools</li>
+</ul>
+<p>Each row represents a school, and <code>api00</code> is the school performance score in year 2000. Other useful variables in this handout include:</p>
+<ul>
+<li><code>api00</code>: outcome (school performance)</li>
+<li><code>meals</code>: percent of students eligible for subsidized meals</li>
+<li><code>ell</code>: percent of English language learners</li>
+<li><code>stype</code>: school type (elementary, middle, high)</li>
+</ul>
+<p>Let us assume that we want to estimate the average API score in the population of California schools. Because <code>apipop</code> is the full population in this teaching dataset, we can compute the population mean directly.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(api)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>true_mean_api <span class="ot">&lt;-</span> <span class="fu">mean</span>(apipop<span class="sc">$</span>api00, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>true_mean_api</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 664.7126</code></pre>
+</div>
+</div>
+</section>
+<section id="simple-random-sampling-with-finite-population" class="level2">
+<h2 class="anchored" data-anchor-id="simple-random-sampling-with-finite-population">Simple random sampling with finite population</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(apisrs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["cds"],"name":[1],"type":["chr"],"align":["left"]},{"label":["stype"],"name":[2],"type":["fct"],"align":["left"]},{"label":["name"],"name":[3],"type":["chr"],"align":["left"]},{"label":["sname"],"name":[4],"type":["chr"],"align":["left"]},{"label":["snum"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["dname"],"name":[6],"type":["chr"],"align":["left"]},{"label":["dnum"],"name":[7],"type":["int"],"align":["right"]},{"label":["cname"],"name":[8],"type":["chr"],"align":["left"]},{"label":["cnum"],"name":[9],"type":["int"],"align":["right"]},{"label":["flag"],"name":[10],"type":["int"],"align":["right"]},{"label":["pcttest"],"name":[11],"type":["int"],"align":["right"]},{"label":["api00"],"name":[12],"type":["int"],"align":["right"]},{"label":["api99"],"name":[13],"type":["int"],"align":["right"]},{"label":["target"],"name":[14],"type":["int"],"align":["right"]},{"label":["growth"],"name":[15],"type":["int"],"align":["right"]},{"label":["sch.wide"],"name":[16],"type":["fct"],"align":["left"]},{"label":["comp.imp"],"name":[17],"type":["fct"],"align":["left"]},{"label":["both"],"name":[18],"type":["fct"],"align":["left"]},{"label":["awards"],"name":[19],"type":["fct"],"align":["left"]},{"label":["meals"],"name":[20],"type":["int"],"align":["right"]},{"label":["ell"],"name":[21],"type":["int"],"align":["right"]},{"label":["yr.rnd"],"name":[22],"type":["fct"],"align":["left"]},{"label":["mobility"],"name":[23],"type":["int"],"align":["right"]},{"label":["acs.k3"],"name":[24],"type":["int"],"align":["right"]},{"label":["acs.46"],"name":[25],"type":["int"],"align":["right"]},{"label":["acs.core"],"name":[26],"type":["int"],"align":["right"]},{"label":["pct.resp"],"name":[27],"type":["int"],"align":["right"]},{"label":["not.hsg"],"name":[28],"type":["int"],"align":["right"]},{"label":["hsg"],"name":[29],"type":["int"],"align":["right"]},{"label":["some.col"],"name":[30],"type":["int"],"align":["right"]},{"label":["col.grad"],"name":[31],"type":["int"],"align":["right"]},{"label":["grad.sch"],"name":[32],"type":["int"],"align":["right"]},{"label":["avg.ed"],"name":[33],"type":["dbl"],"align":["right"]},{"label":["full"],"name":[34],"type":["int"],"align":["right"]},{"label":["emer"],"name":[35],"type":["int"],"align":["right"]},{"label":["enroll"],"name":[36],"type":["int"],"align":["right"]},{"label":["api.stu"],"name":[37],"type":["int"],"align":["right"]},{"label":["pw"],"name":[38],"type":["dbl"],"align":["right"]},{"label":["fpc"],"name":[39],"type":["dbl"],"align":["right"]}],"data":[{"1":"15739081534155","2":"H","3":"McFarland High","4":"McFarland High","5":"1039","6":"McFarland Unified","7":"432","8":"Kern","9":"14","10":"NA","11":"98","12":"462","13":"448","14":"18","15":"14","16":"No","17":"Yes","18":"No","19":"No","20":"44","21":"31","22":"NA","23":"6","24":"NA","25":"NA","26":"24","27":"82","28":"44","29":"34","30":"12","31":"7","32":"3","33":"1.91","34":"71","35":"35","36":"477","37":"429","38":"30.97","39":"6194","_rn_":"1039"},{"1":"19642126066716","2":"E","3":"Stowers (Cecil","4":"Stowers (Cecil B.) Elementary","5":"1124","6":"ABC Unified","7":"1","8":"Los Angeles","9":"18","10":"NA","11":"100","12":"878","13":"831","14":"NA","15":"47","16":"Yes","17":"Yes","18":"Yes","19":"Yes","20":"8","21":"25","22":"NA","23":"15","24":"19","25":"30","26":"NA","27":"97","28":"4","29":"10","30":"23","31":"43","32":"21","33":"3.66","34":"90","35":"10","36":"478","37":"420","38":"30.97","39":"6194","_rn_":"1124"},{"1":"30664493030640","2":"H","3":"Brea-Olinda Hig","4":"Brea-Olinda High","5":"2868","6":"Brea-Olinda Unified","7":"79","8":"Orange","9":"29","10":"NA","11":"98","12":"734","13":"742","14":"3","15":"-8","16":"No","17":"No","18":"No","19":"No","20":"10","21":"10","22":"NA","23":"7","24":"NA","25":"NA","26":"28","27":"95","28":"5","29":"9","30":"21","31":"41","32":"24","33":"3.71","34":"83","35":"18","36":"1410","37":"1287","38":"30.97","39":"6194","_rn_":"2868"},{"1":"19644516012744","2":"E","3":"Alameda Element","4":"Alameda Elementary","5":"1273","6":"Downey Unified","7":"187","8":"Los Angeles","9":"18","10":"NA","11":"99","12":"772","13":"657","14":"7","15":"115","16":"Yes","17":"Yes","18":"Yes","19":"Yes","20":"70","21":"25","22":"NA","23":"23","24":"23","25":"NA","26":"NA","27":"100","28":"37","29":"40","30":"14","31":"8","32":"1","33":"1.96","34":"85","35":"18","36":"342","37":"291","38":"30.97","39":"6194","_rn_":"1273"},{"1":"40688096043293","2":"E","3":"Sunnyside Eleme","4":"Sunnyside Elementary","5":"4926","6":"San Luis Coastal Unified","7":"640","8":"San Luis Obispo","9":"39","10":"NA","11":"99","12":"739","13":"719","14":"4","15":"20","16":"Yes","17":"Yes","18":"Yes","19":"Yes","20":"43","21":"12","22":"NA","23":"12","24":"20","25":"29","26":"NA","27":"91","28":"8","29":"21","30":"27","31":"34","32":"10","33":"3.17","34":"100","35":"0","36":"217","37":"189","38":"30.97","39":"6194","_rn_":"4926"},{"1":"19734456014278","2":"E","3":"Los Molinos Ele","4":"Los Molinos Elementary","5":"2463","6":"Hacienda la Puente Unif","7":"284","8":"Los Angeles","9":"18","10":"NA","11":"93","12":"835","13":"822","14":"NA","15":"13","16":"Yes","17":"Yes","18":"Yes","19":"No","20":"16","21":"19","22":"NA","23":"13","24":"19","25":"29","26":"NA","27":"71","28":"1","29":"8","30":"20","31":"38","32":"34","33":"3.96","34":"75","35":"20","36":"258","37":"211","38":"30.97","39":"6194","_rn_":"2463"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>When using <code>survey</code> package, we need to specify survey design using <code>svydesign</code> function.</p>
+<ul>
+<li>ids = ~1 means that the sampling units are individual rows (schools) and there is no clustering.</li>
+<li>fpc = ~fpc tells the function to use the finite population correction based on the <code>fpc</code> column in the data, which contains the total population size for each school.</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>design_srs <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids =</span> <span class="sc">~</span><span class="dv">1</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">fpc =</span> <span class="sc">~</span>fpc,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> apisrs</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>design_srs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Independent Sampling design
+svydesign(ids = ~1, fpc = ~fpc, data = apisrs)</code></pre>
+</div>
+</div>
+<div class="note-box note">
+<p>The <code>fpc</code> argument stands for <strong>Finite Population Correction</strong>. Standard variance formulas assume you are sampling from an infinitely large population, which overestimates variance when your sample covers a meaningful fraction of the total population. The FPC adjusts for this by applying the factor <span class="math inline">\(1 - n/N\)</span>, where <span class="math inline">\(n\)</span> is the sample size and <span class="math inline">\(N\)</span> is the total population size. In <code>apisrs</code>, the <code>fpc</code> column holds <span class="math inline">\(N\)</span> (the total number of California schools) for each row. By passing <code>fpc = ~fpc</code>, we tell <code>svydesign()</code> to use this to shrink standard errors appropriately. If the sampling fraction <span class="math inline">\(n/N\)</span> is negligible (e.g., 200 people from millions), the FPC barely matters — but when it is non-trivial, omitting it meaningfully overstates uncertainty.</p>
+</div>
+<p>To estimate the mean API score (<code>api00</code>) with a survey-aware standard error, use <code>svymean()</code>.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>srs_mean <span class="ot">&lt;-</span> <span class="fu">svymean</span>(<span class="sc">~</span>api00, <span class="at">design =</span> design_srs)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>srs_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        mean     SE
+api00 656.58 9.2497</code></pre>
+</div>
+</div>
+</section>
+<section id="stratified-sample-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="stratified-sample-analysis">Stratified sample analysis</h2>
+<p>Now let us analyze the stratified sample that comes with the package. The dataset <code>apistrat</code> is a stratified sample of schools, where the strata are defined by <code>stype</code> (school type).</p>
+<p>We specify the survey design for the stratified sample. The <code>strata</code> argument tells the function to account for the stratification by school type, and <code>weights</code> specifies the sampling weights for each school.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>strat_design <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="sc">~</span><span class="dv">1</span>,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">strata =</span> <span class="sc">~</span>stype,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> <span class="sc">~</span>pw,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fpc =</span> <span class="sc">~</span>fpc,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> apistrat</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To estimate the mean API score for the stratified sample, we can use <code>svymean()</code> again.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>strat_mean <span class="ot">&lt;-</span> <span class="fu">svymean</span>(<span class="sc">~</span>api00, strat_design)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>strat_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        mean     SE
+api00 662.29 9.4089</code></pre>
+</div>
+</div>
+</section>
+<section id="clustered-sample-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="clustered-sample-analysis">Clustered sample analysis</h2>
+<p>Now let us analyze a clustered design.</p>
+<p>The dataset <code>apiclus1</code> is a one-stage cluster sample. A key cluster identifier is <code>dnum</code>, which represents district. This dataset contains 40 districts, and all schools within those districts are included in the sample. The <code>pw</code> variable contains the sampling weights for each school.</p>
+<p>The code below specifies the survey design for the clustered sample. The <code>id</code> argument tells the function that the primary sampling units are districts (<code>dnum</code>), and <code>weights</code> specifies the sampling weights for each school.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>clus1_design <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="sc">~</span>dnum,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> <span class="sc">~</span>pw,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">fpc =</span> <span class="sc">~</span>fpc,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> apiclus1</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>To estimate the mean API score for the clustered sample, we can use <code>svymean()</code> again.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>clus1_mean <span class="ot">&lt;-</span> <span class="fu">svymean</span>(<span class="sc">~</span>api00, clus1_design)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>clus1_mean</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        mean     SE
+api00 644.17 23.542</code></pre>
+</div>
+</div>
+<p>We can now compare three designs:</p>
+<ul>
+<li>simple random sample</li>
+<li>stratified design</li>
+<li>clustered design</li>
+</ul>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">design =</span> <span class="fu">c</span>(<span class="st">"Population truth"</span>, <span class="st">"Simple random sample"</span>, <span class="st">"Stratified sample"</span>, <span class="st">"Clustered sample"</span>),</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimate =</span> <span class="fu">c</span>(</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    true_mean_api,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.numeric</span>(<span class="fu">coef</span>(srs_mean)),</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.numeric</span>(<span class="fu">coef</span>(strat_mean)),</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.numeric</span>(<span class="fu">coef</span>(clus1_mean))</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">se =</span> <span class="fu">c</span>(</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="cn">NA</span>,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.numeric</span>(<span class="fu">SE</span>(srs_mean)),</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.numeric</span>(<span class="fu">SE</span>(strat_mean)),</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.numeric</span>(<span class="fu">SE</span>(clus1_mean))</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>results</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["design"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["se"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Population truth","2":"664.7126","3":"NA"},{"1":"Simple random sample","2":"656.5850","3":"9.249722"},{"1":"Stratified sample","2":"662.2874","3":"9.408941"},{"1":"Clustered sample","2":"644.1694","3":"23.542241"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>We can also look at confidence intervals for the mean API score under each design. The <code>confint()</code> function computes confidence intervals based on the survey design and standard errors.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(srs_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         2.5 %   97.5 %
+api00 638.4559 674.7141</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(strat_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         2.5 %   97.5 %
+api00 643.8462 680.7285</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">confint</span>(clus1_mean)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>         2.5 %   97.5 %
+api00 598.0275 690.3113</code></pre>
+</div>
+</div>
+</section>
+<section id="a-regression-example" class="level2">
+<h2 class="anchored" data-anchor-id="a-regression-example">A regression example</h2>
+<p>The code below estimates the relationship between API score and percent eligible for subsidized meals using a simple linear regression. We will compare the results from an unweighted model (which ignores the survey design) to a survey-aware model that accounts for clustering and weights.</p>
+<p>We will estimate the relationship between API score and percent eligible for subsidized meals.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">lm</span>(api00 <span class="sc">~</span> meals, <span class="at">data =</span> apiclus1))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = api00 ~ meals, data = apiclus1)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-194.801  -31.155    1.135   38.794  146.389 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  813.689      9.020   90.21   &lt;2e-16 ***
+meals         -3.354      0.158  -21.23   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 56.76 on 181 degrees of freedom
+Multiple R-squared:  0.7135,    Adjusted R-squared:  0.7119 
+F-statistic: 450.7 on 1 and 181 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">svyglm</span>(api00 <span class="sc">~</span> meals, <span class="at">design =</span> clus1_design))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+svyglm(formula = api00 ~ meals, design = clus1_design)
+
+Survey design:
+svydesign(id = ~dnum, weights = ~pw, fpc = ~fpc, data = apiclus1)
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 813.6886    18.6122   43.72  1.7e-15 ***
+meals        -3.3545     0.2773  -12.10  1.9e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for gaussian family taken to be 3204.055)
+
+Number of Fisher Scoring iterations: 2</code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const storageKey = "epsy8252-navbar-hidden";
+  const body = document.body;
+  const header = document.getElementById("quarto-header");
+
+  if (!header) {
+    return;
+  }
+
+  const button = document.createElement("button");
+  button.id = "navbar-visibility-toggle";
+  button.type = "button";
+  button.setAttribute("aria-controls", "quarto-header");
+
+  const syncHeaderOffset = () => {
+    const headerHeight = Math.ceil(header.getBoundingClientRect().height || 0);
+    const hidden = body.classList.contains("navbar-hidden");
+
+    document.documentElement.style.setProperty("--site-header-height", `${headerHeight}px`);
+    document.documentElement.style.setProperty("--site-header-offset", hidden ? "0px" : `${headerHeight}px`);
+    button.textContent = hidden ? "Show Menu" : "Hide Menu";
+    button.setAttribute("aria-expanded", String(!hidden));
+  };
+
+  const savedState = window.localStorage.getItem(storageKey);
+  if (savedState === "true") {
+    body.classList.add("navbar-hidden");
+  }
+
+  button.addEventListener("click", function () {
+    body.classList.toggle("navbar-hidden");
+    window.localStorage.setItem(storageKey, String(body.classList.contains("navbar-hidden")));
+    syncHeaderOffset();
+  });
+
+  document.body.appendChild(button);
+  syncHeaderOffset();
+
+  window.addEventListener("resize", syncHeaderOffset, { passive: true });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
